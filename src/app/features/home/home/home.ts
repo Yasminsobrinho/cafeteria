@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -9,8 +9,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Home {
 
-  
+logo: string = '/favicon.ico';
+centro: string = 'imagemcentro.jpeg';
 
- //adcionar imagem da logo
-  pesquisa: string = '';
 }
