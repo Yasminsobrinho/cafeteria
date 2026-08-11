@@ -11,6 +11,6 @@ export class Home {
 
   
 
-imagem: string = '#'; //adcionar imagem da logo
+ //adcionar imagem da logo
   pesquisa: string = '';
 }
