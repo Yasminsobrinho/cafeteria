@@ -9,7 +9,8 @@ export const routes: Routes = [
   {
     path: 'cardapio',
     loadComponent: () =>
-      import('./features/cardapio/cardapio/cardapio').then((m) => m.Cardapio)
+     import('./features/cardapio/cardapio/cardapio').then((m) => m.CardapioComponent)
+
   },
   {
     path: 'carrinho',

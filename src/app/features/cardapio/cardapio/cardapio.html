@@ -1,1 +1,83 @@
-<p>cardapio works!</p>
+<div class="menu-container">
+    
+    <div class="header-titulo">
+        <span>AROMA CAFÉ</span>
+        <h1>Nosso Cardápio</h1>
+    </div>
+
+    <!-- Seção da Barra de Busca -->
+    <div class="busca-secao">
+        <input 
+            type="text" 
+            placeholder="Buscar item..." 
+            [(ngModel)]="termoBusca" 
+            class="input-busca"
+        >
+    </div>
+
+    <!-- Filtros de Categoria -->
+    <div class="categorias-botoes">
+        <button [class.ativo]="categoriaSelecionada === 'Todos'" (click)="categoriaSelecionada = 'Todos'">Todos</button>
+        <button [class.ativo]="categoriaSelecionada === 'Salgados'" (click)="categoriaSelecionada = 'Salgados'">Salgados</button>
+        <button [class.ativo]="categoriaSelecionada === 'Doces'" (click)="categoriaSelecionada = 'Doces'">Doces</button>
+    </div>
+
+    <!-- SEÇÃO DE SALGADOS (Só aparece se 'Todos' ou 'Salgados' estiver selecionado) -->
+    <section class="cardapio" *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Salgados'">
+        <h1>Comidas Salgadas</h1>
+        <hr><br>
+
+        <div class="produtos">
+            <div class="produto" *ngFor="let item of salgadosFiltrados">
+                <div class="produto-info">
+                    <span class="categoria-tag">SALGADOS</span>
+                    <h3>{{ item.nome }}</h3>
+                    <p>{{ item.descricao }}</p>
+
+                    <ng-container *ngIf="item.precoAntigo; else precoNormal">
+                        <span class="preco promocao">{{ item.preco }}</span>
+                        <span class="preco-antigo">{{ item.precoAntigo }}</span>
+                    </ng-container>
+                    
+                    <ng-template #precoNormal>
+                        <span class="preco"><b>{{ item.preco }}</b></span>
+                    </ng-template>
+                </div>
+
+                <img [src]="item.imagem" [alt]="item.nome">
+            </div>
+        </div>
+    </section>
+
+    <br>
+
+    <!-- SEÇÃO DE SOBREMESAS (Só aparece se 'Todos' ou 'Doces' estiver selecionado) -->
+    <section class="cardapio" *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Doces'">
+        <h1>Sobremesas</h1>
+        <hr><br>
+
+        <div class="produtos">
+            <div class="produto" *ngFor="let item of sobremesasFiltradas">
+                <div class="produto-info">
+                    <span class="categoria-tag">DOCES</span>
+                    <h3>{{ item.nome }}</h3>
+                    <p>{{ item.descricao }}</p>
+
+                    <ng-container *ngIf="item.precoAntigo; else precoNormalSobremesa">
+                        <span class="preco promocao">{{ item.preco }}</span>
+                        <span class="preco-antigo">{{ item.precoAntigo }}</span>
+                    </ng-container>
+                    
+                    <ng-template #precoNormalSobremesa>
+                        <span class="preco"><b>{{ item.preco }}</b></span>
+                    </ng-template>
+                </div>
+
+                <img [src]="item.imagem" [alt]="item.nome">
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
