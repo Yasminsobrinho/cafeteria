@@ -23,7 +23,7 @@ export class Home {
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
   imgcentro: string = 'imgcentro.jpeg';
-  imgcarrinho: string = 'imgcarrinho.png';
+  imgcarrinho: string = 'imgcarrinho.png'
 
    // Função responsável por levar até a seção "Sobre"
   irParaSobre(): void {
