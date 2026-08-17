@@ -21,7 +21,7 @@ import { Rodape } from "./pginicial/rodape/rodape";
 export class Home {
 
    // Define o caminho/nome das imagens usadas
-  logo: string = 'favicon.ico';
+  imglogo: string = 'favicon.ico.jpeg';
   imgcentro: string = 'imgcentro.jpeg';
   imgcarrinho: string = 'imgcarrinho.png'
 
