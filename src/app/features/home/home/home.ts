@@ -22,7 +22,8 @@ export class Home {
 
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
-  imgcentro: string = 'imgcentro.jpeg';
+  imgheader: string = 'header.jpeg';
+  imglogo: string = 'logo.png'
   imgcarrinho: string = 'imgcarrinho.png';
 
    // Função responsável por levar até a seção "Sobre"
