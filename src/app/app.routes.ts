@@ -1,37 +1,33 @@
-
 import { Routes } from '@angular/router';
+
 export const routes: Routes = [
   {
-    path: '',
-    loadComponent: () => import('./features/home/home/home').then((m) => m.Home),
-  },
-  {
-    path: 'sobre',
-
-    loadComponent: () => import('./features/sobre/sobre').then((m) => m.Sobre),
-  },
-  {
-    path: 'cardápio',
+    path: 'home',
     loadComponent: () =>
-      import('./features/cardapio/cardapio/cardapio').then((m) => m.Cardapio),
+      import('./features/home/home/home').then((m) => m.Home)
+  },
+  {
+    path: 'cardapio',
+    loadComponent: () =>
+      import('./features/cardapio/cardapio/cardapio').then((m) => m.Cardapio)
   },
   {
     path: 'carrinho',
-
-    loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    loadComponent: () =>
+      import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho)
   },
   {
-    path: 'carrinho',
-
-    loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    path: 'login',
+    loadComponent: () =>
+      import('./features/login/login/login').then((m) => m.Login)
   },
-   {
-    path: 'localizacao',
-
-    loadComponent: () => import('./features/localizacao/localizacao').then((m) => m.Localizacao),
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '',
-  },
+    redirectTo: 'home'
+  }
 ];

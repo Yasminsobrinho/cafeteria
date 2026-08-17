@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-cardapio',
+  selector: 'app-login',
   imports: [],
-  templateUrl: './cardapio.html',
-  styleUrl: './cardapio.css',
+  templateUrl: './login.html',
+  styleUrl: './login.css',
 })
-export class Cardapio {}
+export class Login {}
