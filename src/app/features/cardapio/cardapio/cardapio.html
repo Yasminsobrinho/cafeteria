@@ -1,7 +1,10 @@
-<div class="menu-container">
+<!-- Container principal de todo o cardápio -->
+ <div class="menu-container">
     
     <div class="header-titulo">
+         <!-- Nome da cafeteria -->
         <span>AROMA CAFÉ</span>
+        <!-- Título principal -->
         <h1>Nosso Cardápio</h1>
     </div>
 
@@ -17,23 +20,46 @@
 
     <!-- Filtros de Categoria -->
     <div class="categorias-botoes">
+        <!-- Botão para mostrar todos os produtos -->
+
+        <!-- A classe "ativo" é adicionada quando Todos está selecionado -->
         <button [class.ativo]="categoriaSelecionada === 'Todos'" (click)="categoriaSelecionada = 'Todos'">Todos</button>
+        
+        <!-- Botão para mostrar somente os salgados -->
         <button [class.ativo]="categoriaSelecionada === 'Salgados'" (click)="categoriaSelecionada = 'Salgados'">Salgados</button>
+        
+        <!-- Botão para mostrar somente os doces -->
         <button [class.ativo]="categoriaSelecionada === 'Doces'" (click)="categoriaSelecionada = 'Doces'">Doces</button>
+        
     </div>
 
     <!-- SEÇÃO DE SALGADOS (Só aparece se 'Todos' ou 'Salgados' estiver selecionado) -->
     <section class="cardapio" *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Salgados'">
+         
+        <!-- Título da categoria -->
         <h1>Comidas Salgadas</h1>
-        <hr><br>
+        <hr>
+        <br>
+
 
         <div class="produtos">
             <div class="produto" *ngFor="let item of salgadosFiltrados">
-                <div class="produto-info">
+                  <!-- Informações do produto -->
+                   <div class="produto-info">
                     <span class="categoria-tag">SALGADOS</span>
+                     <!-- Nome do produto -->
                     <h3>{{ item.nome }}</h3>
+                     <!-- Descrição do produto -->
                     <p>{{ item.descricao }}</p>
 
+                    <!-- =============================== -->
+                    <!-- PREÇO DO PRODUTO -->
+                    <!-- =============================== -->
+                    <!--=======================================================
+                        Verifica se o produto possui preço antigo.
+                        Se tiver, mostra o preço promocional e o preço antigo.
+                    ============================================================-->   
+                
                     <ng-container *ngIf="item.precoAntigo; else precoNormal">
                         <span class="preco promocao">{{ item.preco }}</span>
                         <span class="preco-antigo">{{ item.precoAntigo }}</span>
@@ -58,9 +84,12 @@
 
         <div class="produtos">
             <div class="produto" *ngFor="let item of sobremesasFiltradas">
+                 <!-- Informações do produto -->
                 <div class="produto-info">
                     <span class="categoria-tag">DOCES</span>
+                     <!-- Nome do produto -->
                     <h3>{{ item.nome }}</h3>
+                     <!-- Descrição do produto -->
                     <p>{{ item.descricao }}</p>
 
                     <ng-container *ngIf="item.precoAntigo; else precoNormalSobremesa">
@@ -79,5 +108,6 @@
     </section>
 
 </div>
+
 
 
