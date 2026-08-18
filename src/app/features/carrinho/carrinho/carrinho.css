@@ -1,0 +1,129 @@
+<<<<<<< Updated upstream
+=======
+/* =========================
+   CARRINHO - AROMA CAFÉ
+   ========================= */
+
+.carrinho-container {
+  min-height: 100vh;
+  background: #fdc491;
+  color: #030100;
+  padding: 40px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Cabeçalho */
+
+.carrinho-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.carrinho-header span {
+  display: inline-block;
+  color: #8b5e3c;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.carrinho-header h1 {
+  margin: 0;
+  font-size: 42px;
+  color: #3b2418;
+}
+
+.carrinho-header p {
+  margin-top: 10px;
+  color: #765c4c;
+  font-size: 17px;
+}
+
+/* Conteúdo principal */
+
+
+
+   /* Conteúdo principal */
+
+.carrinho-conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 25px;
+  align-items: start;
+}
+
+.produtos-carrinho {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+  
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Produtos */
+
+
+
+
+/* Carrinho vazio */
+
+
+
+/* Produto */
+
+
+
+
+
+/* Quantidade */
+
+
+
+
+/* Subtotal */
+
+
+
+
+
+/* Remover */
+
+
+
+
+
+
+/* Valores */
+
+
+
+/* Finalizar */
+
+
+
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+
+
+  
+
