@@ -10,4 +10,5 @@ export class Sobre {
 scrollIntoView(arg0: { behavior: string; }) {
 throw new Error('Method not implemented.');
 }
+imgsobre: string = 'imgsobre.jpeg';
 }
