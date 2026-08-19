@@ -1,1 +1,107 @@
-<p>carrinho works!</p>
+<div class="carrinho-container">
+  <header class="carrinho-header">
+    <span>AROMA CAFÉ</span>
+
+    <h1>Meu Carrinho</h1>
+
+    <p>Confira seus produtos antes de finalizar o pedido.</p>
+  </header>
+
+  <main class="carrinho-conteudo">
+    <section class="produtos-carrinho">
+      <h2>Seus produtos</h2>
+
+      <div class="carrinho-vazio" *ngIf="produtos.length === 0">
+        <h3>Seu carrinho está vazio</h3>
+
+        <p>Adicione produtos do nosso cardápio para continuar.</p>
+      </div>
+
+      <div class="produto-carrinho" *ngFor="let produto of produtos">
+        <div class="produto-info">
+          <h3>
+            {{ produto.nome }}
+          </h3>
+
+          <p>
+            {{ produto.descricao }}
+          </p>
+
+          <strong> R$ {{ produto.preco.toFixed(2) }} </strong>
+        </div>
+
+        <div class="quantidade">
+          <button type="button" (click)="diminuirQuantidade(produto)">-</button>
+
+          <span>
+            {{ produto.quantidade }}
+          </span>
+
+          <button type="button" (click)="aumentarQuantidade(produto)">+</button>
+        </div>
+
+        <div class="produto-subtotal">
+          <span> Subtotal </span>
+
+          <strong>
+            R$
+            {{ (produto.preco * produto.quantidade).toFixed(2) }}
+          </strong>
+        </div>
+
+        <button type="button" class="remover" (click)="removerProduto(produto)">Remover</button>
+      </div>
+    </section>
+
+    <aside class="resumo-pedido">
+      <h2>Resumo do pedido</h2>
+
+      <section class="cupom">
+        <h3>Cupom de desconto</h3>
+
+        <p>Possui um cupom? Digite abaixo:</p>
+
+        <div class="cupom-input">
+          <input type="text" [(ngModel)]="codigoCupom" placeholder="Digite seu cupom" />
+
+          <button type="button" (click)="aplicarCupom()">Aplicar</button>
+        </div>
+
+        <p class="mensagem-cupom" *ngIf="mensagemCupom">
+          {{ mensagemCupom }}
+        </p>
+      </section>
+
+      <div class="resumo-valores">
+        <div class="linha-resumo">
+          <span> Subtotal </span>
+
+          <span> R$ {{ subtotal.toFixed(2) }} </span>
+        </div>
+
+        <div class="linha-resumo desconto" *ngIf="desconto > 0">
+          <span> Desconto </span>
+
+          <span> - R$ {{ desconto.toFixed(2) }} </span>
+        </div>
+
+        <hr />
+
+        <div class="linha-total">
+          <strong> Total </strong>
+
+          <strong> R$ {{ total.toFixed(2) }} </strong>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="finalizar"
+        (click)="finalizarPedido()"
+        [disabled]="produtos.length === 0"
+      >
+        Finalizar pedido
+      </button>
+    </aside>
+  </main>
+</div>
