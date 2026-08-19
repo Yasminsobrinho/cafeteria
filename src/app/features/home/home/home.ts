@@ -9,6 +9,8 @@ import { Local } from "./pginicial/local/local";
 import { Playlist } from "./pginicial/playlist/playlist";
 import { Rodape } from "./pginicial/rodape/rodape";
 
+import { Router } from '@angular/router';
+
 // Configurações do componente Home
 @Component({
   selector: 'app-home',
@@ -18,23 +20,20 @@ import { Rodape } from "./pginicial/rodape/rodape";
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
+
 export class Home {
 
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
   imgheader: string = 'header.jpeg';
   imglogo: string = 'logo.png'
-  imgcarrinho: string = 'imgcarrinho.png';
+  imgcarrinho: string = 'carrinho.png';
 
-   // Função responsável por levar até a seção "Sobre"
+  constructor(private router: Router) {} // injeta o Router
+
   irParaSobre(): void {
-    // Procura no HTML um elemento que tenha o ID "sobre"
-    const sobre = document.getElementById('sobre');
-
-
-    //se caso a seção sobre for encontrada irá rolar a página suavemente até ela
-    if (sobre) {
-      sobre.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    this.router.navigate(['/sobre']); // navega até a rota /sobre
   }
-}
+
+  }
+

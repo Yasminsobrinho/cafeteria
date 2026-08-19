@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x:hidden;
+}
+
+body {
+    background-color: #e9dbc5;
+}
+
+#sobre {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    margin: 100px;
+    gap: 40px; 
+
+    color: #401d09;
+}
+
+#sobreTxt {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    flex: 1; 
+}
+
+#fotoSobre {
+    flex: 0 0 400px; 
+}
+
+h1 {
+    font-size: 10rem;
+    font-family: 'Space Grotesk', serif;
+    color: #401d09;
+}
+
+p {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Space Mono', sans-serif;
+    color: #401d09;
+    font-size: 1.4rem;
+}
+
+img {
+    width: 100%;
+    height: 600px; 
+    object-fit: cover; 
+    border-radius: 12px; 
+}
+
+@media (max-width:700px){
+
+    #sobre {
+        display: flex;
+        flex-direction: column;
+    }
+
+    img {
+        width: 100%;
+        height: 200px; 
+        object-fit: cover; 
+        border-radius: 12px; 
+    }
+
+}

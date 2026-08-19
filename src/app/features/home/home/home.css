@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap'); /* fontes */
+
 * {
     margin: 0;
     padding: 0;
+    overflow-x:hidden;
 }
+
+/* BARRA DE NAVEGAÇÃO */
 
 #nav {
     display: flex;
@@ -14,24 +19,55 @@
 }
 
 #navBar1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    gap:24px;
+    margin:0;
+    padding:0;
+
+    font-family: 'Bebas Neue', serif;
+    font-size: 1.4rem;
 }
 
 #navBar2 {
-    display: grid;
+    display:flex;
+    flex-wrap:wrap;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px
+    justify-content: center;
+    gap: 45px;
+    margin:0;
+    padding:0;
 }
 
 a {
-    color: #411f0b;
+    color: #401d09;
+;
     text-decoration: none;
 }
 
-/* foto */
+@media (max-width:600px){
+
+    #nav {
+        padding: 5%;
+    }
+
+    #navBar1 {
+      justify-content:center;
+      gap:16px;
+      font-size: 1.2rem;
+    }
+
+    #navBar2 {
+        gap: 20px;
+    }
+
+    #carrinhoFoto {
+        width: 40px;
+    }
+}
+
+/* FOTO */
 
 #fundo {
     background-image: url(/public/header.jpeg);
@@ -41,14 +77,74 @@ a {
 
 
 #fotoHeader {
-    mask-image: linear-gradient( to top, rgb(255, 255, 255) 50%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, rgb(255, 255, 255) 50%, transparent 100%);
+    mask-image: linear-gradient( to top, rgb(255, 255, 255) 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, rgb(255, 255, 255) 60%, transparent 100%);
     mask-position: center;
     mask-size: cover;
     width: 100%; 
     border: 1px solid #e9dbc5;
 }
-/* barra de pesquisa */
- #barraPesquisa {
-    
- }
+
+/* BARRA DE PESQUISA */
+
+.barraPesquisa {
+    display: flex;
+    align-items: center;
+    background-color: #401d09;
+    border-radius: 25px;
+    padding: 7px;
+
+    max-width:280px; /* limite, mas pode encolher */
+    min-width:0;   
+}
+
+#campoPesquisa {
+    background-color: inherit;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    color: #e9dbc5; }
+
+input::placeholder {
+    color: #e9dbc5;
+    opacity: 2;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+.barraPesquisa button{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+}
+
+.barraPesquisa button:hover{
+    background:#e9dbc5;
+}
+
+.barraPesquisa button:hover svg {
+    stroke:#401d09;
+}
+
+.barraPesquisa button:active {
+    transform:scale(.9);
+}
+
+.barraPesquisa button svg {
+    width:18px;
+    height:18px;
+    stroke:#e9dbc5;
+}
+
+
+
+
