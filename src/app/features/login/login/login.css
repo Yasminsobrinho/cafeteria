@@ -1,0 +1,260 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Overlay - fundo transparente escurecido */
+.login-page {
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 46, 30, 0.377);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Retângulo centralizado */
+.login-container {
+    display: flex;
+    width: 850px;
+    max-width: 90%;
+    height: 500px;
+    background: #e9dbc5;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+/* Lado da image */
+.login-image {
+    position: relative;
+    width: 45%;
+    background: url('/assets/imagens/cafe-login.jpg') center/cover no-repeat;
+}
+
+.login-image .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(59, 36, 23, 0.55);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #e9dbc5;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.logo img {
+    max-width: 180px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.login-image p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.login-image p strong {
+    color: #E8B44A;
+}
+
+/* Formulário */
+.login-form {
+    width: 55%;
+    padding: 48px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.form-header h2 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    color: #401d09;
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.form-header p {
+    font-family: 'Poppins', sans-serif;
+    color: #401d09;
+    font-size: 14px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #401d09;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ECE2CC;
+    border-radius: 8px;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #401d09;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-group input:focus {
+    border-color: #401d09;
+}
+
+.password-input {
+    position: relative;
+}
+
+.btn-login {
+    margin-top: 12px;
+    padding: 14px;
+    background: #401d09;
+    color: #e9dbc5;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-login:hover {
+    background: #401d09;
+}
+
+
+
+/* Responsivo */
+/*Telas grandes*/
+@media (min-width: 1440px) {
+    .login-container {
+        width: 950px;
+        height: 540px;
+    }
+
+    .logo img {
+        max-width: 140px;
+    }
+}
+
+/*Tablet*/
+@media (max-width: 1024px) {
+    .login-container {
+        width: 700px;
+        height: 460px;
+    }
+
+    .login-form {
+        padding: 36px 28px;
+    }
+
+    .form-header h2 {
+        font-size: 22px;
+    }
+}
+
+/*Tablet pequeno*/
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        width: 420px;
+        height: auto;
+        max-height: 90vh;
+    }
+
+    .login-image,
+    .login-form {
+        width: 100%;
+    }
+
+    .login-image {
+        height: 160px;
+    }
+
+    .logo {
+        margin-bottom: -25px;
+    }
+
+    .logo img {
+        max-width: 90px;
+    }
+
+    .login-image p {
+        font-size: 13px;
+    }
+
+    .login-form {
+        padding: 28px 24px;
+    }
+}
+
+/*Celular*/
+@media (max-width: 480px) {
+    .login-page {
+        padding: 12px;
+    }
+
+    .login-container {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .login-image {
+        height: 130px;
+    }
+
+    .logo img {
+        max-width: 70px;
+    }
+
+    .login-form {
+        padding: 24px 20px;
+    }
+
+    .form-header h2 {
+        font-size: 20px;
+    }
+
+    .form-header p {
+        font-size: 13px
+    }
+
+    .input-group input {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .btn-login {
+        padding: 12px;
+        font-size: 13px;
+    }
+}
