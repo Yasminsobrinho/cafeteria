@@ -178,83 +178,83 @@ export class CardapioComponent {
    // Suas sobremesas originais mantidas aqui
   Bebidas = [
     {
-      nome: 'Café da felicidade',
-      descricao: 'Café especial preparado com grãos de qualidade superior, servido quente e acompanhado de uma deliciosa sobremesa.',
-      preco: 'R$ 18,00',
+      nome: 'Café cremoso',
+      descricao: 'Café cremoso e encorpado, com sabor intenso e aroma marcante, perfeito para os amantes de café.',
+      preco: 'R$ 10,00',
       precoAntigo: '',
-      imagem: 'assets/Cafédafelicidade.jpg',
+      imagem: 'cafecremoso.jpg',
     },
 
     {
-      nome: 'Café expresso',
+      nome: 'capuccino com chocolate',
       descricao:
-        'Café forte e aromático, preparado com grãos de qualidade superior, servido quente.',
+        'Cappuccino com chocolate, cremoso e saboroso, perfeito para os dias frios.',
       preco: 'R$ 12,00',
       precoAntigo: '',
-      imagem: 'assets/Caféexpresso.jpg',
+      imagem: 'cappuccinocomchocolate.jpg',
     },
 
     {
-      nome: 'Capuccino',
+      nome: 'Chocolate',
       descricao: 
-        'É encorpado, suave, com um leve toque adocicado natural do leite e forte presença do café.',
-      preco: 'R$ 15,00',
-      precoAntigo: '',
-      imagem: 'assets/Capuccino.jpg',
-    },
-
-    {
-      nome: 'Chocolate gelado',
-      descricao:
-        'Doce e marcante com notas de cacau.',
-      preco: 'R$ 10,00',
-      precoAntigo: 'R$ 8,00',
-      imagem: 'assets/Chocolate gelado.jpg',
-    },
-
-    {
-      nome: 'Limonada',
-      descricao:
-        'Bebida refrescante com sabor de limão, perfeita para aqueles dias quentes.',
+        'Chocolate cremoso e saboroso, feito com chocolate de qualidade e leite fresco.',
       preco: 'R$ 8,00',
       precoAntigo: '',
-      imagem: 'assets/Limonada.jpg',
+      imagem: 'chocolate.jpg',
     },
 
     {
-      nome: 'Matte.png',
+      nome: 'Classic caramel',
       descricao:
-        'refrescante e saboroso, perfeito para os dias quentes de verão.',
-      preco: 'R$ 8,00 cada',
-      precoAntigo: 'R$ 10,00',
-      imagem: 'assets/Matte.png',
+        'Café com leite cremoso e saboroso, com um toque de caramelo doce e suave.',
+      preco: 'R$ 10,00',
+      precoAntigo: 'R$ 8,00',
+      imagem: 'classicaramel.jpg',
     },
 
     {
-      nome: 'Nescalato',
+      nome: 'Milkshake morango',
       descricao:
-        'churros artesanais fritos na hora, dourados e extremamente crocantes por fora, com interior macio. São passados na mistura tradicional de açúcar e canela e acompanhados por um generoso potinho de creme de chocolate ou doce de leite cremoso para chuchar."',
-      preco: 'A partir de R$ 5,00 cada',
+        'Milkshake cremoso e saboroso, feito com morangos frescos e leite gelado.',
+      preco: 'R$ 8,00',
       precoAntigo: '',
-      imagem: 'Nacalato.jpg',
+      imagem: 'milkshake.jpg',
+    },
+
+    {
+      nome: 'Nesferrero',
+      descricao:
+        'Café gelado com sorvete de creme, calda de chocolate e chantilly, decorado com raspas de chocolate e avelãs.',
+      preco: 'R$ 17,00 cada',
+      precoAntigo: 'R$ 20,00',
+      imagem: 'nesferrero.png',
     },
 
     {
       nome: 'Pingado',
       descricao:
-        'café expresso com um toque de leite vaporizado, servido quente e cremoso.',
-      preco: 'R$ 5,00 cada',
+        'Café expresso com um toque de leite vaporizado, servido quente e cremoso.',
+      preco: 'A partir de R$ 5,00 cada',
       precoAntigo: '',
-      imagem:'assets/Pingado.jpg',
+      imagem: 'pingadobrasileiro.jpg',
     },
 
     {
-      nome: 'Ristretto',
+      nome: 'Suco de maracujá',
+      descricao:
+        'Suco natural de maracujá, refrescante e saboroso, perfeito para os dias quentes.',
+      preco: 'R$ 5,00 cada',
+      precoAntigo: '',
+      imagem:'sucodemaracuja.jpg', 
+    },
+
+    {
+      nome: 'Café preto',
       descricao:
         'Café concentrado com sabor intenso e aroma marcante, preparado com grãos de qualidade superior.',
-      preco: 'R$ 12,00',
+      preco: 'R$ 8,00',
       precoAntigo: '',
-      imagem: 'assets/Ristretto.jpg',
+      imagem: 'cafepreto.jpg',
     },
   ];
 // Filtra os salgados com base no que foi digitado na pesquisa

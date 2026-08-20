@@ -34,7 +34,7 @@ body {
 /* CARD */
 
 .produto {
-    background: #fff;
+    background: #e9dbc5;
     border-radius: 14px;
     min-height: 180px;
     padding: 18px;
@@ -152,7 +152,7 @@ body {
 
 
 .menu-container {
-    background-color: #1a0f08; /* Fundo escuro igual da imagem */
+    background-color: #411f0b; /* Fundo escuro igual da imagem */
     color: #fff;
     padding: 20px;
     font-family: sans-serif;
@@ -230,3 +230,4 @@ body {
     display: block;
     margin-bottom: 4px;
 }
+/* transiçao */
