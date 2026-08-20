@@ -6,9 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './sobre.html',
   styleUrl: './sobre.css',
 })
-export class Sobre {
-scrollIntoView(arg0: { behavior: string; }) {
-throw new Error('Method not implemented.');
-}
-imgsobre: string = 'imgsobre.jpeg';
-}
+export class Sobre {}
