@@ -3,32 +3,38 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () =>
-      import('./features/home/home/home').then((m) => m.Home)
+    loadComponent: () => import('./features/home/home/home').then((m) => m.Home),
   },
+
   {
     path: 'cardapio',
     loadComponent: () =>
-     import('./features/cardapio/cardapio/cardapio').then((m) => m.CardapioComponent)
-
+      import('./features/cardapio/cardapio/cardapio').then((m) => m.CardapioComponent),
   },
+
   {
     path: 'carrinho',
-    loadComponent: () =>
-      import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho)
+    loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
   },
+
+  {
+    path: 'checkout',
+    loadComponent: () => import('./features/checkout/checkout').then((m) => m.Checkout),
+  },
+
   {
     path: 'login',
-    loadComponent: () =>
-      import('./features/login/login/login').then((m) => m.Login)
+    loadComponent: () => import('./features/login/login/login').then((m) => m.Login),
   },
+
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
+
   {
     path: '**',
-    redirectTo: 'home'
-  }
+    redirectTo: 'home',
+  },
 ];

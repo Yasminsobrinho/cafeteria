@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { CarrinhoService, ProdutoCarrinho } from './carrinho.service';
 
 @Component({
   selector: 'app-carrinho',
-  imports: [CommonModule, FormsModule],
+  // standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './carrinho.html',
   styleUrl: './carrinho.css',
 })
@@ -58,23 +60,16 @@ export class Carrinho {
       this.mensagemCupom = 'Cupom aplicado! Você ganhou R$ 5,00 de desconto.';
       return;
     }
+
+    this.desconto = 0;
+    this.mensagemCupom = 'Cupom inválido! Use um cupom válido.';
   }
 
   get total(): number {
     return this.subtotal - this.desconto;
   }
 
-  finalizarPedido(): void {
-    if (this.produtos.length === 0) {
-      alert('Seu carrinho está vazio!');
-      return;
-    }
-
-    alert(`Pedido realizado com sucesso!\n\nTotal: R$ ${this.total.toFixed(2)}`);
-
-    this.carrinhoService.limparCarrinho();
-    this.desconto = 0;
-    this.codigoCupom = '';
-    this.mensagemCupom = '';
+  continuarParaCheckout(): void {
+    this.carrinhoService.definirDesconto(this.desconto);
   }
 }
