@@ -1,13 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     overflow-x:hidden;
-}
-
-body {
-    background-color: #e9dbc5;
 }
 
 #sobre {
@@ -17,33 +14,60 @@ body {
     margin: 100px;
     gap: 40px; 
 
-    color: #401d09;
+    color: #e9dbc5;
 }
 
 #sobreTxt {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    flex: 1; 
+    flex: 1 1 350px;      
+    min-width: 0; 
 }
 
 #fotoSobre {
-    flex: 0 0 400px; 
+    flex: 1 1 300px;     
+    min-width: 0; 
 }
 
 h1 {
     font-size: 10rem;
-    font-family: 'Space Grotesk', serif;
-    color: #401d09;
+    font-family: 'Bebas Neue', serif;
+    color: #e9dbc5;
+
+    word-break: break-all;
+    overflow: hidden;
 }
 
 p {
-    display: flex;
-    flex-wrap: wrap;
+
     font-family: 'Space Mono', sans-serif;
-    color: #401d09;
+    color: #e9dbc5;
     font-size: 1.4rem;
 }
+
+/* BARRA DE ROLAGEM */ 
+
+p::-webkit-scrollbar {
+    width: 8px;
+}
+
+p::-webkit-scrollbar-track {
+    background: #e9dbc5;
+    border-radius: 10px;
+}
+
+p::-webkit-scrollbar-thumb {
+    background-color: #e9dbc5;
+    border-radius: 10px;
+    border: 2px solid #e9dbc5;
+}
+
+p::-webkit-scrollbar-thumb:hover {
+    background-color: #2a1306;
+}
+
+/* BARRA DE ROLAGEM - FIM */
 
 img {
     width: 100%;
@@ -52,18 +76,40 @@ img {
     border-radius: 12px; 
 }
 
-@media (max-width:700px){
+@media (max-width:600px){
 
     #sobre {
-        display: flex;
         flex-direction: column;
+        margin: 40px 20px;   
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    #sobreTxt {
+        gap: 20px;
     }
 
     img {
-        width: 100%;
-        height: 200px; 
+        width: 100%;      
+        height: 250px; 
         object-fit: cover; 
         border-radius: 12px; 
     }
 
+    #fotoSobre {
+        flex: none;      
+        width: 100%;
+        object-fit: cover;
+
+    }
+
+    h1 {
+        font-size: 4rem;         
+        word-break: normal;      
+        overflow-wrap: break-word; 
+    }
+
+    p {
+        font-size: 1rem;
+    }
 }
