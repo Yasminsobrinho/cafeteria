@@ -13,6 +13,7 @@ export interface ProdutoCarrinho {
 })
 export class CarrinhoService {
   private produtos: ProdutoCarrinho[] = [];
+  private desconto: number = 0;
 
   adicionarProduto(produto: any): void {
     const produtoExistente = this.produtos.find((item) => item.nome === produto.nome);
@@ -22,29 +23,15 @@ export class CarrinhoService {
       return;
     }
 
-    const precoNumerico = this.converterPreco(produto.preco);
-
     const novoProduto: ProdutoCarrinho = {
       nome: produto.nome,
       descricao: produto.descricao,
-      preco: precoNumerico,
+      preco: produto.preco,
       imagem: produto.imagem,
       quantidade: 1,
     };
 
     this.produtos.push(novoProduto);
-  }
-
-  private converterPreco(preco: any): number {
-    if (typeof preco === 'number') {
-      return preco;
-    }
-
-    const precoTexto = String(preco);
-
-    const precoLimpo = precoTexto.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-
-    return Number(precoLimpo);
   }
 
   getProdutos(): ProdutoCarrinho[] {
@@ -65,7 +52,20 @@ export class CarrinhoService {
     this.produtos = this.produtos.filter((item) => item !== produto);
   }
 
+  getTotal(): number {
+    return this.produtos.reduce((total, produto) => total + produto.preco * produto.quantidade, 0);
+  }
+
   limparCarrinho(): void {
     this.produtos = [];
+    this.desconto = 0;
+  }
+
+  definirDesconto(desconto:number): void {
+    this.desconto = desconto;
+  }
+
+  getDesconto ():number {
+    return this.desconto;
   }
 }

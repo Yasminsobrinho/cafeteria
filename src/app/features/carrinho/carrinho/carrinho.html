@@ -1,3 +1,7 @@
+<a routerLink="/cardapio" class="voltar-menu">
+  ←
+</a>
+
 <div class="carrinho-container">
   <header class="carrinho-header">
     <span>AROMA CAFÉ</span>
@@ -97,10 +101,11 @@
       <button
         type="button"
         class="finalizar"
-        (click)="finalizarPedido()"
+        routerLink="/checkout"
+        (click)="continuarParaCheckout()"
         [disabled]="produtos.length === 0"
       >
-        Finalizar pedido
+        Continuar para checkout
       </button>
     </aside>
   </main>
