@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+
+#playlist {
+    background-image: url(../../../../../../../public/playlistFoto.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding: 10%;
+}
+
+h1 {
+    font-family: 'Space Grotesk', serif;
+    color: #401d09;
+}
+
+h2 {
+    font-family: 'Space Grotesk', serif;
+    color: #401d09;
+}
+
+#txt {
+    display: flex;
+    flex-direction: column;
+}
+
+/* SPOTIFY */
+
+#spotify {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#spotify iframe {
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    box-shadow: #401d09 -5px 5px, #401d09 -10px 10px, #e1dbc5 -15px 15px, #e1dbc5 -20px 20px, #401d09 -25px 25px;
+}
+
+@media (max-width: 600px) {
+    .spotify-container iframe {
+        height: 152px; /* Spotify tem uma versão "compacta" mais baixa */
+    }
+}

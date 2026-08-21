@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './playlist.html',
   styleUrl: './playlist.css',
 })
-export class Playlist {}
+export class Playlist {
+
+  imgPlaylist: string = "playlistFoto.jpg";
+}

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-sobre',
@@ -6,9 +8,12 @@ import { Component } from '@angular/core';
   templateUrl: './sobre.html',
   styleUrl: './sobre.css',
 })
+
+
+
 export class Sobre {
-scrollIntoView(arg0: { behavior: string; }) {
-throw new Error('Method not implemented.');
+
+  imgSobre: string = 'sobreFoto.jpeg';
+
 }
-imgsobre: string = 'imgsobre.jpeg';
-}
+
