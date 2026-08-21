@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Módulo essencial do Angular para capturar o texto digitado na pesquisa
 import { RouterLink } from '@angular/router';
-
+import { CarrinhoService } from '../carrinho/carrinho.service';
 
 
 @Component({
@@ -24,6 +24,11 @@ export class CardapioComponent {
   // =========================================================================
   // 2. LISTA DE COMIDAS SALGADAS (ARRAY DE OBJETOS COM SEUS PRODUTOS REAIS)
   // =========================================================================
+   constructor(private carrinhoService: CarrinhoService) {}
+
+  adicionarAoCarrinho(item: any): void {
+    this.carrinhoService.adicionarProduto(item);
+  }
   comidasSalgadas = [
     { 
       nome: 'Croissants e Folhados Especiais', 
