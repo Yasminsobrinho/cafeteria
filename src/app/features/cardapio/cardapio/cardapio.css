@@ -311,3 +311,61 @@ body {
     display: block;
     margin-bottom: 4px;
 }
+.menu-container {
+    background-color: #1a0f08;
+    color: #fff;
+    padding: 20px;
+    font-family: sans-serif;
+
+    animation: descerCardapio 0.30s ease-out;
+}
+
+@keyframes descerCardapio {
+    from {
+        transform: translateY(-40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.produto {
+    background: #fff;
+    border-radius: 14px;
+    min-height: 180px;
+    padding: 18px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s;
+
+    animation: entradaProduto 0.5s ease-out backwards;
+}
+
+@keyframes entradaProduto {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Delay em cascata pros primeiros produtos */
+.produto:nth-child(1) { animation-delay: 0.05s; }
+.produto:nth-child(2) { animation-delay: 0.1s; }
+.produto:nth-child(3) { animation-delay: 0.15s; }
+.produto:nth-child(4) { animation-delay: 0.2s; }
+.produto:nth-child(5) { animation-delay: 0.25s; }
+.produto:nth-child(6) { animation-delay: 0.3s; }
+.produto:nth-child(7) { animation-delay: 0.35s; }
+.produto:nth-child(8) { animation-delay: 0.4s; }
+.produto:nth-child(9) { animation-delay: 0.45s; }
+

@@ -1,5 +1,8 @@
+
+
 <!-- Container principal de todo o cardápio -->
  <div class="menu-container">
+    <a routerLink="../home"> ← </a> 
     
     <div class="header-titulo">
          <!-- Nome da cafeteria -->
@@ -30,6 +33,9 @@
         
         <!-- Botão para mostrar somente os doces -->
         <button [class.ativo]="categoriaSelecionada === 'Doces'" (click)="categoriaSelecionada = 'Doces'">Doces</button>
+        
+         <!-- Botão para mostrar somente os bebidas -->
+        <button [class.ativo]="categoriaSelecionada === 'Bebidas'" (click)="categoriaSelecionada = 'Bebidas'">Bebidas</button>
         
     </div>
 
@@ -106,6 +112,37 @@
             </div>
         </div>
     </section>
+
+    <!-- SEÇÃO DE BEBIDAS (Só aparece se 'Todos' ou 'bebidas' estiver selecionado) -->
+    <section class="cardapio" *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Bebidas'">
+        <h1>Bebidas</h1>
+        <hr><br>
+
+        <div class="produtos">
+            <div class="produto" *ngFor="let item of bebidas">
+                 <!-- Informações do produto -->
+                <div class="produto-info">
+                    <span class="categoria-tag">BEBIDAS</span>
+                     <!-- Nome do produto -->
+                    <h3>{{ item.nome }}</h3>
+                     <!-- Descrição do produto -->
+                    <p>{{ item.descricao }}</p>
+
+                    <ng-container *ngIf="item.precoAntigo; else precoNormalBebidas">
+                        <span class="preco promocao">{{ item.preco }}</span>
+                        <span class="preco-antigo">{{ item.precoAntigo }}</span>
+                    </ng-container>
+                    
+                    <ng-template #precoNormalBebidas>
+                        <span class="preco"><b>{{ item.preco }}</b></span>
+                    </ng-template>
+                </div>
+
+                <img [src]="item.imagem" [alt]="item.nome">
+            </div>
+        </div>
+    </section>
+
 
 </div>
 
