@@ -5,7 +5,7 @@
 .carrinho-container {
   min-height: 100vh;
   box-sizing: border-box;
-  background: #f5b960;;
+  background: #eeddc3;;
   color: #3b2418;
   padding: 40px 20px 50px;
   font-family: Arial, Helvetica, sans-serif;
@@ -356,6 +356,43 @@
   background: #c9beb6;
   cursor: not-allowed;
 }
+
+/* =========================
+   BOTÃO DE VOLTA / CORES
+   ========================= */
+
+ .voltar-menu {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+
+  width: 47px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #8b5e3c;
+  color: white;
+
+  border-radius: 50%;
+  text-decoration: none;
+
+  font-size: 25px;
+  font-weight: bold;
+
+  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.15);
+
+  transition: 0.2s;
+}
+
+.voltar-menu:hover {
+  background: #6f452b;
+  transform: translateX(-3px);
+}
+
+
 
 /* =========================
    RESPONSIVIDADE
