@@ -1,6 +1,5 @@
-
 // Importa a classe Component para criar um componente Angular
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 // Importa RouterLink para permitir a navegação entre as páginas
 import { RouterLink } from '@angular/router';
 // Importa o componente Sobre
@@ -9,7 +8,6 @@ import { Local } from "./pginicial/local/local";
 import { Playlist } from "./pginicial/playlist/playlist";
 import { Rodape } from "./pginicial/rodape/rodape";
 
-import { Router } from '@angular/router';
 
 // Configurações do componente Home
 @Component({
@@ -23,16 +21,20 @@ import { Router } from '@angular/router';
 
 export class Home {
 
+  menuAberto = signal(false);
+
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
   imgheader: string = 'header.jpeg';
   imglogo: string = 'logo.png'
   imgcarrinho: string = 'carrinho.png';
 
-  constructor(private router: Router) {} // injeta o Router
+  alternarMenu(): void {
+    this.menuAberto.update((aberto) => !aberto);
+  }
 
-  irParaSobre(): void {
-    this.router.navigate(['/sobre']); // navega até a rota /sobre
+  fecharMenu(): void {
+    this.menuAberto.set(false);
   }
 
   }
