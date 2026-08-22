@@ -28,6 +28,27 @@ export const routes: Routes = [
   },
 
   {
+    path: 'sobre',
+    loadComponent: () => import('./features/sobre/sobre').then((m) => m.Sobre),
+  },
+
+  {
+    path: 'contatos',
+    loadComponent: () => import('./features/contatos/contatos').then((m) => m.Contatos),
+  },
+
+  {
+    path: 'localizacao',
+    loadComponent: () =>
+      import('./features/localizacao/localizacao').then((m) => m.Localizacao),
+  },
+
+  {
+    path: 'spotify',
+    loadComponent: () => import('./features/spotify/spotify').then((m) => m.Spotify),
+  },
+
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
