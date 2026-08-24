@@ -48,12 +48,6 @@ export const routes: Routes = [
   },
 
   {
-    path: 'avaliacao',
-    loadComponent: () =>
-      import('./features/home/home/pginicial/avaliacao/avaliacao').then((m) => m.Avaliacao),
-  },
-
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
