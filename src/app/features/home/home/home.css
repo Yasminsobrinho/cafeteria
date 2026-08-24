@@ -208,6 +208,26 @@ input:focus::placeholder {
     height:18px;
     stroke:#e9dbc5;
 }
+.carrinho-link {
+  position: relative;
+  display: inline-block;
+}
+
+.contador-carrinho {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #8b4513;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
 
 
 
