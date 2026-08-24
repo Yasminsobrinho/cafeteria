@@ -7,7 +7,6 @@ import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 import { Sobre } from './pginicial/sobre/sobre';
 import { Local } from "./pginicial/local/local";
 import { Playlist } from "./pginicial/playlist/playlist";
-import { Avaliacao } from './pginicial/avaliacao/avaliacao';
 import { Rodape } from "./pginicial/rodape/rodape";
 
 
@@ -16,10 +15,11 @@ import { Rodape } from "./pginicial/rodape/rodape";
   selector: 'app-home',
   standalone: true,
    // Importa os recursos usados no HTML
-  imports: [RouterLink, Sobre, Local, Playlist, Avaliacao, Rodape, Avaliacao],
+  imports: [RouterLink, Sobre, Local, Playlist, Rodape],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
+
 
 export class Home {
 abrirMenu() {
