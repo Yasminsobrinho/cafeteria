@@ -1,18 +1,100 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap');
 
 #local {
-    display: flex;
-    flex-direction: row;
-    color: #e9dbc5;
-    margin: 100px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+    "imagem titulo"
+    "imagem cards";
+    grid-template-rows: auto 1fr;
+    gap: 40px;
+    align-items: start;
+    padding: 40px;
+    margin: 100px;    
+    color: #401d09;   
+}
+
+#local > div:first-child {
+  grid-area: imagem;
 }
 
 h1 {
-    font-size: 5rem;
+    font-size: 10rem;
     font-family: 'Bebas Neue', serif;
+    color: #e9dbc5;
+    text-align: center;
+    grid-area: titulo;
+    align-self: end;
 }
 
-@media (max-width:600px){
+h3 {
+    font-size: 3rem;
+    font-family: 'Bebas Neue', serif;
+    color: #401d09;
+}
 
+h4 {
+    font-family: 'Space Mono', sans-serif;
+}
+
+#texto {
+    display: flex;
+    flex-direction: column;
+    display: contents
+}
+
+#centralTexto {
+  grid-area: cards;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 40px
+}
+
+.card {
+    background-color: #e9dbc5;
+    text-align: center;
+    padding: 5px;
+    border-radius: 12px;
+    flex: 1 1 150px;
+}
+
+img {
+    width: 100%; 
+    height: 100%;
+    border-radius: 12px;
+}
+
+@media (max-width:700px){
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h3 {
+        font-size: 2rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    #local {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "titulo"
+        "imagem"
+        "cards";
+        margin: 0px
+    }
+
+    #centralTexto {
+        flex-direction: column;
+    }
+
+    img {
+        height: 300px;
+    }
 
 }
+

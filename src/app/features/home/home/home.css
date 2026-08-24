@@ -13,12 +13,18 @@
 
 /* BARRA DE NAVEGAÇÃO */
 
+#menu {
+    display: flex;
+    flex-direction: row;
+    gap: 90px
+}
+
 #nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 32px;
-    padding: 10px clamp(16px, 5vw, 72px);
+    /* padding: 5px clamp(16px, 5vw, 72px); */
 
     background-color: #e9dbc5;
 }
@@ -30,28 +36,18 @@
 
 #logo {
     display: block;
-    width: clamp(130px, 14vw, 200px);
+    width: clamp(90px, 14vw, 200px);
     height: auto;
 }
 
-#menuPrincipal {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: clamp(24px, 4vw, 64px);
-    flex: 1;
-}
-
 #navBar1 {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content: center;
-    gap:24px;
-    margin:0;
-    padding:0;
+    display: flex;
+    flex-direction: row; 
+    gap: 32px; 
+    align-items: center;
 
     font-family: 'Bebas Neue', serif;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
 }
 
 #navBar2 {
@@ -62,14 +58,6 @@
     gap: 28px;
     margin:0;
     padding:0;
-}
-
-.menuToggle {
-    display: none;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    padding: 8px;
 }
 
 a {
@@ -112,10 +100,11 @@ a {
     }
 
     #navBar1 {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        font-size: 1.25rem;
+        display: grid;
+        font-size: 1rem;
+
+        grid-template-columns: 1fr 1fr; 
+        gap: 16px 24px; 
     }
 
     #navBar1 a {
@@ -218,6 +207,26 @@ input:focus::placeholder {
     width:18px;
     height:18px;
     stroke:#e9dbc5;
+}
+.carrinho-link {
+  position: relative;
+  display: inline-block;
+}
+
+.contador-carrinho {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #8b4513;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 

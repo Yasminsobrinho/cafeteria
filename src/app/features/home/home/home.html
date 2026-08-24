@@ -1,49 +1,60 @@
 <!--Menu com links para os outros componentes-->
-  <header>
+<header>
 
-    <nav id="nav">
-      <div id="navBar1">
-        <a routerLink="/home">Home</a> <!-- Link que leva até a seção "Sobre" na própria página -->
-        <a href="#sobre">Sobre</a>
-        <a routerLink="/cardapio">Cardápio</a>
-        <a routerLink="/login">Login</a>
-      </div>
+  <nav id="nav">
+    <div id="navBar1">
+      <a routerLink="/home">Home</a> <!-- Link que leva até a seção "Sobre" na própria página -->
+      <a href="#sobre">Sobre</a>
+      <a routerLink="/cardapio">Cardápio</a>
+      <a routerLink="/login">Login</a>
+    </div>
 
-      <img [src]="imglogo" width="200px" id="logo">
+    <img [src]="imglogo" width="200px" id="logo">
 
-      <div id="navBar2">
-        <div class="barraPesquisa">
+    <div id="navBar2">
+      <div class="barraPesquisa">
 
-            <input type="text" id="campoPesquisa" placeholder="Buscar...">
+        <input type="text" id="campoPesquisa" placeholder="Buscar...">
 
-            <button aria-label="Pesquisar">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="7"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
-        </div>
-
-        <a routerLink="/carrinho"><img [src]="imgcarrinho" width="50px" id="carrinhoFoto"></a>
+        <button aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
 
       </div>
 
-    </nav>
+      <a routerLink="/carrinho" class="carrinho-link">
 
-    <!-- usei img [src] para puxar as variaveis do ts que estao com as imagens e exibir na tela-->
-    <!-- <img [src]="imgheader" height="100vh" id="fotoHeader"> -->
-  </header>
+        <img [src]="imgcarrinho" width="50px" id="carrinhoFoto">
 
-  <div id="fundo">
-    <img [src]="imgheader" id="fotoHeader">
-  </div>
+        <!-- mostra a quantidade -->
+        @if (quantidadeCarrinho > 0) {
+          <span class="contador-carrinho">
+            {{ quantidadeCarrinho }}
+          </span>
+        }
+
+      </a>
+
+    </div>
+  </nav>
+  <!-- usei img [src] para puxar as variaveis do ts que estao com as imagens e exibir na tela-->
+  <!-- <img [src]="imgheader" height="100vh" id="fotoHeader"> -->
+</header>
+
+<div id="fundo">
+  <img [src]="imgheader" id="fotoHeader">
+</div>
 
 <!-- Seção "Sobre" da página -->
-  <div id="sobre" class="secao-sobre">
+<div id="sobre" class="secao-sobre">
   <!-- Exibe o componente Sobre dentro da página Home -->
 
-<app-sobre></app-sobre>
-<app-local></app-local>
-<app-playlist></app-playlist>
-<app-rodape></app-rodape>
+  <app-sobre></app-sobre>
+  <app-local></app-local>
+  <app-playlist></app-playlist>
+  <app-rodape></app-rodape>
+
 </div>

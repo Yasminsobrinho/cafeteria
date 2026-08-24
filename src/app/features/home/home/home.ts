@@ -2,6 +2,7 @@
 import { Component, signal } from '@angular/core';
 // Importa RouterLink para permitir a navegação entre as páginas
 import { RouterLink } from '@angular/router';
+import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 // Importa o componente Sobre
 import { Sobre } from './pginicial/sobre/sobre';
 import { Local } from "./pginicial/local/local";
@@ -14,28 +15,38 @@ import { Rodape } from "./pginicial/rodape/rodape";
   selector: 'app-home',
   standalone: true,
    // Importa os recursos usados no HTML
-  imports: [RouterLink, Sobre, Local, Playlist, Rodape],
+  imports: [RouterLink, Sobre, Local, Playlist, Rodape, ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 
-export class Home {
 
-  menuAberto = signal(false);
+export class Home {
 
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
   imgheader: string = 'header.jpeg';
   imglogo: string = 'logo.png'
   imgcarrinho: string = 'carrinho.png';
+  menuAberto: any;
+
+   constructor(private carrinhoService: CarrinhoService) {}
+
+    // calcula a quantidade total de produtos no carrinho
+    get quantidadeCarrinho(): number {
+      return this.carrinhoService.getProdutos().reduce((total, produto) => {
+        return total + produto.quantidade;
+      }, 0);
+    }
 
   alternarMenu(): void {
-    this.menuAberto.update((aberto) => !aberto);
+    this.menuAberto.update((aberto: any) => !aberto);
   }
 
   fecharMenu(): void {
     this.menuAberto.set(false);
   }
+
 
   }
 
