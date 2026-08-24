@@ -15,29 +15,23 @@ import { Rodape } from "./pginicial/rodape/rodape";
   selector: 'app-home',
   standalone: true,
    // Importa os recursos usados no HTML
-  imports: [RouterLink, Sobre, Local, Playlist, Rodape],
+  imports: [RouterLink, Sobre, Local, Playlist, Rodape, ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 
 
 export class Home {
-abrirMenu() {
-throw new Error('Method not implemented.');
-}
-
-  menuAberto = signal(false);
-
-
 
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
   imgheader: string = 'header.jpeg';
   imglogo: string = 'logo.png'
   imgcarrinho: string = 'carrinho.png';
+  menuAberto: any;
 
    constructor(private carrinhoService: CarrinhoService) {}
-  
+
     // calcula a quantidade total de produtos no carrinho
     get quantidadeCarrinho(): number {
       return this.carrinhoService.getProdutos().reduce((total, produto) => {
@@ -46,13 +40,13 @@ throw new Error('Method not implemented.');
     }
 
   alternarMenu(): void {
-    this.menuAberto.update((aberto) => !aberto);
+    this.menuAberto.update((aberto: any) => !aberto);
   }
 
   fecharMenu(): void {
     this.menuAberto.set(false);
   }
-  
+
 
   }
 
