@@ -1,0 +1,461 @@
+/* =========================
+   CHECKOUT - AROMA CAFÉ
+   ========================= */
+
+.checkout-container {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #f5b960;
+  color: #3b2418;
+  padding: 40px 60px 60px;
+}
+
+
+/* =========================
+   CABEÇALHO
+   ========================= */
+
+.checkout-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.checkout-header span {
+  display: block;
+  color: #6f452b;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.checkout-header h1 {
+  margin: 0;
+  color: #3b2418;
+  font-size: 42px;
+}
+
+.checkout-header p {
+  margin: 10px 0 0;
+  color: #765c4c;
+  font-size: 16px;
+}
+
+
+/* =========================
+   CONTEÚDO
+   ========================= */
+
+.checkout-conteudo {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+
+/* =========================
+   DADOS DE ENTREGA
+   ========================= */
+
+.dados-entrega {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-sizing: border-box;
+
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+}
+
+.dados-entrega h2 {
+  margin: 0 0 25px;
+  color: #3b2418;
+  font-size: 23px;
+}
+
+
+/* =========================
+   LABELS
+   ========================= */
+
+.dados-entrega label {
+  display: block;
+  margin: 15px 0 7px;
+
+  color: #4b2e20;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   INPUTS
+   ========================= */
+
+.dados-entrega input[type="text"],
+.dados-entrega input[type="tel"] {
+  width: 100%;
+  height: 42px;
+
+  box-sizing: border-box;
+  padding: 0 12px;
+
+  border: 1px solid #d8c5b5;
+  border-radius: 8px;
+
+  outline: none;
+
+  color: #3b2418;
+  background: #ffffff;
+
+  font-size: 14px;
+}
+
+.dados-entrega input:focus {
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 2px rgba(139, 94, 60, 0.08);
+}
+
+.dados-entrega input::placeholder {
+  color: #a18f82;
+}
+
+
+/* =========================
+   PAGAMENTO
+   ========================= */
+
+.pagamento {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-sizing: border-box;
+
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+}
+
+.pagamento h2 {
+  margin: 0 0 20px;
+
+  color: #3b2418;
+  font-size: 23px;
+}
+
+.pagamento label {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 14px;
+
+  color: #4b2e20;
+  font-size: 15px;
+
+  cursor: pointer;
+}
+
+.pagamento input[type="radio"] {
+  width: 17px;
+  height: 17px;
+
+  accent-color: #8b5e3c;
+  cursor: pointer;
+}
+
+
+/* =========================
+   RESUMO DO PEDIDO
+   ========================= */
+
+.resumo-pedido {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-sizing: border-box;
+
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+}
+
+.resumo-pedido h2 {
+  margin: 0 0 25px;
+
+  color: #3b2418;
+  font-size: 23px;
+}
+
+
+/* =========================
+   PRODUTO DO RESUMO
+   ========================= */
+
+.produto-resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 15px 0;
+
+  border-bottom: 1px solid #eadfd5;
+}
+
+.produto-resumo strong {
+  color: #3b2418;
+  font-size: 15px;
+}
+
+.produto-resumo p {
+  margin: 5px 0 0;
+
+  color: #806b5d;
+  font-size: 13px;
+}
+
+.produto-resumo span {
+  color: #6f452b;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   LINHA DO RESUMO
+   ========================= */
+
+.resumo-pedido hr {
+  border: none;
+  border-top: 1px solid #eadfd5;
+
+  margin: 20px 0;
+}
+
+.linha-resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 12px 0;
+
+  color: #765c4c;
+}
+
+.linha-resumo.desconto {
+  color: #4f7a45;
+}
+
+
+/* =========================
+   TOTAL
+   ========================= */
+
+.linha-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 20px;
+
+  color: #3b2418;
+  font-size: 21px;
+}
+
+
+/* =========================
+   BOTÃO FINALIZAR
+   ========================= */
+
+.finalizar {
+  grid-column: 1 / -1;
+
+  width: 100%;
+  height: 50px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #6f452b;
+  color: white;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.finalizar:hover {
+  background: #4b2e20;
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   BOTÃO VOLTAR
+   ========================= */
+
+.voltar-menu {
+  position: absolute;
+
+  top: 80px;
+  left: 80px;
+
+  width: 47px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #8b5e3c;
+  color: white;
+
+  border-radius: 50%;
+
+  text-decoration: none;
+
+  font-size: 25px;
+  font-weight: bold;
+
+  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.15);
+
+  transition: 0.2s;
+}
+
+.voltar-menu:hover {
+  background: #6f452b;
+  transform: translateX(-3px);
+}
+
+
+/* =========================
+   PEDIDO CONFIRMADO
+   ========================= */
+
+.pedido-confirmado {
+  width: 100%;
+  max-width: 650px;
+
+  margin: 40px auto 0;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+}
+
+.pedido-confirmado h2 {
+  margin: 0 0 20px;
+
+  color: #4f7a45;
+
+  font-size: 25px;
+}
+
+.pedido-confirmado h1 {
+  margin: 10px 0 25px;
+
+  color: #6f452b;
+
+  font-size: 40px;
+}
+
+.pedido-confirmado p {
+  margin: 12px 0;
+
+  color: #765c4c;
+
+  font-size: 15px;
+}
+
+.pedido-confirmado strong {
+  color: #3b2418;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+   ========================= */
+
+@media (max-width: 800px) {
+
+  .checkout-container {
+    padding: 30px 20px 50px;
+  }
+
+  .checkout-conteudo {
+    grid-template-columns: 1fr;
+  }
+
+  .finalizar {
+    grid-column: auto;
+  }
+
+  .voltar-menu {
+    top: 30px;
+    left: 20px;
+  }
+
+  .checkout-header h1 {
+    font-size: 34px;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .checkout-container {
+    padding: 25px 15px 40px;
+  }
+
+  .checkout-header {
+    margin-bottom: 25px;
+  }
+
+  .checkout-header h1 {
+    font-size: 30px;
+  }
+
+  .checkout-header p {
+    font-size: 14px;
+  }
+
+  .dados-entrega,
+  .pagamento,
+  .resumo-pedido {
+    padding: 22px 20px;
+  }
+
+  .produto-resumo {
+    gap: 10px;
+  }
+
+  .produto-resumo span {
+    font-size: 14px;
+  }
+
+  .linha-total {
+    font-size: 19px;
+  }
+
+  .pedido-confirmado {
+    padding: 30px 20px;
+  }
+
+  .pedido-confirmado h1 {
+    font-size: 34px;
+  }
+}
