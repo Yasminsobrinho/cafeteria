@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Módulo essencial do Angular para capturar o texto digitado na pesquisa
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 
 @Component({
   selector: 'app-cardapio',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink], // Importações para usar *ngFor, *ngIf e [(ngModel)]
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './cardapio.html',
   styleUrls: ['./cardapio.css'],
 })
 export class CardapioComponent {
   constructor(private carrinhoService: CarrinhoService) {}
-  // =========================================================================
-  // 1. VARIÁVEIS DE CONTROLE DO FILTRO E DA BUSCA
-  // =========================================================================
-  termoBusca: string = ''; // Armazena em tempo real o texto que o usuário digita no input
-  categoriaSelecionada: string = 'Todos'; // Controla qual botão de categoria está ativo ('Todos', 'Salgados', 'Doces')
 
-  // =========================================================================
-  // 2. LISTA DE COMIDAS SALGADAS (ARRAY DE OBJETOS COM SEUS PRODUTOS REAIS)
-  // =========================================================================
+  termoBusca: string = '';
+  categoriaSelecionada: string = 'Todos';
+
   comidasSalgadas = [
     {
       nome: 'Croissants e Folhados Especiais',
@@ -96,9 +91,6 @@ export class CardapioComponent {
     },
   ];
 
-  // =========================================================================
-  // 3. LISTA DE SOBREMESAS / DOCES (ARRAY DE OBJETOS COM SEUS PRODUTOS REAIS)
-  // =========================================================================
   sobremesas = [
     {
       nome: 'Bolo de Cenoura com Cobertura de Chocolate',
@@ -143,7 +135,7 @@ export class CardapioComponent {
       nome: 'Brigadeiro com Morango',
       descricao:
         'Morango fresco inteiro coberto com muito brigadeiro cremoso e granulado de chocolate.',
-      preco: 8.00,
+      preco: 8.0,
       precoAntigo: 10.0,
       imagem: 'brigadeirocommorango.jpg',
     },
@@ -173,9 +165,6 @@ export class CardapioComponent {
     },
   ];
 
-  // =========================================================================
-  // 3. LISTA DE SOBREMESAS / DOCES (ARRAY DE OBJETOS COM SEUS PRODUTOS REAIS)
-  // =========================================================================
   bebidas = [
     {
       nome: 'Café Preto',
@@ -250,21 +239,14 @@ export class CardapioComponent {
     },
   ];
 
-  // =========================================================================
-  // 4. FUNÇÕES DE FILTRAGEM AUTOMÁTICA (GETTERS DINÂMICOS)
-  // =========================================================================
-
-  // Filtra os salgados combinando letras maiúsculas e minúsculas (.toLowerCase)
   get salgadosFiltrados() {
     return this.comidasSalgadas.filter(
       (item) =>
-        // O método .includes() valida se o termo digitado está presente no nome ou na descrição
         item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
         item.descricao.toLowerCase().includes(this.termoBusca.toLowerCase()),
     );
   }
 
-  // Filtra as sobremesas combinando letras maiúsculas e minúsculas (.toLowerCase)
   get sobremesasFiltradas() {
     return this.sobremesas.filter(
       (item) =>
@@ -273,7 +255,6 @@ export class CardapioComponent {
     );
   }
 
-  // Filtra as bebidas combinando letras maiúsculas e minúsculas (.toLowerCase)
   get bebidasFiltradas() {
     return this.bebidas.filter(
       (item) =>
@@ -285,6 +266,13 @@ export class CardapioComponent {
   adicionarAoCarrinho(produto: any): void {
     this.carrinhoService.adicionarProduto(produto);
 
-    alert (`${produto.nome} foi adicionado ao carrinho!`);
+    alert(`${produto.nome} foi adicionado ao carrinho!`);
+  }
+
+  // NOVO: quantidade total de produtos no carrinho
+  get quantidadeCarrinho(): number {
+    return this.carrinhoService
+      .getProdutos()
+      .reduce((total, produto) => total + produto.quantidade, 0);
   }
 }
