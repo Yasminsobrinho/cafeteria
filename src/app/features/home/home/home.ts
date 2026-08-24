@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { Sobre } from './pginicial/sobre/sobre';
 import { Local } from "./pginicial/local/local";
 import { Playlist } from "./pginicial/playlist/playlist";
+import { Avaliacao } from './pginicial/avaliacao/avaliacao';
 import { Rodape } from "./pginicial/rodape/rodape";
 
 
@@ -14,7 +15,7 @@ import { Rodape } from "./pginicial/rodape/rodape";
   selector: 'app-home',
   standalone: true,
    // Importa os recursos usados no HTML
-  imports: [RouterLink, Sobre, Local, Playlist, Rodape],
+  imports: [RouterLink, Sobre, Local, Playlist, Avaliacao, Rodape, Avaliacao],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
