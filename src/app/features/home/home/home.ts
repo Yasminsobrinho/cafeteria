@@ -19,9 +19,15 @@ import { Rodape } from "./pginicial/rodape/rodape";
   styleUrl: './home.css'
 })
 
+
 export class Home {
+abrirMenu() {
+throw new Error('Method not implemented.');
+}
 
   menuAberto = signal(false);
+
+
 
    // Define o caminho/nome das imagens usadas
   logo: string = 'favicon.ico';
@@ -36,6 +42,7 @@ export class Home {
   fecharMenu(): void {
     this.menuAberto.set(false);
   }
+  
 
   }
 
