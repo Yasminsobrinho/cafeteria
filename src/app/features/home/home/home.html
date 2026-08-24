@@ -1,37 +1,21 @@
 <!--Menu com links para os outros componentes-->
   <header>
-
-    <button class="menu-btn" (click)="abrirMenu()">
-    ☰
-  </button>
   
     <nav id="nav">
-      <div id="navBar1">
-        <a routerLink="/home">Home</a> <!-- Link que leva até a seção "Sobre" na própria página -->
-        <a href="#sobre">Sobre</a>
-        <a routerLink="/cardapio">Cardápio</a>
-        <a routerLink="/login">Login</a>
-      </div>
 
+      <div id="menu">
       <img [src]="imglogo" width="200px" id="logo">
 
-      <div id="navBar2">
-        <div class="barraPesquisa">
-
-            <input type="text" id="campoPesquisa" placeholder="Buscar...">
-
-            <button aria-label="Pesquisar">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="7"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-            </button>
+        <div id="navBar1">
+          <a routerLink="/home">Home</a> <!-- Link que leva até a seção "Sobre" na própria página -->
+          <a href="#sobre">Sobre</a>
+          <a routerLink="/cardapio">Cardápio</a>
+          <a routerLink="/login">Login</a>
         </div>
+      </div>
 
-        <a routerLink="/carrinho"> 
-          <img [src]="imgcarrinho" width="50px" id="carrinhoFoto">
-        </a>
-
+      <div id="navBar2">
+        <a routerLink="/carrinho"><img [src]="imgcarrinho" width="50px" id="carrinhoFoto"></a>
       </div>
 
     </nav>
@@ -51,7 +35,6 @@
 <app-sobre></app-sobre>
 <app-local></app-local>
 <app-playlist></app-playlist>
-<app-avaliacao></app-avaliacao>
 <app-rodape></app-rodape>
 
 </div>
