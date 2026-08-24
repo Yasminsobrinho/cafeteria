@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,16 +16,39 @@ export const routes: Routes = [
   {
     path: 'carrinho',
     loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    canActivate: [authGuard], // bloqueia acesso sem login
   },
 
   {
     path: 'checkout',
     loadComponent: () => import('./features/checkout/checkout').then((m) => m.Checkout),
+    canActivate: [authGuard], //bloqueia acesso sem login
   },
 
   {
     path: 'login',
     loadComponent: () => import('./features/login/login/login').then((m) => m.Login),
+  },
+
+  {
+    path: 'sobre',
+    loadComponent: () => import('./features/sobre/sobre').then((m) => m.Sobre),
+  },
+
+  {
+    path: 'contatos',
+    loadComponent: () => import('./features/contatos/contatos').then((m) => m.Contatos),
+  },
+
+  {
+    path: 'localizacao',
+    loadComponent: () =>
+      import('./features/localizacao/localizacao').then((m) => m.Localizacao),
+  },
+
+  {
+    path: 'spotify',
+    loadComponent: () => import('./features/spotify/spotify').then((m) => m.Spotify),
   },
 
   {

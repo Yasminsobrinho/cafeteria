@@ -1,21 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap');
 
+:host {
+    display: block;
+    background-color: #401d09;
+}
+
 * {
     margin: 0;
     padding: 0;
-    overflow-x:hidden;
+    box-sizing: border-box;
 }
 
 /* BARRA DE NAVEGAÇÃO */
 
 #nav {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 80px;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 10px clamp(16px, 5vw, 72px);
 
     background-color: #e9dbc5;
+}
+
+.logoLink {
+    display: block;
+    flex: 0 1 auto;
+}
+
+#logo {
+    display: block;
+    width: clamp(130px, 14vw, 200px);
+    height: auto;
+}
+
+#menuPrincipal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(24px, 4vw, 64px);
+    flex: 1;
 }
 
 #navBar1 {
@@ -35,9 +59,17 @@
     flex-wrap:wrap;
     align-items: center;
     justify-content: center;
-    gap: 45px;
+    gap: 28px;
     margin:0;
     padding:0;
+}
+
+.menuToggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
 }
 
 a {
@@ -48,17 +80,62 @@ a {
 @media (max-width:600px){
 
     #nav {
-        padding: 5%;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .menuToggle {
+        display: grid;
+        gap: 4px;
+    }
+
+    .menuToggle span {
+        display: block;
+        width: 26px;
+        height: 3px;
+        border-radius: 2px;
+        background: #401d09;
+    }
+
+    #menuPrincipal {
+        display: none;
+        flex-basis: 100%;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 20px;
+        padding: 18px 0 8px;
+    }
+
+    #menuPrincipal.menuAberto {
+        display: flex;
     }
 
     #navBar1 {
-      justify-content:center;
-      gap:16px;
-      font-size: 1.2rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        font-size: 1.25rem;
+    }
+
+    #navBar1 a {
+        padding: 10px 4px;
+        border-bottom: 1px solid rgba(64, 29, 9, .18);
     }
 
     #navBar2 {
-        gap: 20px;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .barraPesquisa {
+        flex: 1;
+        width: auto;
+    }
+
+    #campoPesquisa {
+        min-width: 0;
+        width: 100%;
     }
 
     #carrinhoFoto {
