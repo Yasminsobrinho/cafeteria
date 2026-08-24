@@ -1,16 +1,32 @@
-import { Injectable } from '@angular/core';
+/*
+  IMPORTS
+
+  O import serve para trazer recursos que estão
+  em outros arquivos/bibliotecas para podermos
+  usar neste arquivo.
+*/
+
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+
+import { isPlatformBrowser } from '@angular/common';
 
 /*
-  Aqui estamos criando o "modelo" de um produto que pode
-  ficar dentro do carrinho.
+  =========================================================
+  MODELO DO PRODUTO
+  =========================================================
 
-  Cada produto precisa ter essas informações:
-  - nome
-  - descrição
-  - preço
-  - imagem
-  - quantidade
+  Aqui definimos quais informações um produto do
+  carrinho precisa ter.
+
+  Cada produto terá:
+
+  nome       -> nome do produto
+  descricao  -> descrição do produto
+  preco      -> preço do produto
+  imagem     -> imagem do produto
+  quantidade -> quantidade desse produto no carrinho
 */
+
 export interface ProdutoCarrinho {
   nome: string;
   descricao: string;
@@ -19,389 +35,547 @@ export interface ProdutoCarrinho {
   quantidade: number;
 }
 
-
 /*
-  @Injectable permite que o Angular use esse Service
-  em outras partes do projeto.
+  =========================================================
+  CARRINHO SERVICE
+  =========================================================
 
-  providedIn: 'root' significa que teremos uma única
-  instância desse Service no sistema inteiro.
+  O Service é responsável por cuidar das informações
+  do carrinho.
 
-  Isso é importante porque o cardápio e o carrinho
-  conseguem acessar o mesmo carrinho.
+  Por exemplo:
+
+  - adicionar produtos
+  - aumentar quantidade
+  - diminuir quantidade
+  - remover produtos
+  - calcular o total
+  - salvar o carrinho
+  - carregar o carrinho
 */
+
 @Injectable({
   providedIn: 'root',
 })
 export class CarrinhoService {
-
   /*
+    =======================================================
+    LISTA DE PRODUTOS
+    =======================================================
+
     Aqui fica a lista dos produtos que estão no carrinho.
 
     No começo ela está vazia.
 
-    Exemplo:
+    Exemplo depois de adicionar produtos:
 
     [
       {
         nome: "Cappuccino",
         preco: 10,
         quantidade: 2
+      },
+
+      {
+        nome: "Bolo de chocolate",
+        preco: 8,
+        quantidade: 1
       }
     ]
   */
+
   private produtos: ProdutoCarrinho[] = [];
 
-
   /*
+    =======================================================
+    DESCONTO
+    =======================================================
+
     Aqui guardamos o valor do desconto aplicado
     pelo cupom.
 
-    No começo o desconto é 0.
+    No começo o desconto é R$ 0,00.
   */
+
   private desconto: number = 0;
 
-
   /*
-    O constructor é executado automaticamente quando
-    o Service é criado.
+    =======================================================
+    CONSTRUCTOR
+    =======================================================
 
-    Aqui estamos mandando carregar o carrinho que
-    foi salvo anteriormente no navegador.
+    O constructor é executado automaticamente quando
+    o CarrinhoService é criado.
+
+    Aqui também recebemos o PLATFORM_ID.
+
+    Isso é importante porque seu projeto usa SSR.
+
+    SSR faz o Angular executar o código também no servidor.
+
+    O problema é que o localStorage só existe no navegador.
+
+    Então usamos o PLATFORM_ID para descobrir se o código
+    está sendo executado no navegador.
   */
-  constructor() {
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    /*
+      Assim que o Service começa a funcionar,
+      tentamos carregar o carrinho que foi salvo
+      anteriormente no navegador.
+    */
+
     this.carregarCarrinho();
   }
 
-
   /*
+    =======================================================
     ADICIONAR PRODUTO
+    =======================================================
 
     Essa função é chamada quando o cliente clica
-    em "Adicionar ao carrinho".
+    no botão "Adicionar ao carrinho".
   */
-  adicionarProduto(produto: any): void {
 
+  adicionarProduto(produto: any): void {
     /*
-      Primeiro verificamos se esse produto já está
+      Primeiro verificamos se o produto já está
       dentro do carrinho.
 
-      O find procura um produto pelo nome.
-    */
-    const produtoExistente = this.produtos.find(
-      (item) => item.nome === produto.nome
-    );
+      O find procura um produto na lista.
 
+      Estamos comparando o nome dos produtos.
+    */
+
+    const produtoExistente = this.produtos.find((item) => item.nome === produto.nome);
 
     /*
+      =====================================================
+      PRODUTO JÁ EXISTE
+      =====================================================
+
       Se o produto já estiver no carrinho,
-      não precisamos criar outro produto.
+      não precisamos criar outro.
 
       Apenas aumentamos a quantidade.
     */
+
     if (produtoExistente) {
-
       produtoExistente.quantidade++;
-
     } else {
-
       /*
+        ===================================================
+        PRODUTO AINDA NÃO EXISTE
+        ===================================================
+
         Se o produto ainda não estiver no carrinho,
         criamos um novo produto.
 
         A quantidade começa em 1.
       */
+
       const novoProduto: ProdutoCarrinho = {
         nome: produto.nome,
+
         descricao: produto.descricao,
+
         preco: produto.preco,
+
         imagem: produto.imagem,
+
         quantidade: 1,
       };
 
-
       /*
-        Adicionamos o novo produto na lista
+        Adicionamos o novo produto à lista
         de produtos do carrinho.
       */
+
       this.produtos.push(novoProduto);
     }
 
-
     /*
-      Depois de adicionar o produto, salvamos
-      o carrinho no navegador.
+      Depois de adicionar o produto,
+      salvamos o carrinho no navegador.
 
-      Isso é o que faz a persistência funcionar.
+      Isso é importante para a persistência.
+
+      Ou seja:
+
+      mesmo se o usuário atualizar a página,
+      o produto continuará no carrinho.
     */
+
     this.salvarCarrinho();
   }
 
-
   /*
+    =======================================================
     PEGAR PRODUTOS
+    =======================================================
 
-    Essa função retorna todos os produtos
-    que estão atualmente no carrinho.
+    Essa função devolve todos os produtos
+    que estão no carrinho.
 
-    O componente do carrinho usa essa função
+    O componente carrinho usa essa função
     para mostrar os produtos na tela.
   */
+
   getProdutos(): ProdutoCarrinho[] {
     return this.produtos;
   }
 
-
   /*
+    =======================================================
     AUMENTAR QUANTIDADE
+    =======================================================
 
-    Quando o cliente clica no botão "+",
-    aumentamos a quantidade do produto em 1.
+    Essa função é usada quando o cliente
+    clica no botão "+".
   */
+
   aumentarQuantidade(produto: ProdutoCarrinho): void {
+    /*
+      Aumentamos a quantidade em 1.
+    */
 
     produto.quantidade++;
 
     /*
-      Depois de alterar a quantidade,
-      salvamos novamente no navegador.
+      Salvamos novamente o carrinho.
+
+      Assim a nova quantidade também fica salva.
     */
+
     this.salvarCarrinho();
   }
 
-
   /*
+    =======================================================
     DIMINUIR QUANTIDADE
+    =======================================================
 
-    Quando o cliente clica no botão "-",
-    diminuímos a quantidade.
+    Essa função é usada quando o cliente
+    clica no botão "-".
   */
+
   diminuirQuantidade(produto: ProdutoCarrinho): void {
-
     /*
-      Só diminuímos se a quantidade for maior que 1.
+      Só diminuímos a quantidade se ela for maior
+      que 1.
 
-      Assim o produto nunca fica com quantidade 0
-      através desse botão.
+      Isso evita que o produto fique com quantidade 0
+      usando esse botão.
     */
-    if (produto.quantidade > 1) {
 
+    if (produto.quantidade > 1) {
       produto.quantidade--;
 
       /*
         Salvamos a alteração no navegador.
       */
+
       this.salvarCarrinho();
     }
   }
 
-
   /*
+    =======================================================
     REMOVER PRODUTO
+    =======================================================
 
     Essa função remove completamente um produto
     do carrinho.
   */
+
   removerProduto(produto: ProdutoCarrinho): void {
-
     /*
-      filter cria uma nova lista contendo apenas
-      os produtos que NÃO são o produto removido.
+      O filter cria uma nova lista.
 
-      Dessa forma, o produto escolhido sai do carrinho.
+      Ele mantém todos os produtos que são diferentes
+      do produto que queremos remover.
+
+      Dessa forma, o produto escolhido é retirado.
     */
-    this.produtos = this.produtos.filter(
-      (item) => item !== produto
-    );
 
+    this.produtos = this.produtos.filter((item) => item !== produto);
 
     /*
       Salvamos o carrinho atualizado.
     */
+
     this.salvarCarrinho();
   }
 
-
   /*
+    =======================================================
     CALCULAR TOTAL
+    =======================================================
 
     Aqui calculamos o valor total dos produtos
     antes do desconto.
 
     Exemplo:
 
-    Café = R$ 10,00 x 2 = R$ 20,00
-    Bolo = R$ 15,00 x 1 = R$ 15,00
+    Café:
+    R$ 10,00 x 2 = R$ 20,00
 
-    Total = R$ 35,00
+    Bolo:
+    R$ 15,00 x 1 = R$ 15,00
+
+    Total:
+    R$ 35,00
   */
-  getTotal(): number {
 
-    return this.produtos.reduce(
-      (total, produto) =>
-        total + produto.preco * produto.quantidade,
-      0
-    );
+  getTotal(): number {
+    return this.produtos.reduce((total, produto) => total + produto.preco * produto.quantidade, 0);
   }
 
-
   /*
+    =======================================================
     LIMPAR CARRINHO
+    =======================================================
 
-    Essa função remove todos os produtos
-    do carrinho.
+    Essa função apaga todos os produtos do carrinho.
 
-    Também remove o desconto.
+    Também apagamos o desconto.
   */
-  limparCarrinho(): void {
 
+  limparCarrinho(): void {
     /*
       Esvazia a lista de produtos.
     */
+
     this.produtos = [];
 
     /*
       Zera o desconto.
     */
+
     this.desconto = 0;
 
-
     /*
-      Remove o carrinho salvo no navegador.
-    */
-    localStorage.removeItem('carrinho');
+      =====================================================
+      LOCALSTORAGE
+      =====================================================
 
-    /*
-      Remove também o desconto salvo.
+      Aqui temos uma verificação importante.
+
+      O localStorage existe apenas no navegador.
+
+      Como nosso projeto usa SSR, o código também
+      pode ser executado no servidor.
+
+      Então primeiro perguntamos:
+
+      "Estou no navegador?"
+
+      Se estiver, podemos usar o localStorage.
     */
-    localStorage.removeItem('desconto');
+
+    if (isPlatformBrowser(this.platformId)) {
+      /*
+        Remove o carrinho salvo.
+      */
+
+      localStorage.removeItem('carrinho');
+
+      /*
+        Remove também o desconto salvo.
+      */
+
+      localStorage.removeItem('desconto');
+    }
   }
 
-
   /*
+    =======================================================
     DEFINIR DESCONTO
+    =======================================================
 
     Essa função recebe o valor do desconto
-    e guarda esse valor.
+    que foi calculado pelo cupom.
 
     Exemplo:
 
     Cupom AROMA10
-    Desconto = R$ 5,00
+
+    Desconto calculado:
+    R$ 5,00
 
     Então:
+
     this.desconto = 5
   */
-  definirDesconto(desconto: number): void {
 
+  definirDesconto(desconto: number): void {
     this.desconto = desconto;
 
-
     /*
-      Também salvamos o desconto no navegador.
+      Salvamos o desconto no navegador.
 
-      toString() transforma o número em texto,
-      porque o localStorage trabalha com textos.
+      O localStorage trabalha com texto.
+
+      Por isso usamos toString() para transformar
+      o número em texto.
     */
-    localStorage.setItem(
-      'desconto',
-      desconto.toString()
-    );
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('desconto', desconto.toString());
+    }
   }
 
-
   /*
+    =======================================================
     PEGAR DESCONTO
+    =======================================================
 
-    Essa função retorna o desconto que está salvo
-    atualmente.
+    Essa função devolve o valor do desconto
+    que está guardado atualmente.
   */
+
   getDesconto(): number {
     return this.desconto;
   }
 
+  /*
+    =======================================================
+    PERSISTÊNCIA DO CARRINHO
+    =======================================================
 
-  // =========================================================
-  // PERSISTÊNCIA DO CARRINHO
-  // =========================================================
+    A partir daqui ficam as funções responsáveis
+    por SALVAR e CARREGAR o carrinho.
 
+    Persistência significa:
+
+    "Guardar uma informação para que ela continue
+    existindo mesmo depois que a página seja atualizada."
+  */
 
   /*
+    =======================================================
     SALVAR CARRINHO
+    =======================================================
 
-    Essa é uma das partes mais importantes.
+    Essa função salva os produtos no localStorage.
 
-    localStorage é um espaço do navegador onde
-    podemos guardar informações.
+    O localStorage é como uma pequena "gaveta"
+    dentro do navegador.
 
-    Aqui estamos salvando a lista de produtos.
+    Podemos guardar informações nela.
   */
+
   private salvarCarrinho(): void {
-
     /*
-      JSON.stringify transforma a lista de produtos
-      em texto.
+      Primeiro verificamos se estamos no navegador.
 
-      O localStorage consegue guardar esse texto.
+      Isso evita o erro:
+
+      "localStorage is not defined"
+
+      que aconteceu porque o Angular estava
+      executando o código no servidor.
     */
-    localStorage.setItem(
-      'carrinho',
-      JSON.stringify(this.produtos)
-    );
+
+    if (isPlatformBrowser(this.platformId)) {
+      /*
+        JSON.stringify transforma nossa lista de produtos
+        em um texto.
+
+        O localStorage guarda os dados como texto.
+
+        Exemplo:
+
+        Lista de produtos
+              ↓
+        JSON.stringify()
+              ↓
+        Texto
+              ↓
+        localStorage
+      */
+
+      localStorage.setItem('carrinho', JSON.stringify(this.produtos));
+    }
   }
 
-
   /*
+    =======================================================
     CARREGAR CARRINHO
+    =======================================================
 
-    Essa função procura no navegador um carrinho
-    que tenha sido salvo anteriormente.
+    Essa função faz o contrário da anterior.
+
+    Ela pega os produtos que foram salvos no navegador
+    e coloca novamente dentro do carrinho.
   */
+
   private carregarCarrinho(): void {
-
     /*
-      Procuramos no localStorage algo chamado
-      "carrinho".
-    */
-    const carrinhoSalvo = localStorage.getItem('carrinho');
+      Primeiro verificamos se estamos realmente
+      no navegador.
 
-
-    /*
-      Se encontramos um carrinho salvo...
+      Se estivermos no servidor, não tentamos acessar
+      o localStorage.
     */
-    if (carrinhoSalvo) {
+
+    if (isPlatformBrowser(this.platformId)) {
+      /*
+        Procuramos no localStorage algo chamado
+        "carrinho".
+      */
+
+      const carrinhoSalvo = localStorage.getItem('carrinho');
 
       /*
-        JSON.parse transforma o texto que estava salvo
-        novamente em uma lista de produtos.
-
-        Assim conseguimos usar os produtos normalmente
-        dentro do Angular.
+        Se encontramos alguma coisa salva...
       */
-      this.produtos = JSON.parse(carrinhoSalvo);
-    }
 
+      if (carrinhoSalvo) {
+        /*
+          O localStorage guarda os produtos como texto.
 
-    /*
-      Agora fazemos a mesma coisa com o desconto.
+          JSON.parse transforma esse texto novamente
+          em uma lista que o Angular consegue utilizar.
 
-      Procuramos se existe um desconto salvo.
-    */
-    const descontoSalvo = localStorage.getItem('desconto');
+          É o contrário do JSON.stringify().
+        */
 
-
-    /*
-      Se existe um desconto salvo...
-    */
-    if (descontoSalvo) {
+        this.produtos = JSON.parse(carrinhoSalvo);
+      }
 
       /*
-        O localStorage guarda tudo como texto.
+        ===================================================
+        CARREGAR DESCONTO
+        ===================================================
 
-        Por isso usamos Number() para transformar
-        o texto novamente em número.
+        Agora fazemos a mesma coisa com o desconto.
       */
-      this.desconto = Number(descontoSalvo);
+
+      const descontoSalvo = localStorage.getItem('desconto');
+
+      /*
+        Se encontramos um desconto salvo...
+      */
+
+      if (descontoSalvo) {
+        /*
+          Como o localStorage guarda tudo como texto,
+          usamos Number() para transformar novamente
+          em número.
+
+          Exemplo:
+
+          "5"
+            ↓
+          Number()
+            ↓
+          5
+        */
+
+        this.desconto = Number(descontoSalvo);
+      }
     }
   }
 }

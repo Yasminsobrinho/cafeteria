@@ -1,124 +1,329 @@
-<a routerLink="/cardapio" class="voltar-menu"> 
-  ← 
-</a> 
- 
-<div class="carrinho-container"> 
-  <header class="carrinho-header"> 
-    <span>AROMA CAFÉ</span> 
- 
-    <h1>Meu Carrinho</h1> 
- 
-    <p>Confira seus produtos antes de finalizar o pedido.</p> 
-  </header> 
- 
-  <main class="carrinho-conteudo"> 
-    <section class="produtos-carrinho"> 
-      <h2>Seus produtos</h2> 
- 
-      <div class="carrinho-vazio" *ngIf="produtos.length === 0"> 
-        <h3>Seu carrinho está vazio</h3> 
- 
-        <p>Adicione produtos do nosso cardápio para continuar.</p> 
-      </div> 
- 
-      <div class="produto-carrinho" *ngFor="let produto of produtos"> 
-        <div class="produto-info"> 
-          <h3> 
-            {{ produto.nome }} 
-          </h3> 
- 
-          <p> 
-            {{ produto.descricao }} 
-          </p> 
- 
-          <strong> R$ {{ produto.preco.toFixed(2) }} </strong> 
-        </div> 
- 
-        <div class="quantidade"> 
-          <button type="button" (click)="diminuirQuantidade(produto)">-</button> 
- 
-          <span> 
-            {{ produto.quantidade }} 
-          </span> 
- 
-          <button type="button" (click)="aumentarQuantidade(produto)">+</button> 
-        </div> 
- 
-        <div class="produto-subtotal"> 
-          <span> Subtotal </span> 
- 
-          <strong> 
-            R$ 
-            {{ (produto.preco * produto.quantidade).toFixed(2) }} 
-          </strong> 
-        </div> 
- 
-        <button type="button" class="remover" (click)="removerProduto(produto)">Remover</button> 
-      </div> 
-    </section> 
- 
-    <aside class="resumo-pedido"> 
-      <h2>Resumo do pedido</h2> 
- 
-      <section class="cupom"> 
+<!--
+  BOTÃO VOLTAR
 
-        <div class="aviso-cupons">
-          <div class="aviso-cupons-titulo">
-            🎁 Você ganhou cupons de desconto!
-          </div>
+  Leva o cliente de volta para a página do cardápio.
+  routerLink="/cardapio" faz a navegação para a rota /cardapio.
+  A classe "voltar-menu" é usada para aplicar o estilo no CSS.
+-->
+<a routerLink="/cardapio" class="voltar-menu"> ← </a>
 
+<!--
+  CONTAINER PRINCIPAL DO CARRINHO
+
+  É a div que envolve toda a página do carrinho.
+  A classe "carrinho-container" é usada no CSS
+  para definir o visual e o tamanho da página.
+-->
+<div class="carrinho-container">
+  <!--
+    CABEÇALHO DO CARRINHO
+
+    Contém o nome da cafeteria, o título da página
+    e uma pequena descrição.
+  -->
+  <header class="carrinho-header">
+    <!-- Nome da cafeteria -->
+    <span>AROMA CAFÉ</span>
+
+    <!-- Título principal da página -->
+    <h1>Meu Carrinho</h1>
+
+    <!-- Texto explicativo para o cliente -->
+    <p>Confira seus produtos antes de finalizar o pedido.</p>
+  </header>
+
+  <!--
+    CONTEÚDO PRINCIPAL
+
+    Dentro do <main> ficam:
+    - os produtos adicionados ao carrinho
+    - o resumo do pedido
+    - os cupons de desconto
+  -->
+  <main class="carrinho-conteudo">
+    <!--
+      SEÇÃO DOS PRODUTOS
+
+      Mostra todos os produtos que foram adicionados
+      ao carrinho.
+    -->
+    <section class="produtos-carrinho">
+      <!-- Título da seção -->
+      <h2>Seus produtos</h2>
+
+      <!--
+        CARRINHO VAZIO
+
+        O *ngIf verifica se a quantidade de produtos é igual a 0.
+
+        Se produtos.length === 0:
+        significa que não existe nenhum produto no carrinho
+        e essa mensagem será mostrada.
+      -->
+      <div class="carrinho-vazio" *ngIf="produtos.length === 0">
+        <h3>Seu carrinho está vazio</h3>
+
+        <p>Adicione produtos do nosso cardápio para continuar.</p>
+      </div>
+
+      <!--
+        LISTA DE PRODUTOS
+
+        O *ngFor percorre todos os produtos que estão
+        dentro da variável "produtos".
+
+        Para cada produto encontrado, o Angular cria
+        uma nova div com as informações dele.
+
+        "let produto of produtos" significa:
+        "para cada produto dentro da lista produtos,
+        chame esse produto de produto".
+      -->
+      <div class="produto-carrinho" *ngFor="let produto of produtos">
+        <!--
+          INFORMAÇÕES DO PRODUTO
+
+          Mostra o nome, descrição e preço do produto.
+        -->
+        <div class="produto-info">
+          <!-- Nome do produto -->
+          <h3>
+            {{ produto.nome }}
+          </h3>
+
+          <!-- Descrição do produto -->
           <p>
-            Use <strong>AROMA10</strong> para ganhar 10% de desconto
-            ou <strong>CAFE5</strong> para ganhar R$ 5,00 de desconto.
+            {{ produto.descricao }}
+          </p>
+
+          <!--
+            Preço do produto.
+
+            {{ }} é usado pelo Angular para mostrar
+            uma informação que vem do TypeScript.
+          -->
+          <strong> R$ {{ produto.preco.toFixed(2) }} </strong>
+        </div>
+
+        <!--
+          CONTROLE DE QUANTIDADE
+
+          Aqui o cliente consegue aumentar ou diminuir
+          a quantidade de um determinado produto.
+        -->
+        <div class="quantidade">
+          <!--
+            Botão para diminuir a quantidade.
+
+            Quando o cliente clicar, chama a função
+            diminuirQuantidade() no arquivo TypeScript.
+          -->
+          <button type="button" (click)="diminuirQuantidade(produto)">-</button>
+
+          <!--
+            Mostra a quantidade atual daquele produto.
+          -->
+          <span>
+            {{ produto.quantidade }}
+          </span>
+
+          <!--
+            Botão para aumentar a quantidade.
+
+            Ao clicar, chama a função
+            aumentarQuantidade() no TypeScript.
+          -->
+          <button type="button" (click)="aumentarQuantidade(produto)">+</button>
+        </div>
+
+        <!--
+          SUBTOTAL DO PRODUTO
+
+          Calcula o preço do produto multiplicado
+          pela quantidade escolhida.
+        -->
+        <div class="produto-subtotal">
+          <span> Subtotal </span>
+
+          <strong>
+            R$
+            {{ (produto.preco * produto.quantidade).toFixed(2) }}
+          </strong>
+        </div>
+
+        <!--
+          BOTÃO REMOVER
+
+          Remove completamente o produto do carrinho.
+
+          Ao clicar, chama a função removerProduto()
+          no arquivo TypeScript.
+        -->
+        <button type="button" class="remover" (click)="removerProduto(produto)">Remover</button>
+      </div>
+    </section>
+
+    <!--
+      RESUMO DO PEDIDO
+
+      O <aside> contém as informações relacionadas
+      ao valor da compra, cupons e finalização.
+    -->
+    <aside class="resumo-pedido">
+      <!-- Título -->
+      <h2>Resumo do pedido</h2>
+
+      <!--
+        SEÇÃO DE CUPOM
+
+        Aqui o cliente pode visualizar os cupons disponíveis
+        e digitar um cupom para receber o desconto.
+      -->
+      <section class="cupom">
+        <!--
+          AVISO DOS CUPONS
+
+          Essa parte serve para avisar o cliente
+          que existem cupons disponíveis.
+        -->
+        <div class="aviso-cupons">
+          <!-- Título do aviso -->
+          <div class="aviso-cupons-titulo">🎁 Você ganhou cupons de desconto!</div>
+
+          <!--
+            Mostra os dois cupons disponíveis.
+
+            <strong> deixa o nome dos cupons em destaque.
+          -->
+          <p>
+            Use <strong>AROMA10</strong> para ganhar 10% de desconto ou <strong>CAFE5</strong> para
+            ganhar R$ 5,00 de desconto.
           </p>
         </div>
 
-        <h3>Cupom de desconto</h3> 
- 
-        <p>Digite seu cupom abaixo:</p> 
- 
-        <div class="cupom-input"> 
-          <input type="text" [(ngModel)]="codigoCupom" placeholder="Digite seu cupom" /> 
- 
-          <button type="button" (click)="aplicarCupom()">Aplicar</button> 
-        </div> 
- 
-        <p class="mensagem-cupom" *ngIf="mensagemCupom"> 
-          {{ mensagemCupom }} 
-        </p> 
-      </section> 
- 
-      <div class="resumo-valores"> 
-        <div class="linha-resumo"> 
-          <span> Subtotal </span> 
- 
-          <span> R$ {{ subtotal.toFixed(2) }} </span> 
-        </div> 
- 
-        <div class="linha-resumo desconto" *ngIf="desconto > 0"> 
-          <span> Desconto </span> 
- 
-          <span> - R$ {{ desconto.toFixed(2) }} </span> 
-        </div> 
- 
-        <hr /> 
- 
-        <div class="linha-total"> 
-          <strong> Total </strong> 
- 
-          <strong> R$ {{ total.toFixed(2) }} </strong> 
-        </div> 
-      </div> 
- 
-      <button 
-        type="button" 
-        class="finalizar" 
-        routerLink="/checkout" 
-        (click)="continuarParaCheckout()" 
-        [disabled]="produtos.length === 0" 
-      > 
-        Continuar para checkout 
-      </button> 
-    </aside> 
-  </main> 
+        <!-- Título da área do cupom -->
+        <h3>Cupom de desconto</h3>
+
+        <!-- Orientação para o cliente -->
+        <p>Digite seu cupom abaixo:</p>
+
+        <!--
+          ÁREA PARA DIGITAR O CUPOM
+
+          O input recebe o código digitado pelo cliente.
+        -->
+        <div class="cupom-input">
+          <!--
+            [(ngModel)]="codigoCupom"
+
+            Faz uma ligação entre o campo de texto
+            e a variável "codigoCupom" do TypeScript.
+
+            Ou seja:
+            aquilo que o cliente digitar ficará
+            armazenado em codigoCupom.
+          -->
+          <input type="text" [(ngModel)]="codigoCupom" placeholder="Digite seu cupom" />
+
+          <!--
+            BOTÃO APLICAR
+
+            Quando o cliente clicar, chama a função
+            aplicarCupom() no TypeScript.
+
+            Essa função verifica se o código é:
+            AROMA10
+            ou
+            CAFE5
+          -->
+          <button type="button" (click)="aplicarCupom()">Aplicar</button>
+        </div>
+
+        <!--
+          MENSAGEM DO CUPOM
+
+          O *ngIf verifica se existe alguma mensagem
+          dentro da variável "mensagemCupom".
+
+          Se existir, ela aparece.
+
+          Pode mostrar, por exemplo:
+          "Cupom aplicado! Você ganhou 10% de desconto."
+
+          ou:
+          "Cupom inválido! Use um cupom válido."
+        -->
+        <p class="mensagem-cupom" *ngIf="mensagemCupom">
+          {{ mensagemCupom }}
+        </p>
+      </section>
+
+      <!--
+        RESUMO DOS VALORES
+
+        Mostra subtotal, desconto e valor final.
+      -->
+      <div class="resumo-valores">
+        <!--
+          SUBTOTAL
+
+          Mostra o valor de todos os produtos
+          antes do desconto.
+        -->
+        <div class="linha-resumo">
+          <span> Subtotal </span>
+
+          <span> R$ {{ subtotal.toFixed(2) }} </span>
+        </div>
+
+        <!--
+          DESCONTO
+
+          O *ngIf verifica se existe desconto.
+
+          Se desconto > 0, essa linha aparece.
+
+          Se não tiver desconto, ela fica escondida.
+        -->
+        <div class="linha-resumo desconto" *ngIf="desconto > 0">
+          <span> Desconto </span>
+
+          <span> - R$ {{ desconto.toFixed(2) }} </span>
+        </div>
+
+        <!-- Linha separadora -->
+        <hr />
+
+        <!--
+          TOTAL FINAL
+
+          Mostra o valor que o cliente realmente
+          vai pagar depois do desconto.
+        -->
+        <div class="linha-total">
+          <strong> Total </strong>
+
+          <strong> R$ {{ total.toFixed(2) }} </strong>
+        </div>
+      </div>
+
+      <!--
+        BOTÃO CONTINUAR PARA CHECKOUT
+
+        Ao clicar:
+        1. Vai para a página /checkout.
+        2. Executa continuarParaCheckout().
+        3. O [disabled] impede o clique se o carrinho estiver vazio.
+      -->
+      <button
+        type="button"
+        class="finalizar"
+        routerLink="/checkout"
+        (click)="continuarParaCheckout()"
+        [disabled]="produtos.length === 0"
+      >
+        Continuar para checkout
+      </button>
+    </aside>
+  </main>
 </div>
