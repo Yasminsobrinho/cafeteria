@@ -5,9 +5,13 @@
 .checkout-container {
   min-height: 100vh;
   box-sizing: border-box;
-  background: #f5b960;
+  background: #eeddc3;
   color: #3b2418;
-  padding: 40px 60px 60px;
+  padding: 40px 20px 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
@@ -16,8 +20,10 @@
    ========================= */
 
 .checkout-header {
+  width: 100%;
+  max-width: 850px;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .checkout-header span {
@@ -26,35 +32,34 @@
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 2px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .checkout-header h1 {
   margin: 0;
   color: #3b2418;
-  font-size: 42px;
+  font-size: 40px;
 }
 
 .checkout-header p {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: #765c4c;
   font-size: 16px;
 }
 
 
 /* =========================
-   CONTEÚDO
+   CONTEÚDO CENTRAL
    ========================= */
 
 .checkout-conteudo {
   width: 100%;
-  max-width: 1200px;
+  max-width: 850px;
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
 
@@ -63,18 +68,19 @@
    ========================= */
 
 .dados-entrega {
+  width: 100%;
   background: #ffffff;
-  padding: 30px;
+  padding: 28px;
   border-radius: 16px;
   box-sizing: border-box;
 
-  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.10);
 }
 
 .dados-entrega h2 {
-  margin: 0 0 25px;
+  margin: 0 0 20px;
   color: #3b2418;
-  font-size: 23px;
+  font-size: 22px;
 }
 
 
@@ -84,7 +90,7 @@
 
 .dados-entrega label {
   display: block;
-  margin: 15px 0 7px;
+  margin: 14px 0 6px;
 
   color: #4b2e20;
   font-size: 14px;
@@ -130,28 +136,27 @@
    ========================= */
 
 .pagamento {
+  width: 100%;
   background: #ffffff;
-  padding: 30px;
+  padding: 28px;
   border-radius: 16px;
   box-sizing: border-box;
 
-  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.10);
 }
 
 .pagamento h2 {
-  margin: 0 0 20px;
-
+  margin: 0 0 18px;
   color: #3b2418;
-  font-size: 23px;
+  font-size: 22px;
 }
 
 .pagamento label {
   display: flex;
   align-items: center;
-
   gap: 10px;
 
-  margin-bottom: 14px;
+  margin-bottom: 13px;
 
   color: #4b2e20;
   font-size: 15px;
@@ -173,19 +178,20 @@
    ========================= */
 
 .resumo-pedido {
+  width: 100%;
   background: #ffffff;
-  padding: 30px;
+  padding: 28px;
   border-radius: 16px;
   box-sizing: border-box;
 
-  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.10);
 }
 
 .resumo-pedido h2 {
-  margin: 0 0 25px;
+  margin: 0 0 20px;
 
   color: #3b2418;
-  font-size: 23px;
+  font-size: 22px;
 }
 
 
@@ -200,7 +206,7 @@
 
   gap: 20px;
 
-  padding: 15px 0;
+  padding: 14px 0;
 
   border-bottom: 1px solid #eadfd5;
 }
@@ -225,14 +231,14 @@
 
 
 /* =========================
-   LINHA DO RESUMO
+   LINHAS DO RESUMO
    ========================= */
 
 .resumo-pedido hr {
   border: none;
   border-top: 1px solid #eadfd5;
 
-  margin: 20px 0;
+  margin: 18px 0;
 }
 
 .linha-resumo {
@@ -240,7 +246,7 @@
   justify-content: space-between;
   align-items: center;
 
-  margin: 12px 0;
+  margin: 11px 0;
 
   color: #765c4c;
 }
@@ -259,7 +265,7 @@
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 20px;
+  margin-top: 18px;
 
   color: #3b2418;
   font-size: 21px;
@@ -271,8 +277,6 @@
    ========================= */
 
 .finalizar {
-  grid-column: 1 / -1;
-
   width: 100%;
   height: 50px;
 
@@ -303,10 +307,10 @@
 .voltar-menu {
   position: absolute;
 
-  top: 80px;
-  left: 80px;
+  top: 30px;
+  left: 30px;
 
-  width: 47px;
+  width: 45px;
   height: 45px;
 
   display: flex;
@@ -342,7 +346,7 @@
   width: 100%;
   max-width: 650px;
 
-  margin: 40px auto 0;
+  margin: 20px auto 0;
 
   padding: 40px;
 
@@ -354,7 +358,7 @@
 
   text-align: center;
 
-  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.08);
+  box-shadow: 0 5px 20px rgba(59, 36, 24, 0.10);
 }
 
 .pedido-confirmado h2 {
@@ -387,35 +391,10 @@
 
 
 /* =========================
-   RESPONSIVIDADE
+   CELULAR
    ========================= */
 
-@media (max-width: 800px) {
-
-  .checkout-container {
-    padding: 30px 20px 50px;
-  }
-
-  .checkout-conteudo {
-    grid-template-columns: 1fr;
-  }
-
-  .finalizar {
-    grid-column: auto;
-  }
-
-  .voltar-menu {
-    top: 30px;
-    left: 20px;
-  }
-
-  .checkout-header h1 {
-    font-size: 34px;
-  }
-}
-
-
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .checkout-container {
     padding: 25px 15px 40px;
@@ -457,5 +436,10 @@
 
   .pedido-confirmado h1 {
     font-size: 34px;
+  }
+
+  .voltar-menu {
+    top: 20px;
+    left: 15px;
   }
 }
