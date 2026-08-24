@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,11 +16,13 @@ export const routes: Routes = [
   {
     path: 'carrinho',
     loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
+    canActivate: [authGuard], // bloqueia acesso sem login
   },
 
   {
     path: 'checkout',
     loadComponent: () => import('./features/checkout/checkout').then((m) => m.Checkout),
+    canActivate: [authGuard], //bloqueia acesso sem login
   },
 
   {
