@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Módulo essencial do Angular para capturar o texto digitado na pesquisa
 import { RouterLink } from '@angular/router';
+import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 
 
 
@@ -14,6 +15,8 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./cardapio.css']
 })
 export class CardapioComponent {
+
+  constructor(private carrinhoService: CarrinhoService) {}
   
   // =========================================================================
   // 1. VARIÁVEIS DE CONTROLE DO FILTRO E DA BUSCA
@@ -24,6 +27,10 @@ export class CardapioComponent {
   // =========================================================================
   // 2. LISTA DE COMIDAS SALGADAS (ARRAY DE OBJETOS COM SEUS PRODUTOS REAIS)
   // =========================================================================
+   
+
+  
+  
   comidasSalgadas = [
     { 
       nome: 'Croissants e Folhados Especiais', 
@@ -139,21 +146,21 @@ export class CardapioComponent {
     { 
       nome: 'Mini churros', 
       descricao: 'churros artesanais fritos na hora, dourados e extremamente crocantes por fora, com interior macio. São passados na mistura tradicional de açúcar e canela e acompanhados por um generoso potinho de creme de chocolate ou doce de leite cremoso para chuchar."', 
-      preco: '4,00', 
+      preco: 4.00, 
       precoAntigo: '', 
       imagem: 'churros.jpg' 
     },
     { 
       nome: 'sonhos', 
       descricao: 'Massa fofinha e sequinha polvilhada com açúcar, recheada com muito doce de leite cremoso artesanal.', 
-      preco: ' 5,00 cada', 
+      preco: 5.00, 
       precoAntigo: '', 
       imagem: 'sonhos.jpg' 
     },
     { 
       nome: 'Donuts americanos', 
       descricao: 'Donuts americanos com massa super fofinha e coberturas variadas de chocolate, confeitos, Oreo e bombons.', 
-      preco: ' 10,00', 
+      preco: 10.00, 
       precoAntigo: '', 
       imagem: 'dounalt.jpg' 
     }
@@ -166,56 +173,56 @@ export class CardapioComponent {
     { 
       nome: 'Café preto', 
       descricao: ' bebida quente feita apenas com café moído e água, servida sem leite, creme ou açúcar.', 
-      preco: 'R$ 8,00', 
+      preco: 8.00, 
       precoAntigo: '', 
       imagem: 'cafepreto.jpg'
     },
     { 
       nome: 'Chocolate quente', 
       descricao: 'bebida doce e reconfortante, feita com chocolate ou cacau dissolvido em leite quente. ', 
-      preco: ' 7,00', 
+      preco: 7.00, 
       precoAntigo: '', 
       imagem: 'chocolatequente.jpg' 
     },
     { 
       nome: 'Mocha', 
       descricao: 'bebida quente ou gelada à base de espresso, leite vaporizado e chocolate (em calda, ganache ou pó), geralmente finalizada com chantilly.', 
-      preco: ' 13,00', 
+      preco: 13.00, 
       precoAntigo: '', 
       imagem: 'mocha.jpg' 
     },
     { 
       nome: 'Classic caramel', 
       descricao: 'Mistura equilibrada entre o amargor leve do café ou a base cremosa e o dulçor marcante do caramelo.', 
-      preco: ' 13,00', 
-      precoAntigo: ' 40,00', 
+      preco: 13.00, 
+      precoAntigo: 18.00, 
       imagem: 'classiccaramel.jpg' 
     },
     { 
       nome: 'Latte de baunilha', 
       descrição:'é uma bebida quente ou gelada à base de espresso, leite vaporizado e xarope de baunilha, famosa por sua textura cremosa, sabor adocicado e aroma marcante.',
-      preco: ' 12,00', 
+      preco: 12.00, 
       precoAntigo: '', 
       imagem: 'lattedebaunilha.jpg' 
     },
     { 
       nome: 'White branco', 
       descricao: 'Uma dose dupla de espresso coberta com leite vaporizado e uma camada bem fina de microespuma aveludada', 
-      preco: ' 8,00', 
+      preco: 8.00, 
       precoAntigo: ' 10,00', 
       imagem: 'whitemocha.jpg' 
     },
     { 
       nome: 'Limonada', 
       descricao: 'bebida gelada e refrescante feita com suco de limão, água e açúcar.', 
-      preco:' 4,00 ', 
+      preco:4.00, 
       precoAntigo: '', 
       imagem: 'limonada.jpg' 
     },
     { 
       nome: 'Vitamina de banana', 
       descricao: 'é uma bebida cremosa e nutritiva feita com a batida de bananas maduras e leite. Ela é um clássico rápido para o café da manhã ou lanche, rica em potássio, vitaminas e energia natural.', 
-      preco: ' 8,00 ', 
+      preco: 8.00, 
       precoAntigo: '', 
       imagem: 'vitamina.jpg' 
     },
@@ -257,5 +264,6 @@ export class CardapioComponent {
       item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
       (item.descricao ?? '').toLowerCase().includes(this.termoBusca.toLowerCase())
     );
+  
   }
 }
