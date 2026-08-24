@@ -1,6 +1,5 @@
-
 // Importa a classe Component para criar um componente Angular
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 // Importa RouterLink para permitir a navegação entre as páginas
 import { RouterLink } from '@angular/router';
 // Importa o componente Sobre
@@ -8,6 +7,7 @@ import { Sobre } from './pginicial/sobre/sobre';
 import { Local } from "./pginicial/local/local";
 import { Playlist } from "./pginicial/playlist/playlist";
 import { Rodape } from "./pginicial/rodape/rodape";
+
 
 // Configurações do componente Home
 @Component({
@@ -18,22 +18,24 @@ import { Rodape } from "./pginicial/rodape/rodape";
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
+
 export class Home {
 
+  menuAberto = signal(false);
+
    // Define o caminho/nome das imagens usadas
-  imglogo: string = 'favicon.ico.jpeg';
-  imgcentro: string = 'imgcentro.jpeg';
-  imgcarrinho: string = 'imgcarrinho.png'
+  logo: string = 'favicon.ico';
+  imgheader: string = 'header.jpeg';
+  imglogo: string = 'logo.png'
+  imgcarrinho: string = 'carrinho.png';
 
-   // Função responsável por levar até a seção "Sobre"
-  irParaSobre(): void {
-    // Procura no HTML um elemento que tenha o ID "sobre"
-    const sobre = document.getElementById('sobre');
-
-
-    //se caso a seção sobre for encontrada irá rolar a página suavemente até ela
-    if (sobre) {
-      sobre.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  alternarMenu(): void {
+    this.menuAberto.update((aberto) => !aberto);
   }
-}
+
+  fecharMenu(): void {
+    this.menuAberto.set(false);
+  }
+
+  }
+
