@@ -39,13 +39,18 @@ export const routes: Routes = [
 
   {
     path: 'localizacao',
-    loadComponent: () =>
-      import('./features/localizacao/localizacao').then((m) => m.Localizacao),
+    loadComponent: () => import('./features/localizacao/localizacao').then((m) => m.Localizacao),
   },
 
   {
     path: 'spotify',
     loadComponent: () => import('./features/spotify/spotify').then((m) => m.Spotify),
+  },
+
+  {
+    path: 'avaliacao',
+    loadComponent: () =>
+      import('./features/home/home/pginicial/avaliacao/avaliacao').then((m) => m.Avaliacao),
   },
 
   {
