@@ -261,7 +261,6 @@ export class CardapioComponent {
         item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
         (item.descricao ?? '').toLowerCase().includes(this.termoBusca.toLowerCase()),
     );
-  
   }
 
   adicionarAoCarrinho(produto: any): void {
