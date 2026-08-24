@@ -151,7 +151,14 @@
     background: #401d09;
 }
 
-
+/* Mensagem de erro de login */
+.erro-login {
+    color: #d32f2f;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 4px 0 0;
+}
 
 /* Responsivo */
 /*Telas grandes*/
