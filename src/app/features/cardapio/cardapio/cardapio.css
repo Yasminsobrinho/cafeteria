@@ -369,3 +369,37 @@ body {
 .produto:nth-child(8) { animation-delay: 0.4s; }
 .produto:nth-child(9) { animation-delay: 0.45s; }
 
+
+.btn-adicionar {
+    width: 160px;
+    height: 36px;
+
+    margin-top: auto;
+    align-self: center;
+
+    background-color: transparent;
+    color: #5a3d28;
+
+    border: 1px solid #5a3d28;
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-adicionar:hover {
+    background-color: #e6b940;
+    border-color: #e6b940;
+    color: #1a0f08;
+}
+
+.btn-adicionar:active {
+    transform: scale(0.97);
+}
+
+
+

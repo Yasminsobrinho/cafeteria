@@ -220,6 +220,181 @@ input:focus::placeholder {
     stroke:#e9dbc5;
 }
 
+/**/
 
+/* Seção Geral */
+.avaliacoes {
+  padding: 60px 20px;
+  text-align: center;
+}
 
+.avaliacoes h2 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 40px;
+}
 
+/* Grid ou Flex para organizar os balões */
+.lista-avaliacoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* O Card igual ao do Google Maps (Dark Mode) */
+.card-avaliacao {
+  background-color: #ffffff; /* Cinza escuro do Google */
+  border: 1px solid #000000; /* Borda sutil */
+  border-radius: 16px;       /* Cantos bem arredondados */
+  padding: 20px;
+  width: 340px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Alinhamento da foto e nome */
+.cabecalho-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+/* Círculo da foto de perfil (usa a primeira letra do nome) */
+.avatar-fake {
+  width: 40px;
+  height: 40px;
+  background-color: #5e3905;
+  color: #fefefe;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.card-avaliacao h3 {
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.subtexto-google {
+  color: #000000; /* Texto cinza claro secundário */
+  font-size: 0.8rem;
+}
+
+/* Estrelas amarelas do Google */
+.card-avaliacao .estrelas {
+  color: #fbca04; /* Amarelo oficial do Google */
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+/* Texto do depoimento */
+.card-avaliacao .comentario {
+  color: #000000; /* Branco fosco para leitura confortável */
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.avaliacoes {
+  background-color: #461d08;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.avaliacoes h2 {
+  color: white;
+  font-size: 40px;
+  margin-bottom: 50px;
+}
+
+.carrossel-avaliacoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.avaliacoes-container {
+  width: 900px;
+  overflow: hidden;
+}
+
+.avaliacao {
+  display: none;
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  min-height: 220px;
+  text-align: left;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.avaliacao.ativa {
+  display: block;
+}
+
+.cliente {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #7b4a0b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.cliente h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.cliente span {
+  font-size: 15px;
+}
+
+.estrelas {
+  color: #ffc400;
+  font-size: 25px;
+  margin: 20px 0;
+}
+
+.avaliacao p {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.seta {
+  border: none;
+  background-color: white;
+  color: #461d08;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.seta:hover {
+  transform: scale(1.1);
+}

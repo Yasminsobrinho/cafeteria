@@ -42,8 +42,53 @@
   <div id="sobre" class="secao-sobre">
   <!-- Exibe o componente Sobre dentro da página Home -->
 
+  
 <app-sobre></app-sobre>
 <app-local></app-local>
 <app-playlist></app-playlist>
+
+<section class="avaliacoes">
+  <h2>O que nossos clientes dizem 💬</h2>
+
+  <div class="carrossel-avaliacoes">
+
+    <button class="seta esquerda" (click)="anterior()">
+      ❮
+    </button>
+
+    <div class="avaliacoes-container">
+      <div
+        class="avaliacao"
+        *ngFor="let avaliacao of avaliacoes; let i = index"
+        [class.ativa]="i === indiceAtual"
+      >
+
+        <div class="cliente">
+          <div class="avatar">
+            {{ avaliacao.nome.charAt(0) }}
+          </div>
+
+          <div>
+            <h3>{{ avaliacao.nome }}</h3>
+            <span>{{ avaliacao.tipo }}</span>
+          </div>
+        </div>
+
+        <div class="estrelas">
+          {{ avaliacao.estrelas }}
+        </div>
+
+        <p>{{ avaliacao.comentario }}</p>
+
+      </div>
+    </div>
+
+    <button class="seta direita" (click)="proxima()">
+    ❯
+    </button>
+
+  </div>
+</section>
+
 <app-rodape></app-rodape>
 </div>
