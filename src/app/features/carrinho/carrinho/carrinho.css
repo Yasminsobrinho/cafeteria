@@ -5,7 +5,7 @@
 .carrinho-container {
   min-height: 100vh;
   box-sizing: border-box;
-  background: #eeddc3;;
+  background: #eeddc3;
   color: #3b2418;
   padding: 40px 20px 50px;
   font-family: Arial, Helvetica, sans-serif;
@@ -450,4 +450,34 @@
   .cupom-input button {
     width: 100%;
   }
+}
+/* =========================
+   AVISO DE CUPONS
+   ========================= */
+
+.aviso-cupons {
+  background: #f6efe6;
+  border: 1px solid #d8c5b5;
+  border-radius: 12px;
+  padding: 15px 18px;
+  margin-bottom: 20px;
+}
+
+.aviso-cupons-titulo {
+  color: #6f452b;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.aviso-cupons p {
+  margin: 0;
+  color: #765c4c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.aviso-cupons strong {
+  color: #8b5e3c;
+  font-weight: bold;
 }
