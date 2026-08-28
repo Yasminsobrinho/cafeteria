@@ -15,7 +15,7 @@ import { Rodape } from "./pginicial/rodape/rodape";
   selector: 'app-home',
   standalone: true,
    // Importa os recursos usados no HTML
-  imports: [RouterLink, Sobre, Local, Playlist, Rodape],
+  imports: [RouterLink, Sobre, Local, Playlist, Rodape, ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
