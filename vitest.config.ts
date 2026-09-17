@@ -6,6 +6,9 @@ export default defineConfig({
     mainFields: ['module'],
   },
   plugins: [angular()],
+  optimizeDeps: {
+    noDiscovery: true,
+  },
   test: {
     globals: true,
     environment: 'jsdom',
