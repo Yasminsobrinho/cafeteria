@@ -6,9 +6,13 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #f3f3f3;
-  color: #303030;
+  background: #eeddc3;
+  color: #3b2418;
 }
+
+/* =========================================================
+   CARDÁPIO
+   ========================================================= */
 
 .cardapio {
   max-width: 1450px;
@@ -19,7 +23,7 @@ body {
 .cardapio h2 {
   font-size: 22px;
   margin-bottom: 35px;
-  color: #34454d;
+  color: #3b2418;
 }
 
 /* GRID DOS PRODUTOS */
@@ -30,10 +34,14 @@ body {
   gap: 14px;
 }
 
-/* CARD */
+/* =========================================================
+   CARD DO PRODUTO
+   ========================================================= */
 
 .produto {
-  background: #fff;
+  position: relative;
+
+  background: #ffffff;
   border-radius: 14px;
   min-height: 180px;
   padding: 18px;
@@ -42,17 +50,19 @@ body {
   justify-content: space-between;
   gap: 15px;
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(59, 36, 24, 0.08);
 
   transition: 0.2s;
 }
 
 .produto:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 15px rgba(59, 36, 24, 0.12);
 }
 
-/* TEXTO */
+/* =========================================================
+   TEXTO
+   ========================================================= */
 
 .produto-info {
   flex: 1;
@@ -62,13 +72,13 @@ body {
 .produto h3 {
   font-size: 18px;
   margin-bottom: 12px;
-  color: #222;
+  color: #3b2418;
 }
 
 .produto p {
   font-size: 15px;
   line-height: 1.5;
-  color: #303030;
+  color: #806b5d;
 
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -79,15 +89,17 @@ body {
   margin-bottom: 12px;
 }
 
-/* PREÇO */
+/* =========================================================
+   PREÇO
+   ========================================================= */
 
 .preco {
   font-size: 15px;
-  color: #35464d;
+  color: #8b5e3c;
 }
 
 .promocao {
-  color: #43c943;
+  color: #4f7a45;
   font-weight: bold;
 }
 
@@ -97,7 +109,9 @@ body {
   margin-left: 5px;
 }
 
-/* IMAGEM */
+/* =========================================================
+   IMAGEM
+   ========================================================= */
 
 .produto img {
   width: 116px;
@@ -110,7 +124,9 @@ body {
   flex-shrink: 0;
 }
 
-/* TABLET */
+/* =========================================================
+   TABLET
+   ========================================================= */
 
 @media (max-width: 1000px) {
   .produtos {
@@ -118,7 +134,9 @@ body {
   }
 }
 
-/* CELULAR */
+/* =========================================================
+   CELULAR
+   ========================================================= */
 
 @media (max-width: 650px) {
   .cardapio {
@@ -144,12 +162,20 @@ body {
   }
 }
 
+/* =========================================================
+   FUNDO PRINCIPAL DO CARDÁPIO
+   ========================================================= */
+
 .menu-container {
-  background-color: #1a0f08;
-  color: #fff;
+  background-color: #eeddc3;
+  color: #3b2418;
   padding: 20px;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
 
 .header-titulo {
   text-align: center;
@@ -158,15 +184,19 @@ body {
 
 .header-titulo span {
   font-size: 12px;
-  color: #c4a484;
+  color: #8b5e3c;
   letter-spacing: 2px;
 }
 
 .header-titulo h1 {
   font-size: 32px;
-  color: #fff;
+  color: #3b2418;
   margin-top: 5px;
 }
+
+/* =========================================================
+   BUSCA
+   ========================================================= */
 
 .busca-secao {
   display: flex;
@@ -178,17 +208,27 @@ body {
   width: 100%;
   max-width: 400px;
   padding: 12px 16px;
-  background-color: #372216;
-  border: 1px solid #422d1f;
+
+  background-color: #ffffff;
+  border: 1px solid #d8c5b5;
   border-radius: 8px;
-  color: #fff;
+
+  color: #3b2418;
   font-size: 16px;
+}
+
+.input-busca::placeholder {
+  color: #806b5d;
 }
 
 .input-busca:focus {
   outline: none;
-  border-color: #e6b940;
+  border-color: #8b5e3c;
 }
+
+/* =========================================================
+   CATEGORIAS
+   ========================================================= */
 
 .categorias-botoes {
   display: flex;
@@ -199,31 +239,46 @@ body {
 
 .categorias-botoes button {
   background-color: transparent;
-  border: 1px solid #5a3d28;
-  color: #c4a484;
+  border: 1px solid #8b5e3c;
+  color: #8b5e3c;
+
   padding: 8px 20px;
+
   border-radius: 20px;
+
   cursor: pointer;
+
   font-size: 14px;
+
   transition: all 0.2s ease;
 }
 
+.categorias-botoes button:hover {
+  background-color: #f6efe6;
+}
+
 .categorias-botoes button.ativo {
-  background-color: #e6b940;
-  border-color: #e6b940;
-  color: #1a0f08;
+  background-color: #8b5e3c;
+  border-color: #8b5e3c;
+  color: #ffffff;
   font-weight: bold;
 }
 
+/* =========================================================
+   TAG DA CATEGORIA
+   ========================================================= */
+
 .categoria-tag {
   font-size: 10px;
-  color: #e6b940;
+  color: #8b5e3c;
   letter-spacing: 1px;
   display: block;
   margin-bottom: 4px;
 }
 
-/* ANIMAÇÃO DO CARDÁPIO */
+/* =========================================================
+   ANIMAÇÃO DO CARDÁPIO
+   ========================================================= */
 
 .menu-container {
   animation: descerCardapio 0.3s ease-out;
@@ -257,7 +312,9 @@ body {
   }
 }
 
-/* Delay em cascata */
+/* =========================================================
+   DELAY EM CASCATA
+   ========================================================= */
 
 .produto:nth-child(1) {
   animation-delay: 0.05s;
@@ -308,7 +365,7 @@ body {
   width: 60px;
   height: 60px;
 
-  background-color: #e6b940;
+  background-color: #8b5e3c;
 
   border-radius: 50%;
 
@@ -318,14 +375,12 @@ body {
 
   text-decoration: none;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px rgba(59, 36, 24, 0.25);
 
   z-index: 1000;
 
   transition: 0.2s ease;
 }
-
-/* Efeito ao passar o mouse */
 
 .carrinho-flutuante:hover {
   transform: scale(1.05);
@@ -355,7 +410,7 @@ body {
 
   padding: 0 5px;
 
-  background-color: #c0392b;
+  background-color: #b33a3a;
 
   color: #fff;
 
@@ -369,7 +424,65 @@ body {
   font-weight: bold;
 }
 
-/* CELULAR */
+/* =========================================================
+   BOTÃO ADICIONAR AO CARRINHO
+   ========================================================= */
+
+.btn-adicionar {
+  position: absolute;
+
+  right: 25px;
+  bottom: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 38px;
+  padding: 0 16px;
+
+  border: 1px solid #8b5e3c;
+  border-radius: 20px;
+
+  background-color: #ffffff;
+  color: #8b5e3c;
+
+  font-size: 13px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(59, 36, 24, 0.12);
+
+  opacity: 1;
+  visibility: visible;
+
+  transition: all 0.2s ease;
+}
+
+.btn-adicionar::before {
+  content: "+";
+  font-size: 20px;
+  font-weight: normal;
+  margin-right: 6px;
+}
+
+.btn-adicionar:hover {
+  background-color: #8b5e3c;
+  color: #ffffff;
+
+  transform: scale(1.03);
+
+  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.18);
+}
+
+.btn-adicionar:active {
+  transform: scale(0.97);
+}
+
+/* =========================================================
+   CELULAR - CARRINHO E BOTÃO
+   ========================================================= */
 
 @media (max-width: 650px) {
   .carrinho-flutuante {
@@ -384,4 +497,62 @@ body {
     width: 29px;
     height: 29px;
   }
+
+  .btn-adicionar {
+    right: 18px;
+    bottom: 18px;
+
+    height: 36px;
+    padding: 0 13px;
+
+    font-size: 12px;
+  }
 }
+/* =========================
+   BOTÃO DE VOLTA - CARDÁPIO
+   ========================= */
+
+.menu-container > a:first-child {
+  position: absolute;
+
+  top: 80px;
+  left: 80px;
+
+  width: 47px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #8b5e3c;
+  color: white;
+
+  border-radius: 50%;
+  text-decoration: none;
+
+  font-size: 25px;
+  font-weight: bold;
+
+  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.15);
+
+  transition: 0.2s;
+}
+
+.menu-container > a:first-child:hover {
+  background: #6f452b;
+  transform: translateX(-3px);
+}
+@media (max-width: 650px) {
+  .menu-container > a:first-child {
+    top: 25px;
+    left: 20px;
+
+    width: 42px;
+    height: 42px;
+
+    font-size: 22px;
+  }
+}
+
+
