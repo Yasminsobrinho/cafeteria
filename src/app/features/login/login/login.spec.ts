@@ -1,5 +1,5 @@
-// Importa as ferramentas do Vitest
-import { describe, it, expect } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 // Importa as ferramentas do Angular Testing Library
 import { render, screen } from '@testing-library/angular';
@@ -8,14 +8,11 @@ import { render, screen } from '@testing-library/angular';
 import { Login } from './login';
 
 
-// ======================================================
-// TESTES COM VITEST
-// ======================================================
-
-describe('Testes do Login - Vitest', () => {
-
-  // Teste 1: verifica se o componente Login pode ser criado
-  it('deve criar o componente Login', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Login],
+      providers: [provideRouter([])],
+    }).compileComponents();
 
     // Cria uma nova instância do componente
     const login = new Login();
