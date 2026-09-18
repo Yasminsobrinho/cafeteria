@@ -1,22 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
+import { provideRouter } from '@angular/router';
+import { describe, expect, it } from 'vitest';
 
 import { Login } from './login';
 
+const loginRenderOptions = {
+  providers: [provideRouter([])],
+};
+
 describe('Login', () => {
-  let component: Login;
-  let fixture: ComponentFixture<Login>;
+  it('deve criar o componente', async () => {
+    const { fixture } = await render(Login, loginRenderOptions);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Login],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Login);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    expect(fixture.componentInstance).toBeInstanceOf(Login);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('deve exibir o campo de e-mail', async () => {
+    await render(Login, loginRenderOptions);
+
+    expect(screen.getByLabelText('E-mail')).toBeTruthy();
+  });
+
+  it('deve exibir o campo de senha e o botão Entrar', async () => {
+    await render(Login, loginRenderOptions);
+
+    expect(screen.getByLabelText('Senha')).toBeTruthy();
+    expect(screen.getByRole('button', { name: /entrar/i })).toBeTruthy();
   });
 });
