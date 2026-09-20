@@ -1,0 +1,64 @@
+<header>
+  <nav id="nav">
+    <!-- BOTÃO HAMBÚRGUER -->
+    <button
+      type="button"
+      class="menuToggle"
+      [attr.aria-expanded]="menuAberto()"
+      aria-controls="menuPrincipal"
+      aria-label="Abrir menu"
+      (click)="alternarMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- LOGO -->
+    <div class="brand-area">
+      <a routerLink="/home" class="logoLink" (click)="fecharMenu()">
+        <img [src]="imglogo" id="logo" alt="Aroma Café" />
+      </a>
+    </div>
+
+    <!-- MENU -->
+    <div id="menuPrincipal" [class.menuAberto]="menuAberto()">
+      <div id="navBar1">
+        <a routerLink="/home" (click)="fecharMenu()"> Home </a>
+
+        <a href="#sobre" (click)="fecharMenu()"> Sobre </a>
+
+        <a routerLink="/cardapio" (click)="fecharMenu()"> Cardápio </a>
+
+        <a routerLink="/login" (click)="fecharMenu()"> Login </a>
+
+        <!-- CARRINHO APARECE NO MENU APENAS NO CELULAR -->
+        <a routerLink="/carrinho" class="carrinho-mobile" (click)="fecharMenu()">
+          Carrinho
+
+          @if (quantidadeCarrinho > 0) {
+            <span class="contador-mobile">
+              {{ quantidadeCarrinho }}
+            </span>
+          }
+        </a>
+      </div>
+    </div>
+
+    <!-- CARRINHO DESKTOP E MOBILE -->
+    <a
+      routerLink="/carrinho"
+      class="carrinho-link"
+      aria-label="Abrir carrinho"
+      (click)="fecharMenu()"
+    >
+      <img [src]="imgcarrinho" id="carrinhoFoto" alt="Carrinho" />
+
+      @if (quantidadeCarrinho > 0) {
+        <span class="contador-carrinho">
+          {{ quantidadeCarrinho }}
+        </span>
+      }
+    </a>
+  </nav>
+</header>
