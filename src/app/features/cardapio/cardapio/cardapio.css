@@ -11,7 +11,7 @@ body {
 }
 
 .cardapio {
-  max-width: 1450px;
+  width: min(100%, 1450px);
   margin: 60px auto;
   padding: 0 25px;
 }
@@ -26,7 +26,7 @@ body {
 
 .produtos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 14px;
 }
 
@@ -121,6 +121,26 @@ body {
 /* CELULAR */
 
 @media (max-width: 650px) {
+  .menu-container {
+    padding: 14px 10px 80px;
+  }
+
+  .header-titulo h1 {
+    font-size: 26px;
+  }
+
+  .categorias-botoes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .categorias-botoes button {
+    min-height: 42px;
+    padding: 8px 10px;
+  }
+
   .cardapio {
     padding: 0 15px;
     margin-top: 30px;
@@ -136,11 +156,22 @@ body {
 
   .produto {
     min-height: 160px;
+    padding: 14px;
+    flex-wrap: wrap;
   }
 
   .produto img {
     width: 100px;
     height: 100px;
+  }
+
+  .produto .btn-adicionar {
+    width: 100%;
+    order: 3;
+  }
+
+  .btn-voltar {
+    font-size: 14px;
   }
 }
 
@@ -148,7 +179,28 @@ body {
   background-color: #1a0f08;
   color: #fff;
   padding: 20px;
+  padding-top: clamp(72px, 8vw, 110px);
   font-family: sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #5a3d28;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.btn-voltar:hover,
+.btn-voltar:focus-visible {
+  background-color: #e6b940;
+  color: #1a0f08;
 }
 
 .header-titulo {
@@ -190,6 +242,10 @@ body {
   border-color: #e6b940;
 }
 
+.input-busca::placeholder {
+  color: #c4a484;
+}
+
 .categorias-botoes {
   display: flex;
   justify-content: center;
@@ -221,6 +277,23 @@ body {
   letter-spacing: 1px;
   display: block;
   margin-bottom: 4px;
+}
+
+.btn-adicionar {
+  align-self: flex-end;
+  flex-shrink: 0;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background-color: #e6b940;
+  color: #1a0f08;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.btn-adicionar:hover,
+.btn-adicionar:focus-visible {
+  background-color: #f4cf63;
 }
 
 /* ANIMAÇÃO DO CARDÁPIO */

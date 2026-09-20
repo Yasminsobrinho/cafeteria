@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 // Formato dos dados do usuário que ficam salvos no localStorage
 interface Usuario {
@@ -10,6 +11,7 @@ interface Usuario {
 export class AuthService {
   // Chave usada pra salvar/ler o usuário no localStorage do navegador
   private readonly STORAGE_KEY = 'aroma_usuario';
+  private readonly platformId = inject(PLATFORM_ID);
 
   // Signal reativo: quando o valor muda, qualquer template/componente
   // que usa usuarioLogado() é atualizado automaticamente.
@@ -18,6 +20,10 @@ export class AuthService {
 
   // Tenta ler o usuário salvo no localStorage (roda uma vez, na criação do service)
   private recuperarDoStorage(): Usuario | null {
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
+    }
+
     const dados = localStorage.getItem(this.STORAGE_KEY);
     return dados ? JSON.parse(dados) : null; // se não tiver nada salvo, retorna null
   }
@@ -31,7 +37,9 @@ export class AuthService {
       const usuario: Usuario = { nome: email.split('@')[0], email };
 
       // Salva no localStorage (persiste mesmo fechando o navegador)
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(usuario));
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(usuario));
+      }
 
       // Atualiza o signal, avisando o app inteiro que o login mudou
       this.usuarioLogado.set(usuario);
@@ -44,7 +52,9 @@ export class AuthService {
 
   // Desloga o usuário: limpa o storage e zera o signal
   logout(): void {
-    localStorage.removeItem(this.STORAGE_KEY);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
     this.usuarioLogado.set(null);
   }
 
