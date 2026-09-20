@@ -1,3 +1,84 @@
-body {
-    background-color: #401d09;
+.rodape {
+  background-color: #401d09;
+  color: #e1dbc5;
+  padding: 48px 40px 24px;
+}
+
+.rodape-time {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.rodape > h3 {
+  font-family: 'Bebas Neue', serif;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  color: #e1dbc5;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.rodape > div:not(.rodape-direitos) {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 160px;
+  margin: 0 16px 32px;
+  vertical-align: top;
+}
+
+.rodape h4 {
+  font-family: 'Space Mono', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #e1dbc5;
+  text-align: center;
+  margin: 0;
+}
+
+.rodape a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #401d09;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.rodape a:hover {
+  transform: translateY(-3px);
+  opacity: 0.85;
+}
+
+.rodape a img {
+  height: 28px;
+  width: 28px;
+}
+
+.rodape {
+  text-align: center;
+}
+
+.rodape-direitos {
+  max-width: 1200px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.rodape-direitos hr {
+  border: none;
+  border-top: 1px solid rgba(225, 219, 197, 0.2);
+  margin-bottom: 16px;
+}
+
+.rodape-direitos p {
+  font-family: 'Space Mono', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(225, 219, 197, 0.6);
 }

@@ -2,7 +2,7 @@
 
 #local {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-areas:
     "imagem titulo"
     "imagem cards";
@@ -10,8 +10,8 @@
     gap: 40px;
     align-items: start;
     padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;       
+    margin: 100px;    
+    color: #401d09;   
 }
 
 #local > div:first-child {
@@ -23,8 +23,8 @@ h1 {
     font-family: 'Bebas Neue', serif;
     color: #e9dbc5;
     text-align: center;
-      grid-area: titulo;
-  align-self: end;
+    grid-area: titulo;
+    align-self: end;
 }
 
 h3 {
@@ -47,6 +47,7 @@ h4 {
   grid-area: cards;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   gap: 40px
 }
 
@@ -55,13 +56,12 @@ h4 {
     text-align: center;
     padding: 5px;
     border-radius: 12px;
-    flex: 1 1 250px;
+    flex: 1 1 150px;
 }
 
 img {
-    width: 100%;
-    height: 100%;          
-    object-fit: cover;
+    width: 100%; 
+    height: 100%;
     border-radius: 12px;
 }
 
@@ -85,6 +85,7 @@ img {
         "titulo"
         "imagem"
         "cards";
+        margin: 0px
     }
 
     #centralTexto {

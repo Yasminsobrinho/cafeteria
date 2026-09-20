@@ -29,18 +29,10 @@ describe('Página inicial - Home', () => {
     });
 
     // Procura o link "Home" na página.
-    const linkHome = screen.getByRole('link', {
-      name: 'Home',
-    });
-    const linkSobre = screen.getByRole('link', {
-      name: 'Sobre',
-    });
-    const linkCardapio = screen.getByRole('link', {
-      name: 'Cardápio',
-    });
-    const linkLogin = screen.getByRole('link', {
-      name: 'Login',
-    });
+    const linkHome = screen.getByRole('link', {name: 'Home',});
+    const linkSobre = screen.getByRole('link', {name: 'Sobre',});
+    const linkCardapio = screen.getByRole('link', {name: 'Cardápio',});
+    const linkLogin = screen.getByRole('link', {name: 'Login',});
 
     // Verifica se o link Home existe.
     expect(linkHome).toBeTruthy();
