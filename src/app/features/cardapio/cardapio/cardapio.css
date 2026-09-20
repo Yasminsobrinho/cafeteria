@@ -575,51 +575,54 @@ body {
     font-size: 12px;
   }
 }
-/* =========================
-   BOTÃO DE VOLTA - CARDÁPIO
-   ========================= */
 
-.menu-container > a:first-child {
-  position: absolute;
+/* ========================================
+   BOTÃO VOLTAR
+======================================== */
 
-  top: 80px;
-  left: 80px;
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 
-  width: 47px;
-  height: 45px;
+    margin: 25px 0 10px 5%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    padding: 10px 18px;
 
-  background: #8b5e3c;
-  color: white;
+    color: #401d09;
+    background-color: transparent;
 
-  border-radius: 50%;
-  text-decoration: none;
+    border: 1px solid rgba(64, 29, 9, 0.25);
+    border-radius: 25px;
 
-  font-size: 25px;
-  font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
 
-  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.15);
+    text-decoration: none;
 
-  transition: 0.2s;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.menu-container > a:first-child:hover {
-  background: #6f452b;
-  transform: translateX(-3px);
-}
-@media (max-width: 650px) {
-  .menu-container > a:first-child {
-    top: 25px;
-    left: 20px;
+.seta-voltar {
+    font-size: 1.4rem;
+    line-height: 1;
 
-    width: 42px;
-    height: 42px;
-
-    font-size: 22px;
-  }
+    transition: transform 0.25s ease;
 }
 
+.btn-voltar:hover {
+    color: #ffffff;
+    background-color: #8b4a2f;
 
+    transform: translateX(-3px);
+
+    box-shadow: 0 4px 12px rgba(64, 29, 9, 0.18);
+}
+
+.btn-voltar:hover .seta-voltar {
+    transform: translateX(-3px);
+}

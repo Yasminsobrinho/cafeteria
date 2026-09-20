@@ -1,14 +1,16 @@
 /* ========================================
-   RESET
+   HOST DO COMPONENTE
 ======================================== */
 
-html {
-  scroll-behavior: smooth;
-}
+:host {
+  display: block;
 
-body {
-  margin: 0;
-  padding-top: 92px;
+  /*
+   * O header é fixed.
+   * Este espaço mantém o conteúdo da página
+   * abaixo do menu.
+   */
+  height: 92px;
 }
 
 /* ========================================
@@ -19,6 +21,7 @@ header {
   width: 100%;
 
   position: fixed;
+
   top: 0;
   left: 0;
 
@@ -33,23 +36,26 @@ header {
   position: relative;
 
   width: 100%;
+
   height: 92px;
 
   padding: 0 5%;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
-  background-color: #e9dbc5;
-
   box-sizing: border-box;
+
+  background-color: #e9dbc5;
 
   box-shadow: 0 3px 14px rgba(64, 29, 9, 0.12);
 }
 
 /* ========================================
-   LOGO CENTRAL
+   LOGO
 ======================================== */
 
 .brand-area {
@@ -61,7 +67,9 @@ header {
   transform: translate(-50%, -50%);
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   z-index: 10;
@@ -72,7 +80,9 @@ header {
   height: 72px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   text-decoration: none;
@@ -96,11 +106,12 @@ header {
 }
 
 /* ========================================
-   MENU DE NAVEGAÇÃO
+   MENU PRINCIPAL
 ======================================== */
 
 #menuPrincipal {
   display: flex;
+
   align-items: center;
 
   z-index: 5;
@@ -108,11 +119,13 @@ header {
 
 #navBar1 {
   display: flex;
+
   align-items: center;
 
   gap: 30px;
 
   font-family: 'Bebas Neue', serif;
+
   font-size: 1.2rem;
 }
 
@@ -124,6 +137,7 @@ header {
   position: relative;
 
   display: flex;
+
   align-items: center;
 
   height: 40px;
@@ -139,7 +153,9 @@ header {
     transform 0.2s ease;
 }
 
-/* Linha abaixo do link */
+/* ========================================
+   LINHA DOS LINKS
+======================================== */
 
 #navBar1 a:not(.carrinho-mobile)::after {
   content: '';
@@ -147,9 +163,11 @@ header {
   position: absolute;
 
   left: 50%;
+
   bottom: 2px;
 
   width: 0;
+
   height: 2px;
 
   background-color: #8b4a2f;
@@ -159,7 +177,9 @@ header {
   transition: width 0.25s ease;
 }
 
-/* Hover */
+/* ========================================
+   HOVER DOS LINKS
+======================================== */
 
 #navBar1 a:hover {
   color: #8b4a2f;
@@ -172,14 +192,16 @@ header {
 }
 
 /* ========================================
-   CARRINHO
+   CARRINHO - ÍCONE
 ======================================== */
 
 .carrinho-link {
   position: relative;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   text-decoration: none;
@@ -195,9 +217,7 @@ header {
 
   object-fit: contain;
 
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .carrinho-link:hover #carrinhoFoto {
@@ -220,7 +240,9 @@ header {
   padding: 2px 5px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   border-radius: 50%;
@@ -230,7 +252,9 @@ header {
   color: #ffffff;
 
   font-family: Arial, sans-serif;
+
   font-size: 11px;
+
   font-weight: bold;
 
   border: 2px solid #e9dbc5;
@@ -239,67 +263,30 @@ header {
 }
 
 /* ========================================
-   BOTÃO HAMBÚRGUER
+   CARRINHO ESCRITO
+   SOMENTE NO HAMBÚRGUER
 ======================================== */
 
-.menuToggle {
+#navBar1 a.carrinho-mobile {
   display: none;
-
-  width: 44px;
-  height: 44px;
-
-  padding: 7px;
-
-  border: none;
-  border-radius: 8px;
-
-  background: transparent;
-
-  cursor: pointer;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-direction: column;
-
-  gap: 5px;
-
-  transition: background 0.2s ease;
-}
-
-.menuToggle:hover {
-  background-color: rgba(64, 29, 9, 0.08);
-}
-
-.menuToggle span {
-  display: block;
-
-  width: 25px;
-  height: 2.5px;
-
-  border-radius: 5px;
-
-  background-color: #401d09;
 }
 
 /* ========================================
-   CARRINHO DENTRO DO MENU MOBILE
+   CONTADOR DO CARRINHO MOBILE
 ======================================== */
-
-.carrinho-mobile {
-  display: none;
-}
 
 .contador-mobile {
   display: inline-flex;
 
   align-items: center;
+
   justify-content: center;
 
   min-width: 20px;
+
   height: 20px;
 
-  margin-left: 6px;
+  margin-left: 7px;
 
   padding: 2px 5px;
 
@@ -310,12 +297,62 @@ header {
   color: #ffffff;
 
   font-family: Arial, sans-serif;
+
   font-size: 11px;
+
   font-weight: bold;
 }
 
 /* ========================================
-   TABLETS
+   BOTÃO HAMBÚRGUER
+======================================== */
+
+.menuToggle {
+  display: none;
+
+  width: 44px;
+
+  height: 44px;
+
+  padding: 7px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  transition: background-color 0.2s ease;
+}
+
+.menuToggle:hover {
+  background-color: rgba(64, 29, 9, 0.08);
+}
+
+.menuToggle span {
+  display: block;
+
+  width: 25px;
+
+  height: 2.5px;
+
+  border-radius: 5px;
+
+  background-color: #401d09;
+}
+
+/* ========================================
+   TABLET
 ======================================== */
 
 @media (max-width: 1000px) {
@@ -348,14 +385,17 @@ header {
 ======================================== */
 
 @media (max-width: 700px) {
-  body {
-    padding-top: 74px;
+  :host {
+    height: 74px;
   }
 
-  /* Navbar */
+  /* ======================================
+     NAV
+  ====================================== */
 
   #nav {
     width: 100%;
+
     height: 74px;
 
     padding: 0 15px;
@@ -367,9 +407,9 @@ header {
     align-items: center;
   }
 
-  /* ====================================
-       HAMBÚRGUER
-    ==================================== */
+  /* ======================================
+     HAMBÚRGUER
+  ====================================== */
 
   .menuToggle {
     display: flex;
@@ -381,9 +421,9 @@ header {
     z-index: 30;
   }
 
-  /* ====================================
-       LOGO
-    ==================================== */
+  /* ======================================
+     LOGO MOBILE
+  ====================================== */
 
   .brand-area {
     position: static;
@@ -395,22 +435,25 @@ header {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
   }
 
   .logoLink {
     width: 110px;
+
     height: 58px;
   }
 
   #logo {
     width: 100px;
+
     height: 52px;
   }
 
-  /* ====================================
-       CARRINHO
-    ==================================== */
+  /* ======================================
+     CARRINHO MOBILE
+  ====================================== */
 
   .carrinho-link {
     grid-column: 3;
@@ -420,12 +463,13 @@ header {
 
   #carrinhoFoto {
     width: 34px;
+
     height: 34px;
   }
 
-  /* ====================================
-       MENU ABERTO
-    ==================================== */
+  /* ======================================
+     MENU DROPDOWN
+  ====================================== */
 
   #menuPrincipal {
     display: none;
@@ -433,6 +477,7 @@ header {
     position: absolute;
 
     top: 74px;
+
     left: 0;
 
     width: 100%;
@@ -454,9 +499,9 @@ header {
     display: block;
   }
 
-  /* ====================================
-       LINKS MOBILE
-    ==================================== */
+  /* ======================================
+     LINKS MOBILE
+  ====================================== */
 
   #navBar1 {
     width: 100%;
@@ -498,17 +543,18 @@ header {
     transform: none;
   }
 
-  /* Remove linha de hover no celular */
+  /* Remove linha de hover */
 
   #navBar1 a::after {
     display: none !important;
   }
 
-  /* ====================================
-       CARRINHO ESCRITO
-    ==================================== */
+  /* ======================================
+     CARRINHO ESCRITO
+     AGORA APARECE SOMENTE NO MOBILE
+  ====================================== */
 
-  .carrinho-mobile {
+  #navBar1 a.carrinho-mobile {
     display: flex !important;
   }
 
@@ -522,8 +568,8 @@ header {
 ======================================== */
 
 @media (max-width: 400px) {
-  body {
-    padding-top: 68px;
+  :host {
+    height: 68px;
   }
 
   #nav {
@@ -536,11 +582,13 @@ header {
 
   .logoLink {
     width: 100px;
+
     height: 52px;
   }
 
   #logo {
     width: 90px;
+
     height: 46px;
   }
 
@@ -548,6 +596,7 @@ header {
 
   #carrinhoFoto {
     width: 30px;
+
     height: 30px;
   }
 
@@ -555,6 +604,7 @@ header {
 
   .menuToggle {
     width: 39px;
+
     height: 39px;
   }
 
