@@ -20,6 +20,7 @@ describe('Cardapio', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     httpTesting = TestBed.inject(HttpTestingController);
+    // Intercepta a chamada de comidas e fornece uma resposta simulada.
     httpTesting.expectOne('/api/foods').flush({
       total: 2,
       data: [
@@ -43,6 +44,7 @@ describe('Cardapio', () => {
         },
       ],
     });
+    // Intercepta a chamada de bebidas e fornece uma resposta simulada.
     httpTesting.expectOne('/api/drinks').flush({
       total: 8,
       data: [
@@ -76,12 +78,18 @@ describe('Cardapio', () => {
   });
 
   it('deve exibir bebidas de reserva quando a API falhar', () => {
+    // Inicia uma nova chamada ao endpoint de bebidas.
     component.carregarBebidas();
+    // Captura a requisicao HTTP criada pelo componente.
     const request = httpTesting.expectOne('/api/drinks');
+    // Simula uma falha de rede na API.
     request.error(new ProgressEvent('network error'));
 
+    // Confirma que o fallback local foi exibido.
     expect(component.bebidas.length).toBeGreaterThan(0);
+    // Confirma que o primeiro item de fallback e o Espresso.
     expect(component.bebidas[0].nome).toBe('Espresso');
+    // Confirma o comportamento atual do indicador de erro.
     expect(component.erroBebidas).toBe(false);
   });
 });
