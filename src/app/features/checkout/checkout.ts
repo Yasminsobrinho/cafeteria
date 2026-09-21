@@ -24,6 +24,8 @@ import { RouterLink } from '@angular/router';
 // os produtos do carrinho.
 import { CarrinhoService, ProdutoCarrinho } from '../carrinho/carrinho/carrinho.service';
 
+import { CepService } from '../../core/services/cep.service';
+
 // =========================================================
 // COMPONENTE
 // =========================================================
@@ -57,8 +59,10 @@ export class Checkout {
   //
   // O "private" faz com que possamos utilizar
   // o carrinhoService dentro desta classe.
-  constructor(private carrinhoService: CarrinhoService) {}
-
+  constructor(
+  private carrinhoService: CarrinhoService,
+  private cepService: CepService
+) {}
   // =======================================================
   // PRODUTOS
   // =======================================================
@@ -79,6 +83,8 @@ export class Checkout {
   // =======================================================
 
   // Nome digitado pelo cliente.
+  cep: string = '';
+
   nome: string = '';
 
   // Telefone digitado pelo cliente.
@@ -234,6 +240,19 @@ export class Checkout {
   // =======================================================
   // FINALIZAR PEDIDO
   // =======================================================
+
+  buscarCep(): void {
+  this.cepService.buscarCep(this.cep).subscribe({
+    next: (dados) => {
+      if (dados.erro) {
+        return;
+      }
+
+      this.endereco = dados.logradouro;
+      this.bairro = dados.bairro;
+    }
+  });
+}
 
   finalizarPedido(): void {
     // -------------------------------------------------------
