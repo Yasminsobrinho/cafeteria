@@ -236,6 +236,7 @@ const bebidasFallback = [
   },
 ];
 
+// Lista de imagens usadas quando a API externa nao fornece uma imagem valida.
 const imagensBebidasFallback = [
   'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=85&w=800',
   'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=85&w=800',
@@ -245,116 +246,180 @@ const imagensBebidasFallback = [
   'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=85&w=800',
 ];
 
+// Armazena as bebidas ja processadas para evitar novas chamadas externas.
 let bebidasCache: unknown[] | null = null;
 
+// Define o formato recebido da SampleAPIs Coffee API.
 interface BebidaSampleApi {
+  // Identificador original da bebida na API externa.
   id: number;
+  // Nome original da bebida.
   title: string;
+  // Descricao opcional retornada pela API.
   description?: string;
+  // Preco opcional, que pode chegar como texto ou numero.
   price?: string | number;
+  // URL opcional da imagem retornada pela API.
   image?: string;
 }
 
+// Converte os dados externos para o formato usado pelo cardapio.
 const normalizarBebidas = (
+  // Recebe a lista de bebidas retornada pela API.
   bebidas: BebidaSampleApi[],
+  // Identifica se as bebidas sao quentes ou geladas.
   type: 'hot' | 'cold',
+  // Controla imagens ja utilizadas para evitar repeticoes.
   imagensUsadas: Set<string>,
 ) =>
+  // Remove itens indesejados antes de transformar os dados.
   bebidas
     .filter((bebida) => {
+      // Converte o titulo para minusculas para facilitar a filtragem.
       const titulo = bebida.title.toLocaleLowerCase();
+      // Define termos que indicam registros de teste ou duplicados.
       const itensRemovidos = ['string', 'robert', 'cold brew', 'nitro', 'iced espresso', 'test'];
 
+      // Mantem somente bebidas que nao possuem os termos bloqueados.
       return !itensRemovidos.some((item) => titulo.includes(item));
     })
     .map((bebida, indice) => {
+    // Tenta usar a imagem enviada pela API.
     const imagemApi = bebida.image?.trim();
+    // Seleciona uma imagem reserva ainda nao utilizada.
     const imagemFallback = imagensBebidasFallback.find((imagem) => !imagensUsadas.has(imagem));
+    // Prioriza a imagem da API e usa a reserva quando necessario.
     const imagem = imagemApi && !imagensUsadas.has(imagemApi) ? imagemApi : imagemFallback;
 
+    // Registra a imagem escolhida para nao repeti-la.
     if (imagem) {
       imagensUsadas.add(imagem);
     }
 
+    // Retorna a bebida no formato padronizado da aplicacao.
     return {
+      // Combina o tipo com o ID externo para criar um identificador unico.
       id: `${type}-${bebida.id}`,
+      // Copia o nome retornado pela API.
       name: bebida.title,
+      // Mantem a classificacao quente ou gelada.
       type,
+      // Usa o preco numerico ou converte o texto para numero.
       price:
         typeof bebida.price === 'number'
           ? bebida.price
           : Number.parseFloat(bebida.price?.replace(/[^\d.,]/g, '').replace(',', '.') || '') ||
             4 + (indice % 5) * 0.5,
+      // Usa a descricao externa ou uma descricao padrao.
       description: bebida.description || 'Bebida preparada especialmente para voce.',
+      // Usa a imagem escolhida ou uma string vazia.
       image: imagem || '',
     };
     });
 
+// Cria o endpoint interno que retorna todas as comidas cadastradas localmente.
 app.get('/api/foods', (_req, res) => {
+  // Envia a quantidade e a lista de comidas em formato JSON.
   res.json({ total: comidas.length, data: comidas });
 });
 
+// Cria o endpoint interno que filtra comidas por categoria.
 app.get('/api/foods/:categoria', (req, res) => {
+  // Le a categoria informada na URL.
   const categoria = req.params['categoria'];
+  // Filtra os dados locais pela categoria recebida.
   const resultado = comidas.filter((comida) => comida.categoria === categoria);
 
+  // Verifica se a categoria nao retornou nenhum item.
   if (resultado.length === 0) {
+    // Retorna erro HTTP 404 com uma mensagem explicativa.
     res.status(404).json({ message: 'Categoria de comida nao encontrada.' });
+    // Interrompe a execucao para nao enviar outra resposta.
     return;
   }
 
+  // Retorna a quantidade e os itens encontrados.
   res.json({ total: resultado.length, data: resultado });
 });
 
+// Cria o endpoint interno responsavel por fornecer as bebidas ao frontend.
 app.get('/api/drinks', async (_req, res) => {
+  // Reutiliza os dados processados quando o cache ja foi preenchido.
   if (bebidasCache) {
+    // Retorna imediatamente os dados armazenados em cache.
     res.json({ total: bebidasCache.length, data: bebidasCache });
+    // Evita uma nova consulta a API externa.
     return;
   }
 
+  // Inicia o bloco que pode falhar durante a comunicacao externa.
   try {
+    // Cria um controlador para cancelar chamadas demoradas.
     const controller = new AbortController();
+    // Define o limite de cinco segundos para as chamadas externas.
     const timeout = setTimeout(() => controller.abort(), 5000);
+    // Consulta simultaneamente as listas de bebidas quentes e geladas.
     const [quentesResposta, geladasResposta] = await Promise.all([
+      // Busca bebidas quentes na SampleAPIs Coffee API.
       fetch('https://api.sampleapis.com/coffee/hot', { signal: controller.signal }),
+      // Busca bebidas geladas na SampleAPIs Coffee API.
       fetch('https://api.sampleapis.com/coffee/iced', { signal: controller.signal }),
     ]);
+    // Cancela o temporizador porque as respostas chegaram.
     clearTimeout(timeout);
 
+    // Verifica se as duas respostas externas foram bem-sucedidas.
     if (!quentesResposta.ok || !geladasResposta.ok) {
+      // Usa dados locais quando alguma API externa retornar erro.
       res.json({ total: bebidasFallback.length, data: bebidasFallback });
+      // Encerra o endpoint depois do fallback.
       return;
     }
 
+    // Converte a resposta de bebidas quentes para JavaScript.
     const quentesDados = await quentesResposta.json();
+    // Converte a resposta de bebidas geladas para JavaScript.
     const geladasDados = await geladasResposta.json();
 
+    // Confirma que as duas respostas possuem listas validas.
     if (!Array.isArray(quentesDados) || !Array.isArray(geladasDados)) {
+      // Usa os dados locais se o formato externo for inesperado.
       res.json({ total: bebidasFallback.length, data: bebidasFallback });
+      // Encerra o endpoint depois do fallback.
       return;
     }
 
+    // Cria o controle compartilhado de imagens utilizadas.
     const imagensUsadas = new Set<string>();
+    // Normaliza as bebidas quentes para o formato interno.
     const quentes = normalizarBebidas(
       quentesDados as BebidaSampleApi[],
       'hot',
       imagensUsadas,
     );
+    // Normaliza as bebidas geladas para o formato interno.
     const geladas = normalizarBebidas(
       geladasDados as BebidaSampleApi[],
       'cold',
       imagensUsadas,
     );
+    // Junta as duas listas em uma unica lista de bebidas.
     const bebidas = [...quentes, ...geladas];
 
+    // Verifica se a normalizacao produziu algum item.
     if (bebidas.length === 0) {
+      // Usa o fallback quando nenhuma bebida valida foi encontrada.
       res.json({ total: bebidasFallback.length, data: bebidasFallback });
+      // Encerra o endpoint depois do fallback.
       return;
     }
 
+    // Armazena a lista final para reutilizacao futura.
     bebidasCache = bebidas;
+    // Entrega ao frontend a quantidade e os dados normalizados.
     res.json({ total: bebidas.length, data: bebidas });
   } catch {
+    // Trata timeout, falha de rede ou erro durante o processamento.
     res.json({ total: bebidasFallback.length, data: bebidasFallback });
   }
 });

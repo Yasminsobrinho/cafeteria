@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+// Importa o cliente HTTP usado para chamar a API interna do projeto.
 import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 import { Rodape } from '../../home/home/pginicial/rodape/rodape';
@@ -16,20 +17,31 @@ interface Produto {
   imagem: string;
 }
 
+// Representa uma bebida devolvida pelo endpoint /api/drinks.
 interface BebidaApi {
+  // Identificador da bebida.
   id: number | string;
+  // Nome exibido no cardapio.
   name: string;
+  // Tipo da bebida, como quente ou gelada.
   type: string;
+  // Preco recebido da API.
   price: number;
+  // Descricao opcional da bebida.
   description?: string;
+  // Imagem opcional da bebida.
   image?: string;
 }
 
+// Representa o envelope de resposta usado pela API de bebidas.
 interface RespostaApi {
+  // Quantidade total de registros retornados.
   total: number;
+  // Lista de bebidas retornadas.
   data: BebidaApi[];
 }
 
+// Representa uma comida devolvida pelo endpoint /api/foods.
 interface ComidaApi {
   id: number;
   categoria: 'salgados' | 'doces';
@@ -40,8 +52,11 @@ interface ComidaApi {
   imagem: string;
 }
 
+// Representa o envelope de resposta usado pela API de comidas.
 interface RespostaComidasApi {
+  // Quantidade total de comidas retornadas.
   total: number;
+  // Lista de comidas retornadas.
   data: ComidaApi[];
 }
 
@@ -264,7 +279,9 @@ export class CardapioComponent implements OnInit {
     },
   ];
 
+  // Guarda a rota interna usada para buscar comidas.
   private readonly comidasApiUrl = '/api/foods';
+  // Guarda a rota interna usada para buscar bebidas.
   private readonly apiUrl = '/api/drinks';
 
   // =====================================================
@@ -272,23 +289,30 @@ export class CardapioComponent implements OnInit {
   // =====================================================
 
   ngOnInit(): void {
+    // Solicita as comidas quando o componente e inicializado.
     this.carregarComidas();
+    // Solicita as bebidas quando o componente e inicializado.
     this.carregarBebidas();
   }
 
   carregarComidas(): void {
+    // Faz uma requisicao GET para a API interna de comidas.
     this.http.get<RespostaComidasApi>(this.comidasApiUrl).subscribe({
       next: (resposta) => {
+        // Remove o campo categoria antes de guardar os produtos no cardapio.
         const comidas = resposta.data.map(({ categoria, ...produto }) => produto);
 
+        // Mantem apenas os itens classificados como salgados.
         this.comidasSalgadas = comidas.filter(
           (_, indice) => resposta.data[indice].categoria === 'salgados',
         );
+        // Mantem apenas os itens classificados como doces.
         this.sobremesas = comidas.filter(
           (_, indice) => resposta.data[indice].categoria === 'doces',
         );
       },
       error: (erro) => {
+        // Registra no console qualquer falha na API de comidas.
         console.error('Erro ao carregar comidas:', erro);
       },
     });
@@ -299,43 +323,62 @@ export class CardapioComponent implements OnInit {
   // =====================================================
 
   carregarBebidas(): void {
+    // Ativa o estado visual de carregamento.
     this.carregandoBebidas = true;
+    // Limpa o estado anterior de erro antes da nova tentativa.
     this.erroBebidas = false;
 
+    // Faz uma requisicao GET para a API interna de bebidas.
     this.http.get<RespostaApi | BebidaApi[]>(this.apiUrl).subscribe({
       next: (resposta) => {
+        // Aceita tanto uma lista direta quanto a resposta com campo data.
         const bebidasApi = Array.isArray(resposta) ? resposta : resposta.data;
 
+        // Usa bebidas locais se a resposta estiver vazia ou invalida.
         if (!Array.isArray(bebidasApi) || bebidasApi.length === 0) {
+          // Substitui os dados da tela pelos itens de reserva.
           this.bebidas = this.bebidasFallback;
+          // Finaliza o estado de carregamento.
           this.carregandoBebidas = false;
+          // Interrompe o processamento da resposta.
           return;
         }
 
+        // Converte cada registro da API para o modelo visual do cardapio.
         this.bebidas = bebidasApi.map((bebida) => ({
+          // Copia o nome recebido da API.
           nome: bebida.name,
 
+          // Usa a descricao da API ou uma descricao conforme o tipo.
           descricao:
             bebida.description ||
             (bebida.type === 'hot'
               ? 'Bebida quente preparada especialmente para você.'
               : 'Bebida gelada, refrescante e preparada especialmente para você.'),
 
+          // Garante que o preco seja tratado como numero.
           preco: Number(bebida.price),
 
+          // O cardapio nao recebe preco antigo da API.
           precoAntigo: '',
 
+          // Usa a imagem da API ou uma imagem local alternativa.
           imagem: bebida.image || this.obterImagemBebida(bebida.name),
         }));
 
+        // Finaliza o estado visual de carregamento.
         this.carregandoBebidas = false;
       },
 
       error: (erro) => {
+        // Registra no console a falha da requisicao de bebidas.
         console.error('Erro ao carregar bebidas:', erro);
 
+        // Exibe os dados locais quando a API nao responder.
         this.bebidas = this.bebidasFallback;
+        // Finaliza o estado visual de carregamento.
         this.carregandoBebidas = false;
+        // Mantem a tela sem o indicador de erro atualmente definido pelo projeto.
         this.erroBebidas = false;
       },
     });
