@@ -1,23 +1,94 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
+// Importa o cliente HTTP usado para chamar a API interna do projeto.
+import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
+import { Rodape } from '../../home/home/pginicial/rodape/rodape';
+import { Menu } from '../../home/home/pginicial/menu/menu';
+
+interface Produto {
+  nome: string;
+  descricao: string;
+  preco: number;
+  precoAntigo: string;
+  imagem: string;
+}
+
+// Representa uma bebida devolvida pelo endpoint /api/drinks.
+interface BebidaApi {
+  // Identificador da bebida.
+  id: number | string;
+  // Nome exibido no cardapio.
+  name: string;
+  // Tipo da bebida, como quente ou gelada.
+  type: string;
+  // Preco recebido da API.
+  price: number;
+  // Descricao opcional da bebida.
+  description?: string;
+  // Imagem opcional da bebida.
+  image?: string;
+}
+
+// Representa o envelope de resposta usado pela API de bebidas.
+interface RespostaApi {
+  // Quantidade total de registros retornados.
+  total: number;
+  // Lista de bebidas retornadas.
+  data: BebidaApi[];
+}
+
+// Representa uma comida devolvida pelo endpoint /api/foods.
+interface ComidaApi {
+  id: number;
+  categoria: 'salgados' | 'doces';
+  nome: string;
+  descricao: string;
+  preco: number;
+  precoAntigo: string;
+  imagem: string;
+}
+
+// Representa o envelope de resposta usado pela API de comidas.
+interface RespostaComidasApi {
+  // Quantidade total de comidas retornadas.
+  total: number;
+  // Lista de comidas retornadas.
+  data: ComidaApi[];
+}
 
 @Component({
   selector: 'app-cardapio',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, NgOptimizedImage, Rodape, Menu],
   templateUrl: './cardapio.html',
   styleUrls: ['./cardapio.css'],
+  host: {
+    '(window:scroll)': 'carregarMaisItens()',
+  },
 })
-export class CardapioComponent {
-  constructor(private carrinhoService: CarrinhoService) {}
+export class CardapioComponent implements OnInit {
+  constructor(
+    private carrinhoService: CarrinhoService,
+    private http: HttpClient,
+  ) {}
 
   termoBusca: string = '';
   categoriaSelecionada: string = 'Todos';
+  private readonly itensPorLote = 6;
+  private quantidadeItensVisiveis = this.itensPorLote;
 
-  comidasSalgadas = [
+  carregandoBebidas: boolean = false;
+  erroBebidas: boolean = false;
+
+  // =====================================================
+  // SALGADOS
+  // =====================================================
+
+  comidasSalgadas: Produto[] = [
     {
       nome: 'Croissants e Folhados Especiais',
       descricao:
@@ -26,6 +97,7 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'croacan.jpg',
     },
+
     {
       nome: 'Croissants Recheados',
       descricao:
@@ -34,14 +106,16 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'croacanrecheado.jpg',
     },
+
     {
       nome: 'Misto Quente',
       descricao:
-        'Pão de forma tostado na chapa com manteiga até ficar dourado e crocante! Recheado com muito presunto e queijo derretido que estica a cada mordida.',
+        'Pão de forma tostado na chapa com manteiga até ficar dourado e crocante! Recheado com muito presunto e queijo derretido.',
       preco: 11.99,
       precoAntigo: '16,99',
       imagem: 'misto.jpeg',
     },
+
     {
       nome: 'Pão com Mortadela',
       descricao: 'Pão com mortadela defumada e queijo mussarela.',
@@ -49,22 +123,25 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'pao com mortadela.jpeg',
     },
+
     {
       nome: 'Empadinhas',
       descricao:
-        'Massa de empadas são feitas com manteiga verdadeira. Sabores: frango com catupiry, camarão, queijo, calabresa...',
+        'Massa de empadas feitas com manteiga verdadeira. Sabores: frango com catupiry, camarão, queijo, calabresa...',
       preco: 10.0,
       precoAntigo: '',
       imagem: 'empadas.jpeg',
     },
+
     {
       nome: 'Pão de queijo',
       descricao:
         'Nosso pão de queijo é feito com muito queijo de qualidade, casquinha levemente dourada e crocante. Perfeito para acompanhar o seu café.',
       preco: 1.99,
-      precoAntigo: 3.99,
+      precoAntigo: '3.99',
       imagem: 'pao de queijo.jpeg',
     },
+
     {
       nome: 'Mini pão francês',
       descricao:
@@ -73,14 +150,16 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'pao.jpg',
     },
+
     {
       nome: 'Salgado',
       descricao:
-        'Salgado de massa folhada leve e dourada, super recheado com presunto, queijo mussarela derretido.',
+        'Salgado de massa folhada leve e dourada, super recheado com presunto e queijo mussarela derretido.',
       preco: 9.0,
       precoAntigo: '',
       imagem: 'joelho.jpg',
     },
+
     {
       nome: 'Coxinha',
       descricao:
@@ -91,7 +170,11 @@ export class CardapioComponent {
     },
   ];
 
-  sobremesas = [
+  // =====================================================
+  // SOBREMESAS
+  // =====================================================
+
+  sobremesas: Produto[] = [
     {
       nome: 'Bolo de Cenoura com Cobertura de Chocolate',
       descricao: 'Bolo artesanal de cenoura com cobertura cremosa de brigadeiro belga.',
@@ -99,6 +182,7 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'bolodecenora.jpg',
     },
+
     {
       nome: 'Brownie',
       descricao:
@@ -107,22 +191,25 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'brownie.jpg',
     },
+
     {
       nome: 'Torta Cookie',
       descricao:
-        'Fatia de torta cookie com massa de baunilha e gotas de chocolate, recheada com muita Nutella cremosa. O doce perfeito para os amantes de chocolate!',
+        'Fatia de torta cookie com massa de baunilha e gotas de chocolate, recheada com muita Nutella cremosa.',
       preco: 22.0,
       precoAntigo: '',
       imagem: 'tortadecookie.jpg',
     },
+
     {
       nome: 'Torta de Morango',
       descricao:
-        'Torta de morango clássica com massa crocante and amanteigada, recheio cremoso e cobertura abundante de morangos frescos com calda brilhante.',
+        'Torta de morango clássica com massa crocante e amanteigada, recheio cremoso e cobertura de morangos frescos.',
       preco: 35.0,
-      precoAntigo: 40.0,
+      precoAntigo: '40.00',
       imagem: 'tortademorango.jpg',
     },
+
     {
       nome: 'Croissants Doce',
       descricao:
@@ -131,22 +218,24 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'croacandoce.jpg',
     },
+
     {
       nome: 'Brigadeiro com Morango',
-      descricao:
-        'Morango fresco inteiro coberto com muito brigadeiro cremoso e granulado de chocolate.',
+      descricao: 'Morango fresco inteiro coberto com brigadeiro cremoso e granulado de chocolate.',
       preco: 8.0,
-      precoAntigo: 10.0,
+      precoAntigo: '10.00',
       imagem: 'brigadeirocommorango.jpg',
     },
+
     {
       nome: 'Mini Churros',
       descricao:
-        'Churros artesanais fritos na hora, dourados e extremamente crocantes por fora, com interior macio. São passados na mistura tradicional de açúcar e canela e acompanhados por um generoso potinho de creme de chocolate ou doce de leite cremoso para chuchar."',
+        'Churros artesanais fritos na hora, dourados e crocantes por fora, com interior macio.',
       preco: 4.0,
       precoAntigo: '',
       imagem: 'churros.jpg',
     },
+
     {
       nome: 'Sonhos',
       descricao:
@@ -155,6 +244,7 @@ export class CardapioComponent {
       precoAntigo: '',
       imagem: 'sonhos.jpg',
     },
+
     {
       nome: 'Donuts Americanos',
       descricao:
@@ -165,81 +255,173 @@ export class CardapioComponent {
     },
   ];
 
-  bebidas = [
+  // =====================================================
+  // BEBIDAS
+  // AGORA VÊM DA API
+  // =====================================================
+
+  bebidas: Produto[] = [];
+
+  private readonly bebidasFallback: Produto[] = [
     {
-      nome: 'Café Preto',
-      descricao:
-        ' Bebida quente feita apenas com café moído e água, servida sem leite, creme ou açúcar.',
-      preco: 8.0,
+      nome: 'Espresso',
+      descricao: 'Café espresso intenso e preparado na hora.',
+      preco: 2.5,
       precoAntigo: '',
       imagem: 'cafepreto.jpg',
     },
     {
-      nome: 'Chocolate Quente',
-      descricao:
-        'Bebida doce e reconfortante, feita com chocolate ou cacau dissolvido em leite quente. ',
-      preco: 7.0,
-      precoAntigo: '',
-      imagem: 'chocolatequente.jpg',
-    },
-    {
-      nome: 'Mocha',
-      descricao:
-        'Bebida quente ou gelada à base de espresso, leite vaporizado e chocolate (em calda, ganache ou pó), geralmente finalizada com chantilly.',
-      preco: 13.0,
-      precoAntigo: '',
-      imagem: 'mocha.jpg',
-    },
-    {
-      nome: 'Classic Caramel',
-      descricao:
-        'Mistura equilibrada entre o amargor leve do café ou a base cremosa e o dulçor marcante do caramelo.',
-      preco: 13.0,
-      precoAntigo: 40.0,
-      imagem: 'classiccaramel.jpg',
-    },
-    {
-      nome: 'Latte de Baunilha',
-      descricao:
-        'Bebida quente ou gelada à base de espresso, leite vaporizado e xarope de baunilha, famosa por sua textura cremosa, sabor adocicado e aroma marcante.',
-      preco: 12.0,
+      nome: 'Latte',
+      descricao: 'Café suave com leite vaporizado e espuma cremosa.',
+      preco: 4,
       precoAntigo: '',
       imagem: 'lattedebaunilha.jpg',
     },
-    {
-      nome: 'White Branco',
-      descricao:
-        'Uma dose dupla de espresso coberta com leite vaporizado e uma camada bem fina de microespuma aveludada',
-      preco: 8.0,
-      precoAntigo: 10.0,
-      imagem: 'whitemocha.jpg',
-    },
-    {
-      nome: 'Limonada',
-      descricao: 'Bebida gelada e refrescante feita com suco de limão, água e açúcar.',
-      preco: 4.0,
-      precoAntigo: '',
-      imagem: 'limonada.jpg',
-    },
-    {
-      nome: 'Vitamina de banana',
-      descricao:
-        'Bebida cremosa e nutritiva feita com a batida de bananas maduras e leite. Ela é um clássico rápido para o café da manhã ou lanche, rica em potássio, vitaminas e energia natural.',
-      preco: 8.0,
-      precoAntigo: '',
-      imagem: 'vitamina.jpg',
-    },
-    {
-      nome: 'Brown Sugar Bubble Tea',
-      descricao:
-        'Bebida doce de origem taiwanesa feita com chá preto, leite e pérolas de tapioca (boba) banhadas em uma calda espessa de açúcar mascavo caramelizado.',
-      preco: 10.0,
-      precoAntigo: '',
-      imagem: 'brownsugarbubbletea.jpg',
-    },
   ];
 
-  get salgadosFiltrados() {
+  // Guarda a rota interna usada para buscar comidas.
+  private readonly comidasApiUrl = '/api/foods';
+  // Guarda a rota interna usada para buscar bebidas.
+  private readonly apiUrl = '/api/drinks';
+
+  // =====================================================
+  // INICIALIZAÇÃO
+  // =====================================================
+
+  ngOnInit(): void {
+    // Solicita as comidas quando o componente e inicializado.
+    this.carregarComidas();
+    // Solicita as bebidas quando o componente e inicializado.
+    this.carregarBebidas();
+  }
+
+  carregarComidas(): void {
+    // Faz uma requisicao GET para a API interna de comidas.
+    this.http.get<RespostaComidasApi>(this.comidasApiUrl).subscribe({
+      next: (resposta) => {
+        // Remove o campo categoria antes de guardar os produtos no cardapio.
+        const comidas = resposta.data.map(({ categoria, ...produto }) => produto);
+
+        // Mantem apenas os itens classificados como salgados.
+        this.comidasSalgadas = comidas.filter(
+          (_, indice) => resposta.data[indice].categoria === 'salgados',
+        );
+        // Mantem apenas os itens classificados como doces.
+        this.sobremesas = comidas.filter(
+          (_, indice) => resposta.data[indice].categoria === 'doces',
+        );
+      },
+      error: (erro) => {
+        // Registra no console qualquer falha na API de comidas.
+        console.error('Erro ao carregar comidas:', erro);
+      },
+    });
+  }
+
+  // =====================================================
+  // CONSUMIR API
+  // =====================================================
+
+  carregarBebidas(): void {
+    // Ativa o estado visual de carregamento.
+    this.carregandoBebidas = true;
+    // Limpa o estado anterior de erro antes da nova tentativa.
+    this.erroBebidas = false;
+
+    // Faz uma requisicao GET para a API interna de bebidas.
+    this.http.get<RespostaApi | BebidaApi[]>(this.apiUrl).subscribe({
+      next: (resposta) => {
+        // Aceita tanto uma lista direta quanto a resposta com campo data.
+        const bebidasApi = Array.isArray(resposta) ? resposta : resposta.data;
+
+        // Usa bebidas locais se a resposta estiver vazia ou invalida.
+        if (!Array.isArray(bebidasApi) || bebidasApi.length === 0) {
+          // Substitui os dados da tela pelos itens de reserva.
+          this.bebidas = this.bebidasFallback;
+          // Finaliza o estado de carregamento.
+          this.carregandoBebidas = false;
+          // Interrompe o processamento da resposta.
+          return;
+        }
+
+        // Converte cada registro da API para o modelo visual do cardapio.
+        this.bebidas = bebidasApi.map((bebida) => ({
+          // Copia o nome recebido da API.
+          nome: bebida.name,
+
+          // Usa a descricao da API ou uma descricao conforme o tipo.
+          descricao:
+            bebida.description ||
+            (bebida.type === 'hot'
+              ? 'Bebida quente preparada especialmente para você.'
+              : 'Bebida gelada, refrescante e preparada especialmente para você.'),
+
+          // Garante que o preco seja tratado como numero.
+          preco: Number(bebida.price),
+
+          // O cardapio nao recebe preco antigo da API.
+          precoAntigo: '',
+
+          // Usa a imagem da API ou uma imagem local alternativa.
+          imagem: bebida.image || this.obterImagemBebida(bebida.name),
+        }));
+
+        // Finaliza o estado visual de carregamento.
+        this.carregandoBebidas = false;
+      },
+
+      error: (erro) => {
+        // Registra no console a falha da requisicao de bebidas.
+        console.error('Erro ao carregar bebidas:', erro);
+
+        // Exibe os dados locais quando a API nao responder.
+        this.bebidas = this.bebidasFallback;
+        // Finaliza o estado visual de carregamento.
+        this.carregandoBebidas = false;
+        // Mantem a tela sem o indicador de erro atualmente definido pelo projeto.
+        this.erroBebidas = false;
+      },
+    });
+  }
+
+  // =====================================================
+  // IMAGENS DAS BEBIDAS
+  // =====================================================
+
+  obterImagemBebida(nome: string): string {
+    const nomeNormalizado = nome
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
+    if (nomeNormalizado.includes('cold brew')) {
+      return 'coldbrew.jpg';
+    }
+
+    if (nomeNormalizado.includes('matcha')) {
+      return 'brownsugarbubbletea.jpg';
+    }
+
+    if (nomeNormalizado.includes('mocha')) {
+      return 'mocha.jpg';
+    }
+
+    if (nomeNormalizado.includes('flat white')) {
+      return 'whitemocha.jpg';
+    }
+
+    if (nomeNormalizado.includes('latte')) {
+      return 'lattedebaunilha.jpg';
+    }
+
+    return 'cafepreto.jpg';
+  }
+
+  // =====================================================
+  // FILTROS
+  // =====================================================
+
+  get salgadosFiltrados(): Produto[] {
     return this.comidasSalgadas.filter(
       (item) =>
         item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
@@ -247,7 +429,7 @@ export class CardapioComponent {
     );
   }
 
-  get sobremesasFiltradas() {
+  get sobremesasFiltradas(): Produto[] {
     return this.sobremesas.filter(
       (item) =>
         item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
@@ -255,21 +437,51 @@ export class CardapioComponent {
     );
   }
 
-  get bebidasFiltradas() {
+  get bebidasFiltradas(): Produto[] {
     return this.bebidas.filter(
       (item) =>
         item.nome.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
-        (item.descricao ?? '').toLowerCase().includes(this.termoBusca.toLowerCase()),
+        item.descricao.toLowerCase().includes(this.termoBusca.toLowerCase()),
     );
   }
 
-  adicionarAoCarrinho(produto: any): void {
+  get salgadosVisiveis(): Produto[] {
+    return this.salgadosFiltrados.slice(0, this.quantidadeItensVisiveis);
+  }
+
+  get sobremesasVisiveis(): Produto[] {
+    return this.sobremesasFiltradas.slice(0, this.quantidadeItensVisiveis);
+  }
+
+  get bebidasVisiveis(): Produto[] {
+    return this.bebidasFiltradas.slice(0, this.quantidadeItensVisiveis);
+  }
+
+  carregarMaisItens(): void {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
+    const pertoDoFim = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 500;
+    if (pertoDoFim) {
+      this.quantidadeItensVisiveis += this.itensPorLote;
+    }
+  }
+
+  // =====================================================
+  // CARRINHO
+  // =====================================================
+
+  adicionarAoCarrinho(produto: Produto): void {
     this.carrinhoService.adicionarProduto(produto);
 
     alert(`${produto.nome} foi adicionado ao carrinho!`);
   }
 
-  // NOVO: quantidade total de produtos no carrinho
+  // =====================================================
+  // QUANTIDADE DO CARRINHO
+  // =====================================================
+
   get quantidadeCarrinho(): number {
     return this.carrinhoService
       .getProdutos()
