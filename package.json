@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "vitest",
+    "test": "ng test",
     "serve:ssr:cafeteria": "node dist/cafeteria/server/server.mjs"
   },
   "private": true,
@@ -28,19 +28,11 @@
   },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "^2.7.2",
-<<<<<<< HEAD
-    "@analogjs/vitest-angular": "^2.7.2",
-    "@angular/build": "^22.1.4",
-    "@angular/cli": "^22.1.3",
-    "@angular/compiler-cli": "^22.1.0",
-    "@testing-library/angular": "^19.4.2",
-=======
     "@angular/build": "^22.1.4",
     "@angular/cli": "^22.1.3",
     "@angular/compiler-cli": "^22.1.0",
     "@testing-library/angular": "^19.5.0",
     "@testing-library/dom": "^10.4.2",
->>>>>>> 30c5004c02a06f57a3a3037902da8b5d1ce9b625
     "@testing-library/jest-dom": "^7.0.1",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",

@@ -1,18 +1,43 @@
-<!-- Container principal de todo o cardápio -->
+<app-menu></app-menu>
+<!-- =====================================================
+     CONTAINER PRINCIPAL
+     ===================================================== -->
+
 <div class="menu-container">
-  <a routerLink="../home"> ← </a>
+  <!-- VOLTAR PARA HOME -->
+
+  <a routerLink="/home" class="btn-voltar" aria-label="Voltar para a página inicial">
+    ← Voltar
+  </a>
+
+  <!-- =====================================================
+       TÍTULO
+       ===================================================== -->
 
   <div class="header-titulo">
     <span>AROMA CAFÉ</span>
+
     <h1>Nosso Cardápio</h1>
   </div>
 
-  <!-- Seção da Barra de Busca -->
+  <!-- =====================================================
+       BARRA DE BUSCA
+       ===================================================== -->
+
   <div class="busca-secao">
-    <input type="text" placeholder="Buscar item..." [(ngModel)]="termoBusca" class="input-busca" />
+    <input
+      type="search"
+      placeholder="Buscar comida ou bebida..."
+      [(ngModel)]="termoBusca"
+      class="input-busca"
+      aria-label="Buscar no cardápio"
+    />
   </div>
 
-  <!-- Filtros de Categoria -->
+  <!-- =====================================================
+       FILTROS DE CATEGORIA
+       ===================================================== -->
+
   <div class="categorias-botoes">
     <button
       [class.ativo]="categoriaSelecionada === 'Todos'"
@@ -43,40 +68,63 @@
     </button>
   </div>
 
-  <!-- SEÇÃO DE SALGADOS -->
+  <!-- =====================================================
+       SALGADOS
+       ===================================================== -->
+
   <section
     class="cardapio"
     *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Salgados'"
   >
     <h1>Comidas Salgadas</h1>
+
     <hr />
+
     <br />
 
     <div class="produtos">
-      <div class="produto" *ngFor="let item of salgadosFiltrados">
+      <div class="produto" *ngFor="let item of salgadosVisiveis">
         <div class="produto-info">
-          <span class="categoria-tag">SALGADOS</span>
+          <span class="categoria-tag"> SALGADOS </span>
 
-          <h3>{{ item.nome }}</h3>
+          <h3>
+            {{ item.nome }}
+          </h3>
 
-          <p>{{ item.descricao }}</p>
+          <p>
+            {{ item.descricao }}
+          </p>
 
-          <ng-container *ngIf="item.precoAntigo; else precoNormal">
-            <span class="preco promocao"> R$ {{ item.preco.toFixed(2).replace('.', ',') }} </span>
+          <ng-container *ngIf="item.precoAntigo; else precoNormalSalgado">
+            <span class="preco promocao">
+              R$
+              {{ item.preco.toFixed(2).replace('.', ',') }}
+            </span>
 
-            <span class="preco-antigo"> R$ {{ item.precoAntigo }} </span>
+            <span class="preco-antigo">
+              R$
+              {{ item.precoAntigo }}
+            </span>
           </ng-container>
 
-          <ng-template #precoNormal>
+          <ng-template #precoNormalSalgado>
             <span class="preco">
-              <b>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</b>
+              <b>
+                R$
+                {{ item.preco.toFixed(2).replace('.', ',') }}
+              </b>
             </span>
           </ng-template>
         </div>
 
-        <img [src]="item.imagem" [alt]="item.nome" />
+        <img [ngSrc]="item.imagem" [alt]="item.nome" width="116" height="116" />
 
-        <button type="button" class="btn-adicionar" (click)="adicionarAoCarrinho(item)">
+        <button
+          type="button"
+          class="btn-adicionar"
+          [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+          (click)="adicionarAoCarrinho(item)"
+        >
           Adicionar ao carrinho
         </button>
       </div>
@@ -85,80 +133,63 @@
 
   <br />
 
-  <!-- SEÇÃO DE SOBREMESAS -->
+  <!-- =====================================================
+       SOBREMESAS
+       ===================================================== -->
+
   <section
     class="cardapio"
     *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Doces'"
   >
     <h1>Sobremesas</h1>
+
     <hr />
+
     <br />
 
     <div class="produtos">
-      <div class="produto" *ngFor="let item of sobremesasFiltradas">
+      <div class="produto" *ngFor="let item of sobremesasVisiveis">
         <div class="produto-info">
-          <span class="categoria-tag">DOCES</span>
+          <span class="categoria-tag"> DOCES </span>
 
-          <h3>{{ item.nome }}</h3>
+          <h3>
+            {{ item.nome }}
+          </h3>
 
-          <p>{{ item.descricao }}</p>
+          <p>
+            {{ item.descricao }}
+          </p>
 
           <ng-container *ngIf="item.precoAntigo; else precoNormalSobremesa">
-            <span class="preco promocao"> R$ {{ item.preco.toFixed(2).replace('.', ',') }} </span>
+            <span class="preco promocao">
+              R$
+              {{ item.preco.toFixed(2).replace('.', ',') }}
+            </span>
 
-            <span class="preco-antigo"> R$ {{ item.precoAntigo }} </span>
+            <span class="preco-antigo">
+              R$
+              {{ item.precoAntigo }}
+            </span>
           </ng-container>
 
           <ng-template #precoNormalSobremesa>
             <span class="preco">
-              <b>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</b>
+              <b>
+                R$
+                {{ item.preco.toFixed(2).replace('.', ',') }}
+              </b>
             </span>
           </ng-template>
         </div>
 
-        <img [src]="item.imagem" [alt]="item.nome" />
+        <img [ngSrc]="item.imagem" [alt]="item.nome" width="116" height="116" />
 
-        <button type="button" class="btn-adicionar" (click)="adicionarAoCarrinho(item)">
-          Adicionar ao carrinho
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DE BEBIDAS -->
-  <section
-    class="cardapio"
-    *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Bebidas'"
-  >
-    <h1>Bebidas</h1>
-    <hr />
-    <br />
-
-    <div class="produtos">
-      <div class="produto" *ngFor="let item of bebidas">
-        <div class="produto-info">
-          <span class="categoria-tag">BEBIDAS</span>
-
-          <h3>{{ item.nome }}</h3>
-
-          <p>{{ item.descricao }}</p>
-
-          <ng-container *ngIf="item.precoAntigo; else precoNormalBebidas">
-            <span class="preco promocao"> R$ {{ item.preco.toFixed(2).replace('.', ',') }} </span>
-
-            <span class="preco-antigo"> R$ {{ item.precoAntigo }} </span>
-          </ng-container>
-
-          <ng-template #precoNormalBebidas>
-            <span class="preco">
-              <b>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</b>
-            </span>
-          </ng-template>
-        </div>
-
-        <img [src]="item.imagem" [alt]="item.nome" />
-
-        <button type="button" class="btn-adicionar" (click)="adicionarAoCarrinho(item)">
+        <button
+          type="button"
+          class="btn-adicionar"
+          [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+          (click)="adicionarAoCarrinho(item)"
+        >
           Adicionar ao carrinho
         </button>
       </div>
@@ -166,14 +197,70 @@
   </section>
 
   <!-- =====================================================
-         NOVO: CARRINHO FIXO NO CANTO DA TELA
-         ===================================================== -->
+       BEBIDAS DA API
+       ===================================================== -->
 
-  <a routerLink="/carrinho" class="carrinho-flutuante">
-    <img src="carrinho.png" alt="Carrinho" />
+  <section
+    class="cardapio"
+    *ngIf="categoriaSelecionada === 'Todos' || categoriaSelecionada === 'Bebidas'"
+  >
+    <h1>Bebidas</h1>
 
-    <span class="contador-carrinho" *ngIf="quantidadeCarrinho > 0">
-      {{ quantidadeCarrinho }}
-    </span>
-  </a>
+    <hr />
+
+    <br />
+
+    <!-- CARREGANDO -->
+
+    <div *ngIf="carregandoBebidas" class="mensagem-api">
+      <p>Carregando bebidas...</p>
+    </div>
+
+    <!-- ERRO -->
+
+    <div *ngIf="erroBebidas" class="mensagem-api">
+      <p>Não foi possível carregar as bebidas.</p>
+
+      <button type="button" (click)="carregarBebidas()">Tentar novamente</button>
+    </div>
+
+    <!-- PRODUTOS -->
+
+    <div class="produtos" *ngIf="!carregandoBebidas && !erroBebidas">
+      <div class="produto" *ngFor="let item of bebidasVisiveis">
+        <div class="produto-info">
+          <span class="categoria-tag"> BEBIDAS </span>
+
+          <h3>
+            {{ item.nome }}
+          </h3>
+
+          <p>
+            {{ item.descricao }}
+          </p>
+
+          <span class="preco">
+            <b>
+              R$
+              {{ item.preco.toFixed(2).replace('.', ',') }}
+            </b>
+          </span>
+        </div>
+
+        <img [ngSrc]="item.imagem" [alt]="item.nome" width="116" height="116" />
+
+        <button
+          type="button"
+          class="btn-adicionar"
+          [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+          (click)="adicionarAoCarrinho(item)"
+        >
+          Adicionar ao carrinho
+        </button>
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<app-rodape></app-rodape>

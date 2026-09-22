@@ -1,10 +1,33 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Menu } from './menu';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/angular';
-import { Home } from './home';
-import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
+import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service';
+import { provideRouter } from '@angular/router';
+
+describe('Menu', () => {
+  let component: Menu;
+  let fixture: ComponentFixture<Menu>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Menu],
+      providers: [provideRouter([])],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Menu);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
 
 // Testing Library: teste caixa preta
-describe('Página inicial - Home', () => {
+describe('Menu da página inicial', () => {
   // TESTE 1 - VERIFICAR OS LINKS DO MENU
   it('deve exibir os links principais do menu', async () => {
     // Cria um CarrinhoService falso.
@@ -16,11 +39,10 @@ describe('Página inicial - Home', () => {
       getProdutos: () => [],
     };
 
-    // Renderiza o componente Home.
-    await render(Home, {
-      // Informa ao Angular para utilizar
-      // o CarrinhoService falso.
+    // Renderiza o componente Menu.
+    await render(Menu, {
       providers: [
+        provideRouter([]),
         {
           provide: CarrinhoService,
           useValue: carrinhoServiceMock,
@@ -29,10 +51,18 @@ describe('Página inicial - Home', () => {
     });
 
     // Procura o link "Home" na página.
-    const linkHome = screen.getByRole('link', {name: 'Home',});
-    const linkSobre = screen.getByRole('link', {name: 'Sobre',});
-    const linkCardapio = screen.getByRole('link', {name: 'Cardápio',});
-    const linkLogin = screen.getByRole('link', {name: 'Login',});
+    const linkHome = screen.getByRole('link', {
+      name: 'Home',
+    });
+    const linkSobre = screen.getByRole('link', {
+      name: 'Sobre',
+    });
+    const linkCardapio = screen.getByRole('link', {
+      name: 'Cardápio',
+    });
+    const linkLogin = screen.getByRole('link', {
+      name: 'Login',
+    });
 
     // Verifica se o link Home existe.
     expect(linkHome).toBeTruthy();
@@ -51,10 +81,10 @@ describe('Página inicial - Home', () => {
       getProdutos: () => [],
     };
 
-    // Renderiza o componente Home.
-    await render(Home, {
-      // Fornece o serviço falso para o componente.
+    // Renderiza o componente Menu.
+    await render(Menu, {
       providers: [
+        provideRouter([]),
         {
           provide: CarrinhoService,
           useValue: carrinhoServiceMock,
