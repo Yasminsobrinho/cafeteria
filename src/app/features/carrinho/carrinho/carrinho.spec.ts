@@ -19,7 +19,7 @@ describe('Carrinho', () => {
   };
 
   beforeEach(async () => {
-    // Limpa o carrinho salvo antes de cada teste.
+    // Limpa o carrinho antes de cada teste.
     localStorage.clear();
 
     await TestBed.configureTestingModule({
@@ -36,6 +36,7 @@ describe('Carrinho', () => {
   });
 
   afterEach(() => {
+    // Limpa o localStorage depois de cada teste.
     localStorage.clear();
   });
 
@@ -143,10 +144,12 @@ describe('Carrinho', () => {
 
     // Subtotal = R$ 14
     component.codigoCupom = 'AROMA10';
+
     component.aplicarCupom();
 
     // 10% de R$ 14 = R$ 1,40
-    expect(component.desconto).toBe(1.4);
+    // toBeCloseTo evita erro de precisão decimal do JavaScript.
+    expect(component.desconto).toBeCloseTo(1.4, 2);
 
     expect(component.mensagemCupom).toBe('Cupom aplicado! Você ganhou 10% de desconto.');
   });
@@ -159,6 +162,7 @@ describe('Carrinho', () => {
     carrinhoService.adicionarProduto(produto);
 
     component.codigoCupom = 'CAFE5';
+
     component.aplicarCupom();
 
     expect(component.desconto).toBe(5);
@@ -167,10 +171,10 @@ describe('Carrinho', () => {
   });
 
   // =========================================================
-  // CUPOM CAFE5 NÃO PODE ULTRAPASSAR O SUBTOTAL
+  // CAFE5 MAIOR QUE O SUBTOTAL
   // =========================================================
 
-  it('não deve permitir que o desconto do CAFE5 seja maior que o subtotal', () => {
+  it('não deve permitir desconto maior que o subtotal', () => {
     const produtoBarato: ProdutoCarrinho = {
       nome: 'Café',
       descricao: 'Café pequeno',
@@ -182,9 +186,11 @@ describe('Carrinho', () => {
     carrinhoService.adicionarProduto(produtoBarato);
 
     component.codigoCupom = 'CAFE5';
+
     component.aplicarCupom();
 
-    // O subtotal é R$ 3, então o desconto fica limitado a R$ 3.
+    // Subtotal = R$ 3.
+    // O desconto máximo também será R$ 3.
     expect(component.desconto).toBe(3);
   });
 
@@ -196,6 +202,7 @@ describe('Carrinho', () => {
     carrinhoService.adicionarProduto(produto);
 
     component.codigoCupom = 'ABC123';
+
     component.aplicarCupom();
 
     expect(component.desconto).toBe(0);
@@ -204,16 +211,32 @@ describe('Carrinho', () => {
   });
 
   // =========================================================
-  // CUPOM COM LETRAS MINÚSCULAS
+  // CUPOM EM LETRAS MINÚSCULAS
   // =========================================================
 
-  it('deve aceitar o cupom mesmo digitado em letras minúsculas', () => {
+  it('deve aceitar o cupom em letras minúsculas', () => {
     carrinhoService.adicionarProduto(produto);
 
     component.codigoCupom = 'aroma10';
+
     component.aplicarCupom();
 
-    expect(component.desconto).toBe(0.7);
+    // R$ 7 x 10% = R$ 0,70
+    expect(component.desconto).toBeCloseTo(0.7, 2);
+  });
+
+  // =========================================================
+  // CUPOM COM ESPAÇOS
+  // =========================================================
+
+  it('deve aceitar o cupom com espaços antes ou depois', () => {
+    carrinhoService.adicionarProduto(produto);
+
+    component.codigoCupom = '  AROMA10  ';
+
+    component.aplicarCupom();
+
+    expect(component.desconto).toBeCloseTo(0.7, 2);
   });
 
   // =========================================================
@@ -225,6 +248,7 @@ describe('Carrinho', () => {
 
     component.aumentarQuantidade(component.produtos[0]);
 
+    // R$ 7 x 2 = R$ 14
     expect(component.total).toBe(14);
   });
 
@@ -239,10 +263,11 @@ describe('Carrinho', () => {
 
     // Subtotal = R$ 14
     component.codigoCupom = 'AROMA10';
+
     component.aplicarCupom();
 
     // R$ 14 - R$ 1,40 = R$ 12,60
-    expect(component.total).toBe(12.6);
+    expect(component.total).toBeCloseTo(12.6, 2);
   });
 
   // =========================================================
@@ -260,7 +285,7 @@ describe('Carrinho', () => {
   });
 
   // =========================================================
-  // SALVAR NO LOCALSTORAGE
+  // LOCALSTORAGE
   // =========================================================
 
   it('deve salvar o produto no localStorage', () => {
