@@ -91,5 +91,32 @@ describe('Cardapio', () => {
     expect(component.bebidas[0].nome).toBe('Espresso');
     // Confirma o comportamento atual do indicador de erro.
     expect(component.erroBebidas).toBe(false);
+
+//emilly//
+
+  //Verifica se encontra Coxinha na busca
+  it('deve encontrar Coxinha na busca', () => {
+    
+    // Simula o usuário pesquisando "Coxinha"
+    component.termoBusca = 'Coxinha';
+
+    // Verifica se encontrou exatamente 1 resultado
+    expect(component.salgadosFiltrados.length).toBe(1);
+
+    // Verifica se o produto encontrado é realmente Coxinha
+    expect(component.salgadosFiltrados[0].nome).toBe('Coxinha');
+  });
+
+  //Verifica quando o produto não existe
+  it('não deve encontrar Pizza', () => {
+    
+    // Simula a busca por um produto que não existe
+    component.termoBusca = 'Pizza';
+    
+    // Verifica se nenhuma categoria encontrou Pizza
+    expect
+    (component.salgadosFiltrados.length).toBe(0);
   });
 });
+  });
+
