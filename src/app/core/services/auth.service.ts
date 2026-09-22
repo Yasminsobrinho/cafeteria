@@ -5,6 +5,8 @@ import { isPlatformBrowser } from '@angular/common';
 interface Usuario {
   nome: string;
   email: string;
+  foto?: string;
+  provedor?: 'email' | 'google';
 }
 
 @Injectable({ providedIn: 'root' }) // disponível pra qualquer componente do app injetar
@@ -20,10 +22,7 @@ export class AuthService {
 
   // Tenta ler o usuário salvo no localStorage (roda uma vez, na criação do service)
   private recuperarDoStorage(): Usuario | null {
-    if (!isPlatformBrowser(this.platformId)) {
-      return null;
-    }
-
+    if (!isPlatformBrowser(this.platformId)) return null;
     const dados = localStorage.getItem(this.STORAGE_KEY);
     return dados ? JSON.parse(dados) : null; // se não tiver nada salvo, retorna null
   }
@@ -34,7 +33,7 @@ export class AuthService {
     // Quando tiverem uma API de verdade, é aqui que entra o HttpClient
     // fazendo uma requisição pro servidor.
     if (email.includes('@') && senha.length >= 6) {
-      const usuario: Usuario = { nome: email.split('@')[0], email };
+      const usuario: Usuario = { nome: email.split('@')[0], email, provedor: 'email' };
 
       // Salva no localStorage (persiste mesmo fechando o navegador)
       if (isPlatformBrowser(this.platformId)) {
@@ -48,6 +47,26 @@ export class AuthService {
     }
 
     return false; // login falhou (formato inválido)
+  }
+
+loginComGoogle(credentialJwt: string): boolean {
+    try {
+      const payloadBase64 = credentialJwt.split('.')[1];
+      const payload = JSON.parse(atob(payloadBase64));
+      const usuario: Usuario = {
+        nome: payload.name ?? payload.email.split('@')[0],
+        email: payload.email,
+        foto: payload.picture,
+        provedor: 'google',
+      };
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(usuario));
+      }
+      this.usuarioLogado.set(usuario);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   // Desloga o usuário: limpa o storage e zera o signal
