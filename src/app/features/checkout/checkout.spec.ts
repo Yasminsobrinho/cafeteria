@@ -17,7 +17,6 @@ import { render, screen } from '@testing-library/angular';
 // Ele permite simular ações reais do usuário,
 // como digitar e clicar.
 import userEvent from '@testing-library/user-event';
-
 // Importa as funções do Vitest usadas no teste.
 //
 // describe:
