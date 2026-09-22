@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
+import { vi } from 'vitest';
 
 import { CardapioComponent } from './cardapio';
 
@@ -23,7 +24,7 @@ describe('Cardapio', () => {
 
     httpTesting = TestBed.inject(HttpTestingController);
 
-    // Intercepta a chamada de comidas e fornece uma resposta simulada.
+    // Intercepta a chamada de comidas.
     httpTesting.expectOne('/api/foods').flush({
       total: 2,
       data: [
@@ -48,7 +49,7 @@ describe('Cardapio', () => {
       ],
     });
 
-    // Intercepta a chamada de bebidas e fornece uma resposta simulada.
+    // Intercepta a chamada de bebidas.
     httpTesting.expectOne('/api/drinks').flush({
       total: 8,
       data: [
@@ -68,18 +69,25 @@ describe('Cardapio', () => {
     });
 
     await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   afterEach(() => {
     httpTesting.verify();
   });
 
-  // Verifica se o componente foi criado corretamente.
+  // =========================================================
+  // CRIAÇÃO DO COMPONENTE
+  // =========================================================
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // Verifica se as bebidas da API recebem as imagens corretas.
+  // =========================================================
+  // BEBIDAS
+  // =========================================================
+
   it('deve transformar bebidas da API em itens com imagens coerentes', () => {
     expect(component.bebidas).toEqual([
       expect.objectContaining({
@@ -93,7 +101,10 @@ describe('Cardapio', () => {
     ]);
   });
 
-  // Verifica se as comidas são separadas entre salgados e doces.
+  // =========================================================
+  // COMIDAS
+  // =========================================================
+
   it('deve separar comidas da API entre salgados e doces', () => {
     expect(component.comidasSalgadas[0]).toEqual(
       expect.objectContaining({
@@ -110,49 +121,76 @@ describe('Cardapio', () => {
     );
   });
 
-  // Verifica o fallback quando a API de bebidas falha.
+  // =========================================================
+  // FALLBACK DA API
+  // =========================================================
+
   it('deve exibir bebidas de reserva quando a API falhar', () => {
-    // Inicia uma nova chamada ao endpoint de bebidas.
     component.carregarBebidas();
 
-    // Captura a requisição HTTP criada pelo componente.
     const request = httpTesting.expectOne('/api/drinks');
 
-    // Simula uma falha de rede na API.
     request.error(new ProgressEvent('network error'));
 
-    // Confirma que o fallback local foi exibido.
     expect(component.bebidas.length).toBeGreaterThan(0);
 
-    // Confirma que o primeiro item do fallback é o Espresso.
     expect(component.bebidas[0].nome).toBe('Espresso');
 
-    // Confirma o comportamento atual do indicador de erro.
     expect(component.erroBebidas).toBe(false);
   });
 
   // =========================================================
-  // TESTES DE BUSCA
+  // BUSCA
   // =========================================================
 
-  // Verifica se encontra Coxinha na busca.
   it('deve encontrar Coxinha na busca', () => {
-    // Simula o usuário pesquisando "Coxinha".
     component.termoBusca = 'Coxinha';
 
-    // Verifica se encontrou exatamente 1 resultado.
     expect(component.salgadosFiltrados.length).toBe(1);
 
-    // Verifica se o produto encontrado é realmente Coxinha.
     expect(component.salgadosFiltrados[0].nome).toBe('Coxinha');
   });
 
-  // Verifica quando o produto não existe.
   it('não deve encontrar Pizza', () => {
-    // Simula a busca por um produto que não existe.
     component.termoBusca = 'Pizza';
 
-    // Verifica se nenhuma categoria encontrou Pizza.
     expect(component.salgadosFiltrados.length).toBe(0);
+  });
+
+  // =========================================================
+  // ADICIONAR AO CARRINHO
+  // =========================================================
+
+  it('deve adicionar o produto ao carrinho ao clicar no botão', () => {
+    // Espiona o método do CarrinhoService.
+    const spyCarrinho = vi.spyOn(component['carrinhoService'], 'adicionarProduto');
+
+    // Evita que o alert real apareça durante o teste.
+    const spyAlert = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    // Procura o botão da Coxinha pelo aria-label.
+    const botao = fixture.nativeElement.querySelector(
+      'button[aria-label="Adicionar Coxinha ao carrinho"]',
+    );
+
+    // Verifica se o botão existe.
+    expect(botao).toBeTruthy();
+
+    // Simula o clique do usuário.
+    botao.click();
+
+    // Verifica se o produto foi enviado para o carrinho.
+    expect(spyCarrinho).toHaveBeenCalledWith(
+      expect.objectContaining({
+        nome: 'Coxinha',
+        preco: 7,
+        imagem: 'coxinha.jpg',
+      }),
+    );
+
+    // Verifica se a mensagem de confirmação foi exibida.
+    expect(spyAlert).toHaveBeenCalledWith('Coxinha foi adicionado ao carrinho!');
+
+    spyAlert.mockRestore();
   });
 });
