@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap');
+
+:host {
+    display: block;
+    background-color: #401d09;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* FOTO */
+#fundo {
+    background-image: url(/public/header.jpeg);
+    background: linear-gradient(0deg, #401d09 0%, #e1dbc5 100%);
+}
+
+
+#fotoHeader {
+    mask-image: linear-gradient( to top, rgb(255, 255, 255) 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, rgb(255, 255, 255) 60%, transparent 100%);
+    mask-position: center;
+    mask-size: cover;
+    width: 100%;
+    border-top: 2px solid #e1dbc5;
+}
+
+.carrinho-link {
+  position: relative;
+  display: inline-block;
+}
+
+.contador-carrinho {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #8b4513;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+
+
