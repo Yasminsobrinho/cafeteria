@@ -488,3 +488,4 @@ export class CardapioComponent implements OnInit {
       .reduce((total, produto) => total + produto.quantidade, 0);
   }
 }
+

@@ -193,4 +193,35 @@ describe('Cardapio', () => {
 
     spyAlert.mockRestore();
   });
+  
+// =========================================================
+// FILTRO DE CATEGORIAS
+// =========================================================
+
+// Teste para verificar se a categoria "Salgados"
+// é selecionada quando o botão é clicado
+it('deve selecionar a categoria Salgados ao clicar no botão', () => {
+
+  // Busca todos os botões que estão dentro da área de categorias
+  const botoes = fixture.nativeElement.querySelectorAll(
+    '.categorias-botoes button'
+  );
+
+  // Procura entre os botões aquele que possui o texto "Salgados"
+  const botaoSalgados = Array.from(botoes).find(
+    (botao: any) => botao.textContent.trim() === 'Salgados'
+  ) as HTMLButtonElement;
+
+  // Verifica se o botão "Salgados" realmente existe na tela
+  expect(botaoSalgados).toBeTruthy();
+
+  // Simula o clique no botão "Salgados"
+  botaoSalgados.click();
+
+  // Atualiza a tela depois do clique
+  fixture.detectChanges();
+
+  // Verifica se a categoria selecionada passou a ser "Salgados"
+  expect(component.categoriaSelecionada).toBe('Salgados');
+});
 });
