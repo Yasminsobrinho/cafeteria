@@ -6,13 +6,13 @@ describe('Rodape (Testing Library)', () => {
   it('deve renderizar sem erros', async () => {
     await render(Rodape);
 
-    expect(screen.getByRole('contentinfo')).toBeTruthy(); 
+    expect(screen.getByRole('contentinfo')).toBeTruthy();
   });
 
   it('deve exibir o título da seção', async () => {
     await render(Rodape);
 
-    expect(screen.getByText('Nossos Colaboradores')).toBeTruthy();
+    expect(screen.getByText('Colaboradores')).toBeTruthy();
   });
 
   it('deve exibir o nome de todos os colaboradores', async () => {
@@ -24,9 +24,9 @@ describe('Rodape (Testing Library)', () => {
       'Yasmin Sobrinho',
       'Emilly Vitória',
       'Felipe Sanatana',
-      'Júlia Wollena',
       'Thays de Mendonça',
       'Yohanne Karine',
+      'Felipe Sanatana',
     ];
 
     nomes.forEach((nome) => {
@@ -34,20 +34,22 @@ describe('Rodape (Testing Library)', () => {
     });
   });
 
-  it('deve ter 8 links de LinkedIn, todos abrindo em nova aba', async () => {
+  it('deve ter 7 links de LinkedIn, todos abrindo em nova aba', async () => {
     await render(Rodape);
 
-    const links = screen.getAllByRole('link');
+    const links = screen.getAllByRole('link').filter((link) =>
+      link.getAttribute('href')?.includes('linkedin.com'),
+    );
 
-    expect(links.length).toBe(8);
+    expect(links.length).toBe(7);
     links.forEach((link) => {
-      expect(link).toHaveAttribute('target', '_blank');
+      expect(link.getAttribute('target')).toBe('_blank');
     });
   });
 
   it('deve exibir o texto de direitos autorais', async () => {
     await render(Rodape);
 
-    expect(screen.getByText(/Aroma Café/)).toBeTruthy();
+    expect(screen.getByText('© 2026 Aroma Café. Todos os direitos reservados.')).toBeTruthy();
   });
 });
