@@ -31,7 +31,8 @@ export const routes: Routes = [
 
   {
     path: 'sobre',
-    loadComponent: () => import('./features/sobre/sobre').then((m) => m.Sobre),
+    loadComponent: () =>
+      import('./features/home/home/pginicial/sobre/sobre').then((m) => m.Sobre),
   },
 
   {
@@ -41,12 +42,14 @@ export const routes: Routes = [
 
   {
     path: 'localizacao',
-    loadComponent: () => import('./features/localizacao/localizacao').then((m) => m.Localizacao),
+    loadComponent: () =>
+      import('./features/home/home/pginicial/local/local').then((m) => m.Local),
   },
 
   {
     path: 'spotify',
-    loadComponent: () => import('./features/spotify/spotify').then((m) => m.Spotify),
+    loadComponent: () =>
+      import('./features/home/home/pginicial/playlist/playlist').then((m) => m.Playlist),
   },
 
   {

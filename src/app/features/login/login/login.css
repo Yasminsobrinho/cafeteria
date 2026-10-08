@@ -160,6 +160,33 @@
     margin: 4px 0 0;
 }
 
+.google-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.separador-ou {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #401d09;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+}
+
+.separador-ou::before,
+.separador-ou::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #d8c8a8;
+}
+
+.separador-ou span {
+    padding: 0 12px;
+}
+
 /* Responsivo */
 /*Telas grandes*/
 @media (min-width: 1440px) {

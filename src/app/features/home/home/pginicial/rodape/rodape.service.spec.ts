@@ -1,27 +1,8 @@
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import { Rodape } from './rodape';
-
-describe('Rodape', () => {
-  let component: Rodape;
-  let fixture: ComponentFixture<Rodape>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Rodape],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Rodape);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-
-/* TESTES */
 
 describe('Rodape - links do LinkedIn', () => {
   let fixture: ComponentFixture<Rodape>;
@@ -35,6 +16,7 @@ describe('Rodape - links do LinkedIn', () => {
     fixture.detectChanges();
   });
 
+  
   it('deve ter 8 links', () => {
     const links = fixture.debugElement.queryAll(By.css('a'));
     expect(links.length).toBe(8);

@@ -1,8 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { afterNextRender, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service'; // caminho confirmado no seu projeto
+
+// O script do Google (carregado no index.html) expõe esse objeto global.
+// Não existe tipagem oficial simples pra ele, então declaramos como "any".
+declare const google: any;
+
+const GOOGLE_CLIENT_ID = '435610855054-206eq6gcl6hosetb0ecfvem0kpp6mgtr.apps.googleusercontent.com';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +27,62 @@ export class Login {
   senha = '';
   erroEmail = '';
   erroSenha = '';
+
+  constructor() {
+    // afterNextRender só roda no navegador e só depois que o Angular termina
+    // de "hidratar" a página — evita que o Angular apague o botão do Google
+    // achando que o DOM não bate com o que o servidor gerou.
+    afterNextRender(() => {
+      if (this.auth.estaLogado) return;
+      this.carregarScriptGoogle().then(() => this.iniciarBotaoGoogle());
+    });
+  }
+
+  private carregarScriptGoogle(): Promise<void> {
+    return new Promise((resolve) => {
+      // Se o script já carregou antes (ex: usuário voltou pra essa página), não carrega de novo
+      if (typeof google !== 'undefined') {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
+  }
+
+  private iniciarBotaoGoogle(): void {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: (response: { credential: string }) => this.entrarComGoogle(response),
+    });
+
+    const container = document.getElementById('google-btn');
+    if (container) {
+      google.accounts.id.renderButton(container, {
+        theme: 'outline',
+        size: 'large',
+        width: 320,
+        text: 'continue_with',
+      });
+    }
+  }
+
+  private entrarComGoogle(response: { credential: string }): void {
+    const sucesso = this.auth.loginComGoogle(response.credential);
+
+    if (!sucesso) {
+      this.erroEmail = 'Não foi possível entrar com o Google. Tente novamente.';
+      return;
+    }
+
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
 
   entrar(): void {
     this.erroEmail = '';

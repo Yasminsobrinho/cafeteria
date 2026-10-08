@@ -17,32 +17,21 @@
        ======================================================= -->
 
   <header class="checkout-header">
-    <!-- Nome da cafeteria -->
     <span>AROMA CAFÉ</span>
 
-    <!-- Título principal -->
     <h1>Finalizar pedido</h1>
 
-    <!-- Pequena descrição -->
     <p>Preencha seus dados para finalizar sua compra.</p>
   </header>
 
   <!-- =======================================================
        CONTEÚDO DO CHECKOUT
-       
-       O *ngIf verifica se o pedido ainda NÃO foi finalizado.
-       
-       Se pedidoFinalizado for false:
-       mostra o formulário.
-       
-       Se for true:
-       esconde o formulário e mostra a confirmação.
        ======================================================= -->
 
   <main class="checkout-conteudo" *ngIf="!pedidoFinalizado">
+
     <!-- =====================================================
          DADOS DA ENTREGA
-         Aqui o cliente coloca seus dados.
          ===================================================== -->
 
     <section class="dados-entrega">
@@ -65,7 +54,25 @@
 
       <label for="telefone"> Telefone </label>
 
-      <input id="telefone" type="tel" [(ngModel)]="telefone" placeholder="Digite seu telefone" />
+      <input
+        id="telefone"
+        type="tel"
+        [(ngModel)]="telefone"
+        placeholder="Digite seu telefone"
+      />
+
+      <!-- CEP -->
+
+      <label for="cep"> CEP </label>
+
+      <input
+        id="cep"
+        type="text"
+        [(ngModel)]="cep"
+        placeholder="Digite seu CEP"
+        maxlength="9"
+        (blur)="buscarCep()"
+      />
 
       <!-- ENDEREÇO -->
 
@@ -83,7 +90,13 @@
 
       <label for="numero"> Número </label>
 
-      <input id="numero" type="text" [(ngModel)]="numero" placeholder="Número" required />
+      <input
+        id="numero"
+        type="text"
+        [(ngModel)]="numero"
+        placeholder="Número"
+        required
+      />
 
       <!-- BAIRRO -->
 
@@ -116,29 +129,36 @@
     <section class="pagamento">
       <h2>Forma de pagamento</h2>
 
-      <!-- ===================================================
-           CARTÃO
-           =================================================== -->
+      <!-- CARTÃO -->
 
       <label>
-        <input type="radio" name="pagamento" value="Cartão" [(ngModel)]="formaPagamento" />
+        <input
+          type="radio"
+          name="pagamento"
+          value="Cartão"
+          [(ngModel)]="formaPagamento"
+        />
 
         Cartão
       </label>
 
-      <!-- ===================================================
-           TIPO DO CARTÃO
-           
-           Só aparece quando o cliente escolhe "Cartão".
-           =================================================== -->
+      <!-- TIPO DO CARTÃO -->
 
-      <div class="opcoes-cartao" *ngIf="formaPagamento === 'Cartão'">
+      <div
+        class="opcoes-cartao"
+        *ngIf="formaPagamento === 'Cartão'"
+      >
         <p>Escolha o tipo do cartão:</p>
 
         <!-- CARTÃO DE CRÉDITO -->
 
         <label>
-          <input type="radio" name="tipoCartao" value="Crédito" [(ngModel)]="tipoCartao" />
+          <input
+            type="radio"
+            name="tipoCartao"
+            value="Crédito"
+            [(ngModel)]="tipoCartao"
+          />
 
           Crédito
         </label>
@@ -146,62 +166,71 @@
         <!-- CARTÃO DE DÉBITO -->
 
         <label>
-          <input type="radio" name="tipoCartao" value="Débito" [(ngModel)]="tipoCartao" />
+          <input
+            type="radio"
+            name="tipoCartao"
+            value="Débito"
+            [(ngModel)]="tipoCartao"
+          />
 
           Débito
         </label>
       </div>
 
-      <!-- ===================================================
-           PIX
-           =================================================== -->
+      <!-- PIX -->
 
       <label>
-        <input type="radio" name="pagamento" value="Pix" [(ngModel)]="formaPagamento" />
+        <input
+          type="radio"
+          name="pagamento"
+          value="Pix"
+          [(ngModel)]="formaPagamento"
+        />
 
         Pix
       </label>
 
-      <!-- ===================================================
-           CHAVE PIX
-           
-           Só aparece quando o cliente escolhe PIX.
-           =================================================== -->
+      <!-- CHAVE PIX -->
 
-      <div class="dados-pix" *ngIf="formaPagamento === 'Pix'">
+      <div
+        class="dados-pix"
+        *ngIf="formaPagamento === 'Pix'"
+      >
         <p>Faça o pagamento utilizando a chave PIX:</p>
-
-        <!--
-          TROQUE ESTA CHAVE PELA CHAVE PIX REAL
-          DA CAFETERIA.
-        -->
 
         <strong> aromacafe@gmail.com </strong>
       </div>
 
-      <!-- ===================================================
-           DINHEIRO
-           =================================================== -->
+      <!-- DINHEIRO -->
 
       <label>
-        <input type="radio" name="pagamento" value="Dinheiro" [(ngModel)]="formaPagamento" />
+        <input
+          type="radio"
+          name="pagamento"
+          value="Dinheiro"
+          [(ngModel)]="formaPagamento"
+        />
 
         Dinheiro
       </label>
 
-      <!-- ===================================================
-           OPÇÕES DO DINHEIRO
-           
-           Só aparecem quando o cliente escolhe dinheiro.
-           =================================================== -->
+      <!-- OPÇÕES DO DINHEIRO -->
 
-      <div class="opcoes-dinheiro" *ngIf="formaPagamento === 'Dinheiro'">
+      <div
+        class="opcoes-dinheiro"
+        *ngIf="formaPagamento === 'Dinheiro'"
+      >
         <p>Precisa de troco?</p>
 
         <!-- CLIENTE PRECISA DE TROCO -->
 
         <label>
-          <input type="radio" name="precisaTroco" [value]="true" [(ngModel)]="precisaTroco" />
+          <input
+            type="radio"
+            name="precisaTroco"
+            [value]="true"
+            [(ngModel)]="precisaTroco"
+          />
 
           Sim
         </label>
@@ -209,16 +238,17 @@
         <!-- CLIENTE NÃO PRECISA DE TROCO -->
 
         <label>
-          <input type="radio" name="precisaTroco" [value]="false" [(ngModel)]="precisaTroco" />
+          <input
+            type="radio"
+            name="precisaTroco"
+            [value]="false"
+            [(ngModel)]="precisaTroco"
+          />
 
           Não
         </label>
 
-        <!-- =================================================
-             VALOR DO TROCO
-             
-             Só aparece quando o cliente responde "Sim".
-             ================================================= -->
+        <!-- VALOR DO TROCO -->
 
         <div *ngIf="precisaTroco === true">
           <label for="valorTroco"> Troco para quanto? </label>
@@ -237,19 +267,17 @@
 
     <!-- =====================================================
          RESUMO DO PEDIDO
-         Mostra os produtos e os valores.
          ===================================================== -->
 
     <section class="resumo-pedido">
       <h2>Resumo do pedido</h2>
 
-      <!--
-        *ngFor percorre todos os produtos do carrinho.
-        Para cada produto, cria uma parte do resumo.
-      -->
-
-      <div class="produto-resumo" *ngFor="let produto of produtos">
+      <div
+        class="produto-resumo"
+        *ngFor="let produto of produtos"
+      >
         <div>
+
           <!-- Nome do produto -->
 
           <strong>
@@ -262,16 +290,11 @@
             Quantidade:
             {{ produto.quantidade }}
           </p>
-        </div>
 
-        <!--
-          Mostra o preço do produto multiplicado
-          pela quantidade.
-        -->
+        </div>
 
         <span>
           R$
-
           {{ (produto.preco * produto.quantidade).toFixed(2) }}
         </span>
       </div>
@@ -285,16 +308,22 @@
       <div class="linha-resumo">
         <span> Subtotal </span>
 
-        <span> R$ {{ subtotal.toFixed(2) }} </span>
+        <span>
+          R$ {{ subtotal.toFixed(2) }}
+        </span>
       </div>
 
-      <!-- DESCONTO
-           Só aparece se houver desconto. -->
+      <!-- DESCONTO -->
 
-      <div class="linha-resumo desconto" *ngIf="desconto > 0">
+      <div
+        class="linha-resumo desconto"
+        *ngIf="desconto > 0"
+      >
         <span> Desconto </span>
 
-        <span> - R$ {{ desconto.toFixed(2) }} </span>
+        <span>
+          - R$ {{ desconto.toFixed(2) }}
+        </span>
       </div>
 
       <!-- TOTAL -->
@@ -302,30 +331,41 @@
       <div class="linha-total">
         <strong> Total </strong>
 
-        <strong> R$ {{ total.toFixed(2) }} </strong>
+        <strong>
+          R$ {{ total.toFixed(2) }}
+        </strong>
       </div>
     </section>
 
     <!-- =====================================================
          BOTÃO FINALIZAR
-         Quando clicado, chama finalizarPedido() no TypeScript.
          ===================================================== -->
 
-    <button type="button" class="finalizar" (click)="finalizarPedido()">Finalizar pedido</button>
+    <button
+      type="button"
+      class="finalizar"
+      (click)="finalizarPedido()"
+    >
+      Finalizar pedido
+    </button>
+
   </main>
 
   <!-- =======================================================
        PEDIDO CONFIRMADO
-       
-       Essa parte só aparece depois que o pedido é finalizado.
        ======================================================= -->
 
-  <section class="pedido-confirmado" *ngIf="pedidoFinalizado">
+  <section
+    class="pedido-confirmado"
+    *ngIf="pedidoFinalizado"
+  >
     <h2>Pedido realizado com sucesso! 🎉</h2>
 
     <!-- Nome do cliente -->
 
-    <p>Obrigado pela sua compra, {{ nome }}!</p>
+    <p>
+      Obrigado pela sua compra, {{ nome }}!
+    </p>
 
     <!-- Número do pedido -->
 
@@ -333,9 +373,7 @@
 
     <h1>#{{ numeroPedido }}</h1>
 
-    <!-- ===================================================
-         FORMA DE PAGAMENTO
-         =================================================== -->
+    <!-- FORMA DE PAGAMENTO -->
 
     <p>
       Forma de pagamento:
@@ -343,39 +381,48 @@
       <strong>
         {{ formaPagamento }}
 
-        <!--
-          Se for cartão, também mostra
-          Crédito ou Débito.
-        -->
-
-        <span *ngIf="formaPagamento === 'Cartão'"> - {{ tipoCartao }} </span>
+        <span *ngIf="formaPagamento === 'Cartão'">
+          - {{ tipoCartao }}
+        </span>
       </strong>
     </p>
 
-    <!-- ===================================================
-         INFORMAÇÃO DO PIX
-         =================================================== -->
+    <!-- INFORMAÇÃO DO PIX -->
 
     <p *ngIf="formaPagamento === 'Pix'">
       Chave PIX:
 
-      <strong> aromacafe@gmail.com </strong>
+      <strong>
+        aromacafe@gmail.com
+      </strong>
     </p>
 
-    <!-- ===================================================
-         INFORMAÇÃO DO TROCO
-         =================================================== -->
+    <!-- INFORMAÇÃO DO TROCO -->
 
-    <p *ngIf="formaPagamento === 'Dinheiro' && precisaTroco === true">
+    <p
+      *ngIf="
+        formaPagamento === 'Dinheiro' &&
+        precisaTroco === true
+      "
+    >
       Troco para:
 
-      <strong> R$ {{ valorTroco.toFixed(2) }} </strong>
+      <strong>
+        R$ {{ valorTroco.toFixed(2) }}
+      </strong>
     </p>
 
     <!-- Caso não precise de troco -->
 
-    <p *ngIf="formaPagamento === 'Dinheiro' && precisaTroco === false">
-      <strong> Não precisa de troco. </strong>
+    <p
+      *ngIf="
+        formaPagamento === 'Dinheiro' &&
+        precisaTroco === false
+      "
+    >
+      <strong>
+        Não precisa de troco.
+      </strong>
     </p>
 
     <!-- TOTAL -->
@@ -383,7 +430,9 @@
     <p>
       Total do pedido:
 
-      <strong> R$ {{ totalPedido.toFixed(2) }} </strong>
+      <strong>
+        R$ {{ totalPedido.toFixed(2) }}
+      </strong>
     </p>
 
     <!-- DESCONTO -->
@@ -391,7 +440,9 @@
     <p *ngIf="descontoPedido > 0">
       Desconto:
 
-      <strong> - R$ {{ descontoPedido.toFixed(2) }} </strong>
+      <strong>
+        - R$ {{ descontoPedido.toFixed(2) }}
+      </strong>
     </p>
 
     <!-- ENDEREÇO -->
@@ -399,7 +450,9 @@
     <p>
       Entrega em:
 
-      <strong> {{ endereco }}, {{ numero }} - {{ bairro }} </strong>
+      <strong>
+        {{ endereco }}, {{ numero }} - {{ bairro }}
+      </strong>
     </p>
 
     <!-- COMPLEMENTO -->
@@ -411,5 +464,7 @@
         {{ complemento }}
       </strong>
     </p>
+
   </section>
+
 </div>
