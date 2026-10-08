@@ -1,79 +1,82 @@
 <app-menu></app-menu>
 
-<!-- HERO -->
-<section class="hero">
-  <img [src]="imgheader" alt="" class="hero-foto" />
-  <div class="hero-conteudo">
-    <p class="hero-sub">Café especial no coração de Copacabana</p>
-    <h1>Momentos doces<br />começam aqui.</h1>
-    <p class="hero-texto">
-      Cada xícara conta uma história, cada pedaço cria uma memória. Venha viver a sua no Aroma Café.
-    </p>
-    <div class="hero-botoes">
-      <a routerLink="/cardapio" class="btn btn-cheio">Ver cardápio</a>
-      <a href="#sobre" class="btn btn-vazado">Nossa história</a>
-    </div>
-  </div>
-</section>
-
-<!-- DIFERENCIAIS -->
-<section class="faixa">
-  @for (d of diferenciais; track d.titulo) {
-    <div class="faixa-item">
-      <span class="faixa-icone">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path [attr.d]="d.icone" />
-        </svg>
-      </span>
-      <div>
-        <h3>{{ d.titulo }}</h3>
-        <p>{{ d.texto }}</p>
+<main class="home-main">
+  <!-- HERO -->
+  <section class="hero">
+    <img [src]="imgheader" alt="" class="hero-foto" />
+    <div class="hero-conteudo">
+      <p class="hero-sub">Café especial no coração de Copacabana</p>
+      <h1>Momentos doces<br />começam aqui.</h1>
+      <p class="hero-texto">
+        Cada xícara conta uma história, cada pedaço cria uma memória. Venha viver a sua no Aroma Café.
+      </p>
+      <div class="hero-botoes">
+        <a routerLink="/cardapio" class="btn btn-cheio">Ver cardápio</a>
+        <a href="#sobre" class="btn btn-vazado">Nossa história</a>
       </div>
     </div>
-  }
-</section>
+  </section>
 
-<!-- DESTAQUES -->
-<section class="destaques">
-  <header class="destaques-topo">
-    <div>
-      <p class="rotulo">Nossos favoritos</p>
-      <h2>Feito com cuidado,<br />servido com carinho</h2>
-    </div>
-    <a routerLink="/cardapio" class="btn btn-vazado">Ver cardápio completo</a>
-  </header>
-
-  <div class="destaques-grid">
-    @for (p of destaques; track p.nome) {
-      <article class="card-produto">
-        <img [src]="p.imagem" [alt]="p.nome" loading="lazy" />
-        <div class="card-corpo">
-          <h3>{{ p.nome }}</h3>
-          <p>{{ p.descricao }}</p>
-          <div class="card-rodape">
-            <strong>R$ {{ p.preco.toFixed(2).replace('.', ',') }}</strong>
-            <button
-              type="button"
-              (click)="adicionar(p)"
-              [attr.aria-label]="'Adicionar ' + p.nome + ' ao carrinho'"
-            >
-              +
-            </button>
-          </div>
+  <!-- DIFERENCIAIS -->
+  <section class="faixa">
+    @for (d of diferenciais; track d.titulo) {
+      <div class="faixa-item">
+        <span class="faixa-icone">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path [attr.d]="d.icone" />
+          </svg>
+        </span>
+        <div>
+          <h3>{{ d.titulo }}</h3>
+          <p>{{ d.texto }}</p>
         </div>
-      </article>
+      </div>
     }
-  </div>
-</section>
+  </section>
 
-<app-sobre></app-sobre>
-<app-local></app-local>
-<app-playlist></app-playlist>
+  <!-- DESTAQUES -->
+  <section class="destaques">
+    <header class="destaques-topo">
+      <div>
+        <p class="rotulo">Nossos favoritos</p>
+        <h2>Feito com cuidado,<br />servido com carinho</h2>
+      </div>
+      <a routerLink="/cardapio" class="btn btn-vazado">Ver cardápio completo</a>
+    </header>
+
+    <div class="destaques-grid">
+      @for (p of destaques; track p.nome) {
+        <article class="card-produto">
+          <img [src]="p.imagem" [alt]="p.nome" loading="lazy" />
+          <div class="card-corpo">
+            <h3>{{ p.nome }}</h3>
+            <p>{{ p.descricao }}</p>
+            <div class="card-rodape">
+              <strong>R$ {{ p.preco.toFixed(2).replace('.', ',') }}</strong>
+              <button
+                type="button"
+                (click)="adicionar(p)"
+                [attr.aria-label]="'Adicionar ' + p.nome + ' ao carrinho'"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <app-sobre></app-sobre>
+  <app-local></app-local>
+  <app-playlist></app-playlist>
+</main>
+
 <app-rodape></app-rodape>
