@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen, within } from '@testing-library/angular';
 import { Home } from './home';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 
@@ -28,11 +28,15 @@ describe('Página inicial - Home', () => {
       ],
     });
 
+    await fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+
+    const menu = within(screen.getAllByRole('navigation')[0]);
+
     // Procura o link "Home" na página.
-    const linkHome = screen.getByRole('link', {name: 'Home',});
-    const linkSobre = screen.getByRole('link', {name: 'Sobre',});
-    const linkCardapio = screen.getByRole('link', {name: 'Cardápio',});
-    const linkLogin = screen.getByRole('link', {name: 'Login',});
+    const linkHome = menu.getByRole('link', { name: 'Home' });
+    const linkSobre = menu.getByRole('link', { name: 'Sobre' });
+    const linkCardapio = menu.getByRole('link', { name: 'Cardápio' });
+    const linkLogin = menu.getByRole('link', { name: 'Login' });
 
     // Verifica se o link Home existe.
     expect(linkHome).toBeTruthy();
@@ -62,11 +66,15 @@ describe('Página inicial - Home', () => {
       ],
     });
 
+    await fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+
+    const menu = within(screen.getAllByRole('navigation')[0]);
+
     // Procura o link Home.
-    const linkHome = screen.getByRole('link', { name: 'Home' });
-    const linkSobre = screen.getByRole('link', { name: 'Sobre' });
-    const linkCardapio = screen.getByRole('link', { name: 'Cardápio' });
-    const linkLogin = screen.getByRole('link', { name: 'Login' });
+    const linkHome = menu.getByRole('link', { name: 'Home' });
+    const linkSobre = menu.getByRole('link', { name: 'Sobre' });
+    const linkCardapio = menu.getByRole('link', { name: 'Cardápio' });
+    const linkLogin = menu.getByRole('link', { name: 'Login' });
 
     // Verifica se Home leva para /home.
     expect(linkHome.getAttribute('href')).toContain('/home');

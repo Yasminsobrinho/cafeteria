@@ -4,19 +4,19 @@ import { Login } from './login';
 
 describe('Testes do Login - Vitest', () => {
   // Teste de caixa branca:
-  // Verifica diretamente se a classe Login pode ser instanciada.
-  it('deve criar o componente Login', () => {
-    const login = new Login();
+  // Verifica se o Angular consegue criar o componente e resolver suas dependências.
+  it('deve criar o componente Login', async () => {
+    const { fixture } = await render(Login);
 
-    expect(login).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   // Teste de caixa branca:
-  // Verifica se o objeto criado pertence à classe Login.
-  it('deve ser uma instância da classe Login', () => {
-    const login = new Login();
+  // Verifica se o componente criado pelo Angular pertence à classe Login.
+  it('deve ser uma instância da classe Login', async () => {
+    const { fixture } = await render(Login);
 
-    expect(login).toBeInstanceOf(Login);
+    expect(fixture.componentInstance).toBeInstanceOf(Login);
   });
 });
 

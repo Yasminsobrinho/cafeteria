@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Menu } from './menu';
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service';
 import { provideRouter } from '@angular/router';
 
@@ -50,6 +50,8 @@ describe('Menu da página inicial', () => {
       ],
     });
 
+    await fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+
     // Procura o link "Home" na página.
     const linkHome = screen.getByRole('link', {
       name: 'Home',
@@ -91,6 +93,8 @@ describe('Menu da página inicial', () => {
         },
       ],
     });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
 
     // Procura o link Home.
     const linkHome = screen.getByRole('link', { name: 'Home' });
