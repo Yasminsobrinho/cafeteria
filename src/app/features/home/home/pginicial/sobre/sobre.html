@@ -1,19 +1,20 @@
-<div id="sobre">
+<section id="sobre">
+  <div class="sobre-foto">
+    <img [src]="imgSobre" alt="Interior do Aroma Café" />
+  </div>
 
-    <div id="sobreTxt">
-        <h1 href="#sobre">Sobre</h1>
-
-        <p>Nascemos da vontade de servir um café de verdade — simples, bem feito, sem excessos.
-        Selecionamos os grãos com cuidado, torramos na medida certa e preparamos cada xícara com atenção aos detalhes. Aqui, o espaço é pensado para ser leve e acolhedor: um lugar para pausar, respirar e aproveitar o momento, seja sozinho, com um livro, ou com boa companhia.
-        creditamos que o essencial já basta. Por isso, focamos no que realmente importa: um café excelente e um ambiente confortável.
-        Venha tomar um café com a gente.</p>
-    </div>
-
-    <div id="fotoSobre">
-        <img [src]="imgSobre">
-    </div>
-
-</div>
-
-
-
+  <div class="sobre-texto">
+    <p class="rotulo">Nossa filosofia</p>
+    <h2>Mais que café,<br />um sentimento.</h2>
+    <p>
+      Nascemos da vontade de servir um café de verdade: simples, bem feito, sem excessos.
+      Selecionamos os grãos com cuidado, torramos na medida certa e preparamos cada xícara com
+      atenção aos detalhes.
+    </p>
+    <p>
+      Aqui o espaço é leve e acolhedor, pensado para pausar, respirar e aproveitar o momento,
+      sozinho, com um livro ou com boa companhia. Acreditamos que o essencial já basta.
+    </p>
+    <a routerLink="/cardapio" class="btn">Conheça o cardápio</a>
+  </div>
+</section>

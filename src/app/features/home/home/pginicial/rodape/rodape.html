@@ -1,60 +1,35 @@
-
 <footer class="rodape">
-
-    <h3>Nossos Colaboradores</h3>
-
-    <div class="rodape-time">
-    <div>
-        <h4> Fernanda Cipriano </h4>
-        <a href="https://www.linkedin.com/in/fernanda-cipriano49/" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
+  <div class="rodape-grid">
+    <div class="marca">
+      <h3>Aroma Café</h3>
+      <p>Bom café, boa comida e bons momentos.</p>
     </div>
 
-    <div>
-        <h4> Sara Vitória </h4>
-        <a href="http://www.linkedin.com/in/sara-vit%C3%B3ria-0a2268292" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>
-    </div>
-
-    <div class="rodape-time">
+    <nav aria-label="Links rápidos">
+      <h4>Navegue</h4>
+      <a routerLink="/home">Home</a>
+      <a routerLink="/cardapio">Cardápio</a>
+      <a routerLink="/carrinho">Carrinho</a>
+      <a routerLink="/login">Login</a>
+    </nav>
 
     <div>
-        <h4> Yasmin Sobrinho </h4>
-        <a href="http://www.linkedin.com/in/yasmin-sobrinho" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>   
-
-    <div>
-        <h4> Emilly Vitória </h4>
-        <a href="http://www.linkedin.com/in/emily-freitas-3ba041411" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>
+      <h4>Contato</h4>
+      <p>Av. Atlântica, 1520<br />Copacabana, Rio de Janeiro</p>
+      <p>Seg a sáb, 11h às 18h</p>
     </div>
 
-    <div class="rodape-time">
     <div>
-        <h4> Felipe Sanatana </h4>
-        <a href="https://www.linkedin.com/in/felipe-stn0?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>   
+      <h4>Colaboradores</h4>
+      <ul class="equipe">
+        @for (c of colaboradores; track c.nome) {
+          <li><a [href]="c.link" target="_blank" rel="noopener">{{ c.nome }}</a></li>
+        }
+      </ul>
+    </div>
+  </div>
 
-    <div>
-        <h4> Júlia Wollena </h4>
-        <a href="https://www.linkedin.com/in/juliaramoswollena/" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div> 
-    </div>
-    
-    <div class="rodape-time">
-    <div>
-        <h4> Thays de Mendonça </h4>
-        <a href="https://www.linkedin.com/in/thays-de-mendon%C3%A7a-gomes/" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>    
-
-    <div>
-        <h4> Yohanne Karine </h4>
-        <a href="https://www.linkedin.com/in/yohannekarine/" target="_blank" > <img [src]="imgLinkedin" height="50px"> </a>
-    </div>
-
-    </div>
-    <!-- Linha de Direitos Autorais -->
-    <div class="rodape-direitos">
-        <hr>
-        <p>&copy; 2026 Aroma Café. Todos os direitos reservados.</p>
-    </div>
+  <div class="rodape-direitos">
+    <p>&copy; 2026 Aroma Café. Todos os direitos reservados.</p>
+  </div>
 </footer>

@@ -1,45 +1,33 @@
-<div id="local">
-    <div>
-        <img [src]="local">
+<section id="local">
+  <div class="local-texto">
+    <p class="rotulo">Visite-nos</p>
+    <h2>Onde estamos</h2>
+
+    <div class="blocos">
+      <div class="bloco">
+        <h3>Endereço</h3>
+        <address>
+          Avenida Atlântica, 1520<br />
+          Copacabana, Rio de Janeiro – RJ<br />
+          CEP 22021-000
+        </address>
+      </div>
+
+      <div class="bloco">
+        <h3>Horário de funcionamento</h3>
+        <dl>
+          <div>
+            <dt>Domingo</dt>
+            <dd>Fechado</dd>
+          </div>
+          <div>
+            <dt>Segunda a sábado</dt>
+            <dd>11:00 – 18:00</dd>
+          </div>
+        </dl>
+      </div>
     </div>
+  </div>
 
-    <div id="texto">
-
-
-            <h1> Onde Estamos? </h1>
-
-            <div id="centralTexto">
-
-                <div class="card">
-
-                    <h3> ENDEREÇO: </h3>
-
-                    <h4> 📍 Avenida Atlântica, 1520 <br>
-                        Copacabana, Rio de Janeiro – RJ <br>
-                        📮 CEP: 22021-000
-                    </h4>
-                </div>
-
-
-                <div class="card">
-        
-                    <div id="texto1">
-                        <h3> HORÁRIO DE FUNCIONAMENTO: </h3>
-
-                        <h4> Domingo | Fechado <br>
-                        Segunda-feira | 11:00 – 18:00 <br>
-                        Terça-feira | 11:00 – 18:00 <br>
-                        Quarta-feira | 11:00 – 18:00 <br>
-                        Quinta-feira | 11:00 – 18:00 <br>
-                        Sexta-feira | 11:00 – 18:00 <br>
-                        Sábado | 11:00 – 18:00
-                        </h4>
-                    </div>
-                    
-                </div>
-            </div>
-
-
-    </div>
-
-</div>
+  <img [src]="local" alt="Fachada do Aroma Café" />
+</section>
