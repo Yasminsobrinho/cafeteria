@@ -1,8 +1,6 @@
 <header>
   <nav id="nav">
-    <!-- ==============================
-         BOTÃO HAMBÚRGUER
-    =============================== -->
+    <!-- HAMBÚRGUER (celular/tablet) -->
     <button
       type="button"
       class="menuToggle"
@@ -16,66 +14,93 @@
       <span></span>
     </button>
 
-    <!-- ==============================
-         LOGO
-    =============================== -->
-    <div class="brand-area">
-      <a routerLink="/home" class="logoLink" (click)="fecharMenu()">
-        <img [src]="imglogo" id="logo" alt="Aroma Café" />
-      </a>
-    </div>
+    <!-- LOGO -->
+    <a
+      routerLink="/home"
+      class="logoLink"
+      aria-label="Aroma Café - página inicial"
+      (click)="fecharMenu()"
+    >
+      <span class="logo-nome">Aroma <b>Café</b></span>
+      <span class="logo-sub">Est. 2026</span>
+    </a>
 
-    <!-- ==============================
-         MENU DE NAVEGAÇÃO
-    =============================== -->
+    <!-- LINKS -->
     <div id="menuPrincipal" [class.menuAberto]="menuAberto()">
       <div id="navBar1">
-        <!-- Home -->
-        <a routerLink="/home" (click)="fecharMenu()"> Home </a>
+        <a
+          routerLink="/home"
+          routerLinkActive="ativo"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="fecharMenu()"
+          >Home</a
+        >
+        <a href="#sobre" (click)="fecharMenu()">Sobre</a>
+        <a routerLink="/cardapio" routerLinkActive="ativo" (click)="fecharMenu()">Cardápio</a>
 
-        <!-- Sobre -->
-        <a href="#sobre" (click)="fecharMenu()"> Sobre </a>
-
-        <!-- Cardápio -->
-        <a routerLink="/cardapio" (click)="fecharMenu()"> Cardápio </a>
-
-        <!-- Login -->
-        <a routerLink="/login" (click)="fecharMenu()"> Login </a>
-
-        <!-- ==========================
-             CARRINHO
-             APARECE SOMENTE NO
-             MENU HAMBÚRGUER
-        =========================== -->
-        <a routerLink="/carrinho" class="carrinho-mobile" (click)="fecharMenu()">
+        <!-- só na gaveta do celular/tablet -->
+        <a routerLink="/login" class="so-mobile" (click)="fecharMenu()">Login</a>
+        <a routerLink="/carrinho" class="so-mobile" (click)="fecharMenu()">
           Carrinho
-
           @if (quantidadeCarrinho > 0) {
-            <span class="contador-mobile">
-              {{ quantidadeCarrinho }}
-            </span>
+            <span class="contador-mobile">{{ quantidadeCarrinho }}</span>
           }
         </a>
       </div>
     </div>
 
-    <!-- ==============================
-         ÍCONE DO CARRINHO
-         DESKTOP + MOBILE
-    =============================== -->
-    <a
-      routerLink="/carrinho"
-      class="carrinho-link"
-      aria-label="Abrir carrinho"
-      (click)="fecharMenu()"
-    >
-      <img [src]="imgcarrinho" id="carrinhoFoto" alt="Carrinho" />
+    <!-- ÍCONES -->
+    <div class="acoes">
+      <a
+        routerLink="/cardapio"
+        class="icone so-desktop"
+        aria-label="Buscar no cardápio"
+        (click)="fecharMenu()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="m16 16 4.5 4.5" />
+        </svg>
+      </a>
 
-      @if (quantidadeCarrinho > 0) {
-        <span class="contador-carrinho">
-          {{ quantidadeCarrinho }}
-        </span>
-      }
-    </a>
+      <a routerLink="/login" class="icone so-desktop" aria-label="Login" (click)="fecharMenu()">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4.5 20c.8-4 3.7-6 7.5-6s6.7 2 7.5 6" />
+        </svg>
+      </a>
+
+      <a routerLink="/carrinho" class="icone" aria-label="Abrir carrinho" (click)="fecharMenu()">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 8h12l1 12H5L6 8Z" />
+          <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+        </svg>
+        @if (quantidadeCarrinho > 0) {
+          <span class="contador-carrinho">{{ quantidadeCarrinho }}</span>
+        }
+      </a>
+    </div>
   </nav>
 </header>
