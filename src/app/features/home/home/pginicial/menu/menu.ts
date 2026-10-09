@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service'
 
   standalone: true,
 
-  imports: [RouterLink],
+   imports: [RouterLink, RouterLinkActive],
 
   templateUrl: './menu.html',
 
