@@ -21,6 +21,8 @@ import { RouterLink } from '@angular/router';
 // ProdutoCarrinho define o formato das informações de um produto.
 import { CarrinhoService, ProdutoCarrinho } from './carrinho.service';
 
+import { Menu } from '../../home/home/pginicial/menu/menu';
+
 // O @Component informa ao Angular que a classe abaixo
 // será um componente.
 @Component({
@@ -37,6 +39,7 @@ import { CarrinhoService, ProdutoCarrinho } from './carrinho.service';
     CommonModule, // Permite usar *ngIf, *ngFor etc.
     FormsModule, // Permite usar [(ngModel)].
     RouterLink, // Permite usar routerLink.
+    Menu,
   ],
 
   // Indica qual arquivo HTML será usado como tela
