@@ -1,3 +1,24 @@
+/* =========================================================
+   PALETA DO AROMA CAFÉ (cores tiradas dos prints do site)
+   ---------------------------------------------------------
+   #140c09  marrom café       fundo da página
+   #0d0805  marrom nav        barra de navegação
+   #1c130e  marrom card       fundo dos cards
+   #3a2417  marrom foto       quadrado da foto e texto escuro no creme
+   #2b1811  marrom escuro     botão "Finalizar pedido"
+   #2e251e  marrom borda      linhas e bordas
+   #e8dcc6  creme             painel claro / texto
+   #f0e8dc  creme claro       títulos
+   #f2e9da  creme caixa       caixa de cupom / cards na seção creme
+   #fbf7ee  creme campo       campo de digitar
+   #c9a06a  dourado           preços, destaques, botões
+   #84603a  dourado escuro    preço sobre fundo creme
+   #a89888  cinza bege        descrições
+   ========================================================= */
+
+/* FONTES (coloque no index.html se a home ainda não carrega):
+   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"> */
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +26,9 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #eeddc3;
-  color: #3b2418;
+  font-family: 'Jost', Arial, sans-serif;
+  background: #140c09;
+  color: #e8dcc6;
 }
 
 /* =========================================================
@@ -20,10 +41,18 @@ body {
   padding: 0 25px;
 }
 
+.cardapio h1,
 .cardapio h2 {
-  font-size: 22px;
-  margin-bottom: 35px;
-  color: #3b2418;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: #f0e8dc;
+}
+
+.cardapio hr {
+  margin-top: 14px;
+  border: 0;
+  border-top: 1px solid #2e251e;
 }
 
 /* GRID DOS PRODUTOS */
@@ -31,7 +60,7 @@ body {
 .produtos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 /* =========================================================
@@ -39,25 +68,22 @@ body {
    ========================================================= */
 
 .produto {
-  position: relative;
-
-  background: #ffffff;
-  border-radius: 14px;
+  background: #c9a06a;
+  border: 1px solid #a88569;
+  border-radius: 16px;
   min-height: 180px;
   padding: 18px;
 
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 116px;
+  gap: 14px 16px;
 
-  box-shadow: 0 2px 8px rgba(59, 36, 24, 0.08);
-
-  transition: 0.2s;
+  transition: 0.25s;
 }
 
 .produto:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(59, 36, 24, 0.12);
+  transform: translateY(-3px);
+  border-color: rgba(201, 160, 106, 0.55);
 }
 
 /* =========================================================
@@ -65,20 +91,24 @@ body {
    ========================================================= */
 
 .produto-info {
-  flex: 1;
   min-width: 0;
 }
 
 .produto h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: #3b2418;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  color: #f0e8dc;
 }
 
+/*descrição dos produtos*/
 .produto p {
   font-size: 15px;
+  font-weight: 300;
   line-height: 1.5;
-  color: #806b5d;
+  color: #3a2417;
 
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -94,19 +124,19 @@ body {
    ========================================================= */
 
 .preco {
-  font-size: 15px;
-  color: #8b5e3c;
+  font-size: 17px;
+  color: #3a2417;
 }
 
 .promocao {
-  color: #4f7a45;
-  font-weight: bold;
+  color: #3a2417;
+  font-weight: 600;
 }
 
 .preco-antigo {
-  color: #aaa;
+  color: #7a6b5e;
   text-decoration: line-through;
-  margin-left: 5px;
+  margin-left: 8px;
 }
 
 /* =========================================================
@@ -119,78 +149,10 @@ body {
 
   object-fit: cover;
 
+  background: #3a2417;
   border-radius: 12px;
 
-  flex-shrink: 0;
-}
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 1000px) {
-  .produtos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* =========================================================
-   CELULAR
-   ========================================================= */
-
-@media (max-width: 650px) {
-  .menu-container {
-    padding: 14px 10px 80px;
-  }
-
-  .header-titulo h1 {
-    font-size: 26px;
-  }
-
-  .categorias-botoes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-
-  .categorias-botoes button {
-    min-height: 42px;
-    padding: 8px 10px;
-  }
-
-  .cardapio {
-    padding: 0 15px;
-    margin-top: 30px;
-  }
-
-  .cardapio h2 {
-    font-size: 18px;
-  }
-
-  .produtos {
-    grid-template-columns: 1fr;
-  }
-
-  .produto {
-    min-height: 160px;
-    padding: 14px;
-    flex-wrap: wrap;
-  }
-
-  .produto img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .produto .btn-adicionar {
-    width: 100%;
-    order: 3;
-  }
-
-  .btn-voltar {
-    font-size: 14px;
-  }
+  align-self: start;
 }
 
 /* =========================================================
@@ -198,31 +160,13 @@ body {
    ========================================================= */
 
 .menu-container {
-  background-color: #eeddc3;
-  color: #3b2418;
+  background-color: #140c09;
+  color: #e8dcc6;
   padding: 20px;
   padding-top: clamp(72px, 8vw, 110px);
-  font-family: sans-serif;
+  font-family: 'Jost', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-.btn-voltar {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid #5a3d28;
-  border-radius: 8px;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.btn-voltar:hover,
-.btn-voltar:focus-visible {
-  background-color: #e6b940;
-  color: #1a0f08;
 }
 
 /* =========================================================
@@ -231,19 +175,22 @@ body {
 
 .header-titulo {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
 }
 
 .header-titulo span {
-  font-size: 12px;
-  color: #8b5e3c;
-  letter-spacing: 2px;
+  font-size: 13px;
+  color: #c9a06a;
+  letter-spacing: 3px;
 }
 
 .header-titulo h1 {
-  font-size: 32px;
-  color: #3b2418;
-  margin-top: 5px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1.05;
+  color: #f0e8dc;
+  margin-top: 8px;
 }
 
 /* =========================================================
@@ -253,29 +200,30 @@ body {
 .busca-secao {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .input-busca {
   width: 100%;
-  max-width: 400px;
-  padding: 12px 16px;
+  max-width: 420px;
+  padding: 12px 20px;
 
-  background-color: #ffffff;
-  border: 1px solid #d8c5b5;
-  border-radius: 8px;
+  background-color: #1c130e;
+  border: 1px solid #2e251e;
+  border-radius: 999px;
 
-  color: #3b2418;
+  color: #e8dcc6;
+  font-family: 'Jost', sans-serif;
   font-size: 16px;
 }
 
 .input-busca::placeholder {
-  color: #806b5d;
+  color: #a89888;
 }
 
 .input-busca:focus {
   outline: none;
-  border-color: #8b5e3c;
+  border-color: #c9a06a;
 }
 
 /* =========================================================
@@ -285,35 +233,45 @@ body {
 .categorias-botoes {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 35px;
+  gap: 32px;
+  margin-bottom: 40px;
 }
 
 .categorias-botoes button {
-  background-color: transparent;
-  border: 1px solid #8b5e3c;
-  color: #8b5e3c;
+  position: relative;
 
-  padding: 8px 20px;
+  background: none;
+  border: 0;
+  color: #a89888;
 
-  border-radius: 20px;
+  padding: 6px 0;
 
   cursor: pointer;
 
+  font-family: 'Jost', sans-serif;
   font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .categorias-botoes button:hover {
-  background-color: #f6efe6;
+  color: #c9a06a;
 }
 
 .categorias-botoes button.ativo {
-  background-color: #8b5e3c;
-  border-color: #8b5e3c;
-  color: #ffffff;
-  font-weight: bold;
+  color: #c9866a;
+}
+
+.categorias-botoes button.ativo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: #c9a06a;
 }
 
 /* =========================================================
@@ -321,28 +279,42 @@ body {
    ========================================================= */
 
 .categoria-tag {
-  font-size: 10px;
-  color: #8b5e3c;
-  letter-spacing: 1px;
+  font-size: 11px;
+  color: #3c1f0f;
+  letter-spacing: 2px;
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-.btn-adicionar {
-  align-self: flex-end;
-  flex-shrink: 0;
-  padding: 10px 12px;
-  border: 0;
-  border-radius: 8px;
-  background-color: #e6b940;
-  color: #1a0f08;
+/* =========================================================
+   MENSAGEM DA API (carregando / erro)
+   ========================================================= */
+
+.mensagem-api {
+  padding: 32px 0;
+  text-align: center;
+  color: #a89888;
+}
+
+.mensagem-api button {
+  margin-top: 16px;
+  padding: 10px 22px;
+
+  background: transparent;
+  border: 1px solid #c9a06a;
+  border-radius: 999px;
+
+  color: #c9a06a;
+  font-family: 'Jost', sans-serif;
+
   cursor: pointer;
-  font-weight: 700;
+
+  transition: 0.2s ease;
 }
 
-.btn-adicionar:hover,
-.btn-adicionar:focus-visible {
-  background-color: #f4cf63;
+.mensagem-api button:hover {
+  background: #c9a06a;
+  color: #140c09;
 }
 
 /* ANIMAÇÃO DO CARDÁPIO */
@@ -432,7 +404,7 @@ body {
   width: 60px;
   height: 60px;
 
-  background-color: #8b5e3c;
+  background-color: #c9a06a;
 
   border-radius: 50%;
 
@@ -442,7 +414,7 @@ body {
 
   text-decoration: none;
 
-  box-shadow: 0 4px 12px rgba(59, 36, 24, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
 
   z-index: 1000;
 
@@ -477,9 +449,9 @@ body {
 
   padding: 0 5px;
 
-  background-color: #b33a3a;
+  background-color: #f0e8dc;
 
-  color: #fff;
+  color: #2b1811;
 
   border-radius: 50%;
 
@@ -496,33 +468,27 @@ body {
    ========================================================= */
 
 .btn-adicionar {
-  position: absolute;
+  grid-column: 1 / -1;
+  justify-self: end;
 
-  right: 25px;
-  bottom: 5px;
-
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 
   height: 38px;
-  padding: 0 16px;
+  padding: 0 18px;
 
-  border: 1px solid #8b5e3c;
-  border-radius: 20px;
+  border: 1px solid #3a2417;
+  border-radius: 999px;
 
-  background-color: #ffffff;
-  color: #8b5e3c;
+  background-color: transparent;
+  color: #463725;
 
+  font-family: 'Jost', sans-serif;
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 500;
 
   cursor: pointer;
-
-  box-shadow: 0 2px 6px rgba(59, 36, 24, 0.12);
-
-  opacity: 1;
-  visibility: visible;
 
   transition: all 0.2s ease;
 }
@@ -531,27 +497,201 @@ body {
   content: "+";
   font-size: 20px;
   font-weight: normal;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
-.btn-adicionar:hover {
-  background-color: #8b5e3c;
-  color: #ffffff;
-
-  transform: scale(1.03);
-
-  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.18);
+.btn-adicionar:hover,
+.btn-adicionar:focus-visible {
+  background-color: #c9a06a;
+  color: #140c09;
+  outline: none;
 }
 
 .btn-adicionar:active {
   transform: scale(0.97);
 }
 
+/* ========================================
+   BOTÃO VOLTAR
+======================================== */
+
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 25px 0 10px 5%;
+
+  padding: 10px 18px;
+
+  color: #e8dcc6;
+  background-color: transparent;
+
+  border: 1px solid #2e251e;
+  border-radius: 25px;
+
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.seta-voltar {
+  font-size: 1.4rem;
+  line-height: 1;
+
+  transition: transform 0.25s ease;
+}
+
+.btn-voltar:hover,
+.btn-voltar:focus-visible {
+  color: #140c09;
+  background-color: #c9a06a;
+  border-color: #c9a06a;
+
+  transform: translateX(-3px);
+
+  outline: none;
+}
+
+.btn-voltar:hover .seta-voltar {
+  transform: translateX(-3px);
+}
+
 /* =========================================================
-   CELULAR - CARRINHO E BOTÃO
+   SEÇÃO CREME (OPCIONAL)
+   Para usar: <section class="cardapio secao-creme" ...>
+   ========================================================= */
+
+.secao-creme {
+  width: min(calc(100% - 50px), 1400px);
+  padding: 40px 32px 48px;
+  border-radius: 20px;
+  background: #e8dcc6;
+}
+
+.secao-creme h1,
+.secao-creme h2 {
+  color: #2b1811;
+}
+
+.secao-creme hr {
+  border-top-color: #d4c8b8;
+}
+
+.secao-creme .produto {
+  background: #f2e9da;
+  border-color: #d4c8b8;
+}
+
+.secao-creme .produto h3 {
+  color: #3a2417;
+}
+
+.secao-creme .produto p {
+  color: #605040;
+}
+
+.secao-creme .preco,
+.secao-creme .categoria-tag {
+  color: #84603a;
+}
+
+.secao-creme .btn-adicionar {
+  border-color: #3a2417;
+  color: #3a2417;
+}
+
+.secao-creme .btn-adicionar:hover {
+  background-color: #3a2417;
+  color: #f2e9da;
+}
+
+/* =========================================================
+   TABLET
+   (os blocos de tablet e celular ficam no FINAL do arquivo,
+   senão as regras de cima os sobrescrevem)
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .produtos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================================
+   CELULAR
    ========================================================= */
 
 @media (max-width: 650px) {
+  .menu-container {
+    padding: 14px 10px 80px;
+    padding-top: 72px;
+  }
+
+  .header-titulo h1 {
+    font-size: 38px;
+  }
+
+  .categorias-botoes {
+    justify-content: flex-start;
+    gap: 22px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .categorias-botoes button {
+    white-space: nowrap;
+  }
+
+  .cardapio {
+    padding: 0 10px;
+    margin-top: 30px;
+  }
+
+  .cardapio h1,
+  .cardapio h2 {
+    font-size: 26px;
+  }
+
+  .secao-creme {
+    width: calc(100% - 20px);
+    padding: 28px 14px 32px;
+  }
+
+  .produtos {
+    grid-template-columns: 1fr;
+  }
+
+  .produto {
+    min-height: 160px;
+    padding: 14px;
+    grid-template-columns: 1fr 100px;
+  }
+
+  .produto img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .btn-adicionar {
+    justify-self: stretch;
+    height: 40px;
+  }
+
+  .btn-voltar {
+    margin-left: 0;
+    font-size: 14px;
+  }
+
   .carrinho-flutuante {
     right: 18px;
     bottom: 18px;
@@ -564,65 +704,12 @@ body {
     width: 29px;
     height: 29px;
   }
+}
 
-  .btn-adicionar {
-    right: 18px;
-    bottom: 18px;
-
-    height: 36px;
-    padding: 0 13px;
-
-    font-size: 12px;
+/* Quem desativou animações no aparelho não vê movimento */
+@media (prefers-reduced-motion: reduce) {
+  .menu-container,
+  .produto {
+    animation: none;
   }
-}
-
-/* ========================================
-   BOTÃO VOLTAR
-======================================== */
-
-.btn-voltar {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    margin: 25px 0 10px 5%;
-
-    padding: 10px 18px;
-
-    color: #401d09;
-    background-color: transparent;
-
-    border: 1px solid rgba(64, 29, 9, 0.25);
-    border-radius: 25px;
-
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.05rem;
-
-    text-decoration: none;
-
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.seta-voltar {
-    font-size: 1.4rem;
-    line-height: 1;
-
-    transition: transform 0.25s ease;
-}
-
-.btn-voltar:hover {
-    color: #ffffff;
-    background-color: #8b4a2f;
-
-    transform: translateX(-3px);
-
-    box-shadow: 0 4px 12px rgba(64, 29, 9, 0.18);
-}
-
-.btn-voltar:hover .seta-voltar {
-    transform: translateX(-3px);
 }
