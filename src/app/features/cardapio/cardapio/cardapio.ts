@@ -17,6 +17,8 @@ interface Produto {
   imagem: string;
 }
 
+
+
 // Representa uma bebida devolvida pelo endpoint /api/drinks.
 interface BebidaApi {
   // Identificador da bebida.
@@ -416,6 +418,25 @@ export class CardapioComponent implements OnInit {
 
     return 'cafepreto.jpg';
   }
+
+
+  // =====================================================
+  // DESTAQUES ("Os favoritos do momento")
+  // nome do produto -> selo ('' = sem selo)
+  // =====================================================
+
+  readonly destaqueSelos: Record<string, string> = {
+    'Croissants Recheados': 'Mais pedido',
+    'Brownie': 'Mais pedido',
+    'Croissants Doce': 'Novidade',
+    'Latte': '',
+  };
+
+  get destaques(): Produto[] {
+    const todos = [...this.comidasSalgadas, ...this.sobremesas, ...this.bebidas];
+    return todos.filter((p) => this.destaqueSelos[p.nome] !== undefined);
+  }
+
 
   // =====================================================
   // FILTROS

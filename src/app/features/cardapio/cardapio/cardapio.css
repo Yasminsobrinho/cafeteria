@@ -100,7 +100,7 @@ body {
   font-size: 24px;
   line-height: 1.15;
   margin-bottom: 8px;
-  color: #f0e8dc;
+  color: #050505;
 }
 
 /*descrição dos produtos*/
@@ -175,11 +175,11 @@ body {
 
 .header-titulo {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 80px;
 }
 
 .header-titulo span {
-  font-size: 13px;
+  font-size: 20px;
   color: #c9a06a;
   letter-spacing: 3px;
 }
@@ -190,7 +190,7 @@ body {
   font-size: 56px;
   line-height: 1.05;
   color: #f0e8dc;
-  margin-top: 8px;
+  margin-top: 19px;
 }
 
 /* =========================================================
@@ -234,7 +234,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 32px;
-  margin-bottom: 40px;
+  margin-bottom: 100px;
 }
 
 .categorias-botoes button {
@@ -615,6 +615,148 @@ body {
 }
 
 /* =========================================================
+   DESTAQUES ("Os favoritos do momento")
+   ========================================================= */
+
+.destaques {
+  width: min(100%, 1450px);
+  margin: 0 auto 48px;
+  padding: 40px 32px 48px;
+
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+
+  background: #e8dcc6;
+  border-radius: 20px;
+  color: #2b1811;
+}
+
+.destaques-eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #84603a;
+}
+
+.destaques h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+  color: #2b1811;
+  margin: 10px 0 14px;
+}
+
+.destaques-texto p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #605040;
+}
+
+.destaques-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+.dest-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: #f2e9da;
+  border: 1px solid #d4c8b8;
+  border-radius: 14px;
+}
+
+.dest-img {
+  position: relative;
+  aspect-ratio: 1 / 0.9;
+  background: #3a2417;
+}
+
+.dest-img img {
+  object-fit: cover;
+}
+
+.dest-selo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+
+  background: #c9a06a;
+  color: #2b1811;
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dest-corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 14px;
+}
+
+.dest-corpo h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.15;
+  color: #3a2417;
+  margin-bottom: 6px;
+}
+
+.dest-corpo p {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: #605040;
+  margin-bottom: 14px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dest-rodape {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 17px;
+  color: #84603a;
+}
+
+.dest-add {
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 50%;
+  background: #c9a06a;
+  color: #2b1811;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.dest-add:hover,
+.dest-add:focus-visible {
+  background: #3a2417;
+  color: #f2e9da;
+  outline: none;
+}
+
+/* =========================================================
    TABLET
    (os blocos de tablet e celular ficam no FINAL do arquivo,
    senão as regras de cima os sobrescrevem)
@@ -711,5 +853,22 @@ body {
   .menu-container,
   .produto {
     animation: none;
+    /* dentro de @media (max-width: 1000px) */
+  .destaques {
+    grid-template-columns: 1fr;
+  }
+
+/* dentro de @media (max-width: 650px) */
+  .destaques {
+    padding: 28px 14px 32px;
+  }
+
+  .destaques h2 {
+    font-size: 30px;
+  }
+
+  .destaques-lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
   }
 }

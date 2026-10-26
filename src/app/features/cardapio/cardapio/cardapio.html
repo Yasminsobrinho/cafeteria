@@ -6,9 +6,8 @@
 <div class="menu-container">
   <!-- VOLTAR PARA HOME -->
 
-  <a routerLink="/home" class="btn-voltar" aria-label="Voltar para a página inicial">
-    ← Voltar
-  </a>
+
+
 
   <!-- =====================================================
        TÍTULO
@@ -67,6 +66,51 @@
       Bebidas
     </button>
   </div>
+
+  <!-- =====================================================
+       DESTAQUES
+       ===================================================== -->
+
+  <section
+    class="destaques"
+    *ngIf="categoriaSelecionada === 'Todos' && !termoBusca && destaques.length > 0"
+    aria-labelledby="titulo-destaques"
+  >
+    <div class="destaques-texto">
+      <span class="destaques-eyebrow">DESTAQUES DA CASA</span>
+      <h2 id="titulo-destaques">Os <em>favoritos</em> do momento</h2>
+      <p>Experimente o que todos estão amando por aqui.</p>
+    </div>
+
+    <div class="destaques-lista">
+      <article class="dest-card" *ngFor="let item of destaques">
+        <div class="dest-img">
+          <img [ngSrc]="item.imagem" [alt]="item.nome" fill />
+          <span class="dest-selo" *ngIf="destaqueSelos[item.nome]">
+            {{ destaqueSelos[item.nome] }}
+          </span>
+        </div>
+
+        <div class="dest-corpo">
+          <h3>{{ item.nome }}</h3>
+          <p>{{ item.descricao }}</p>
+
+          <div class="dest-rodape">
+            <strong>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</strong>
+            <button
+              type="button"
+              class="dest-add"
+              [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+              (click)="adicionarAoCarrinho(item)"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
 
   <!-- =====================================================
        SALGADOS
