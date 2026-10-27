@@ -95,22 +95,14 @@
     <section class="pagamento">
       <h2>Forma de pagamento</h2>
 
-      <!-- CARTÃO -->
-      <label class="opcao-pagamento">
+      <label>
         <input
           type="radio"
           name="pagamento"
           value="Cartão"
           [(ngModel)]="formaPagamento"
         />
-
-        <img
-          src="cartão.png.jpeg"
-          alt="Cartão de crédito e débito"
-          class="imagem-pagamento"
-        />
-
-        <span>Cartão</span>
+        Cartão
       </label>
 
       <!-- TIPO DO CARTÃO -->
@@ -142,24 +134,16 @@
       </div>
 
       <!-- PIX -->
-      <label class="opcao-pagamento">
+      <label>
         <input
           type="radio"
           name="pagamento"
           value="Pix"
           [(ngModel)]="formaPagamento"
         />
-
-        <img
-          src="pix.png.jpeg"
-          alt="Pix"
-          class="imagem-pagamento"
-        />
-
-        <span>Pix</span>
+        Pix
       </label>
 
-      <!-- DADOS DO PIX -->
       <div
         class="dados-pix"
         *ngIf="formaPagamento === 'Pix'"
@@ -169,24 +153,16 @@
       </div>
 
       <!-- DINHEIRO -->
-      <label class="opcao-pagamento">
+      <label>
         <input
           type="radio"
           name="pagamento"
           value="Dinheiro"
           [(ngModel)]="formaPagamento"
         />
-
-        <img
-          src="din.png.jpeg"
-          alt="Dinheiro em cédulas"
-          class="imagem-pagamento"
-        />
-
-        <span>Dinheiro</span>
+        Dinheiro
       </label>
 
-      <!-- OPÇÕES DE TROCO -->
       <div
         class="opcoes-dinheiro"
         *ngIf="formaPagamento === 'Dinheiro'"
