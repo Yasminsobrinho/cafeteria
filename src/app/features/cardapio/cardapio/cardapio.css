@@ -615,52 +615,86 @@ body {
 }
 
 /* =========================================================
-   DESTAQUES ("Os favoritos do momento")
+   CARROSSEL "NOSSOS FAVORITOS" (classes com prefixo dc-)
    ========================================================= */
 
-.destaques {
+/* Paleta do Aroma Café: creme #e8dcc6 / #f2e9da, dourado #c9a06a, marrons #2b1811 e #3a2417 */
+
+.dc {
+  display: block;
   width: min(100%, 1450px);
   margin: 0 auto 48px;
-  padding: 40px 32px 48px;
-
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 32px;
-
-  background: #e8dcc6;
-  border-radius: 20px;
+  --gap: 20px;
+  font-family: 'Jost', Arial, sans-serif;
   color: #2b1811;
 }
 
-.destaques-eyebrow {
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: #84603a;
+.dc {
+  padding: 40px 32px 48px;
+  background: #e8dcc6;
+  border-radius: 20px;
 }
 
-.destaques h2 {
+/* ---------- cabeçalho ---------- */
+
+.dc-eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #6b4a28;
+}
+
+.dc-titulo {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
   font-size: 40px;
   line-height: 1.1;
   color: #2b1811;
-  margin: 10px 0 14px;
+  margin: 10px 0;
 }
 
-.destaques-texto p {
+.dc-subtitulo {
+  margin: 0 0 28px;
+  max-width: 46ch;
   font-size: 15px;
   font-weight: 300;
   line-height: 1.6;
   color: #605040;
 }
 
-.destaques-lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 16px;
+/* ---------- carrossel ---------- */
+
+.dc-palco {
+  position: relative;
 }
 
-.dest-card {
+.dc-viewport {
+  overflow: hidden;
+  padding: 12px 0 20px;
+  margin: -12px 0 -20px;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.dc-viewport.dc-arrastando {
+  cursor: grabbing;
+}
+
+.dc-trilho {
+  display: flex;
+  gap: var(--gap);
+  transition: transform 0.6s cubic-bezier(0.22, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.dc-trilho.dc-sem-transicao {
+  transition: none;
+}
+
+/* ---------- cards (mesmo visual dos cards de destaque do cardápio) ---------- */
+
+.dc-card {
+  flex: 0 0 calc((100% - var(--gap) * (var(--pv) - 1)) / var(--pv));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -668,19 +702,34 @@ body {
   background: #f2e9da;
   border: 1px solid #d4c8b8;
   border-radius: 14px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.dest-img {
+.dc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px -18px rgba(43, 24, 17, 0.5);
+}
+
+.dc-img {
   position: relative;
   aspect-ratio: 1 / 0.9;
   background: #3a2417;
+  overflow: hidden;
 }
 
-.dest-img img {
+.dc-img img {
   object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-.dest-selo {
+.dc-card:hover .dc-img img {
+  transform: scale(1.04);
+}
+
+.dc-selo {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -694,28 +743,28 @@ body {
   font-weight: 500;
 }
 
-.dest-corpo {
+.dc-corpo {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 14px;
 }
 
-.dest-corpo h3 {
+.dc-nome {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
   font-size: 21px;
   line-height: 1.15;
   color: #3a2417;
-  margin-bottom: 6px;
+  margin: 0 0 6px;
 }
 
-.dest-corpo p {
+.dc-descricao {
+  margin: 0 0 14px;
   font-size: 14px;
   font-weight: 300;
   line-height: 1.45;
   color: #605040;
-  margin-bottom: 14px;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -724,36 +773,195 @@ body {
   overflow: hidden;
 }
 
-.dest-rodape {
+.dc-rodape {
   margin-top: auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
-  font-size: 17px;
-  color: #84603a;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.dest-add {
-  width: 34px;
-  height: 34px;
+.dc-rodape strong {
+  font-size: 17px;
+  color: #6b4a28;
+}
+
+.dc-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
 
   border: 0;
-  border-radius: 50%;
+  border-radius: 999px;
   background: #c9a06a;
   color: #2b1811;
 
-  font-size: 20px;
+  font-family: 'Jost', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
 
   transition: 0.2s ease;
 }
 
-.dest-add:hover,
-.dest-add:focus-visible {
+.dc-btn::before {
+  content: '+';
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+.dc-btn:hover {
   background: #3a2417;
   color: #f2e9da;
-  outline: none;
+}
+
+.dc-btn:active {
+  transform: scale(0.97);
+}
+
+/* ---------- setas laterais ---------- */
+
+.dc-seta {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+
+  width: 52px;
+  height: 52px;
+  margin-top: -26px;
+
+  display: grid;
+  place-items: center;
+
+  border: 4px solid #e8dcc6;
+  border-radius: 50%;
+  background: #c9a06a;
+  color: #2b1811;
+
+  cursor: pointer;
+  box-shadow: 0 10px 22px -8px rgba(43, 24, 17, 0.55);
+
+  transition:
+    background 0.25s,
+    color 0.25s,
+    transform 0.25s;
+}
+
+.dc-seta svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dc-seta.dc-anterior {
+  left: -26px;
+}
+
+.dc-seta.dc-proxima {
+  right: -26px;
+}
+
+.dc-seta:hover {
+  background: #3a2417;
+  color: #f2e9da;
+  transform: scale(1.08);
+}
+
+.dc-seta:active {
+  transform: scale(0.95);
+}
+
+/* ---------- indicadores ---------- */
+
+.dc-pontos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.dc-ponto {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+  background: #cdbfa6;
+  cursor: pointer;
+
+  transition:
+    width 0.3s,
+    background 0.3s;
+}
+
+.dc-ponto::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+}
+
+.dc-ponto[aria-current='true'] {
+  width: 28px;
+  background: #3a2417;
+}
+
+/* ---------- foco (teclado) ---------- */
+
+.dc-viewport:focus-visible,
+.dc-seta:focus-visible,
+.dc-ponto:focus-visible,
+.dc-btn:focus-visible {
+  outline: 3px solid #3a2417;
+  outline-offset: 3px;
+}
+
+/* ---------- tablet e celular ---------- */
+
+@media (max-width: 1099px) {
+  .dc-seta {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+  }
+
+  .dc-seta.dc-anterior {
+    left: -12px;
+  }
+
+  .dc-seta.dc-proxima {
+    right: -12px;
+  }
+}
+
+@media (max-width: 650px) {
+  .dc {
+    padding: 28px 14px 32px;
+  }
+
+  .dc-titulo {
+    font-size: 30px;
+  }
+
+  .dc-seta.dc-anterior {
+    left: -8px;
+  }
+
+  .dc-seta.dc-proxima {
+    right: -8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-trilho,
+  .dc-card,
+  .dc-img img,
+  .dc-ponto,
+  .dc-seta {
+    transition: none;
+  }
 }
 
 /* =========================================================
@@ -853,22 +1061,5 @@ body {
   .menu-container,
   .produto {
     animation: none;
-    /* dentro de @media (max-width: 1000px) */
-  .destaques {
-    grid-template-columns: 1fr;
-  }
-
-/* dentro de @media (max-width: 650px) */
-  .destaques {
-    padding: 28px 14px 32px;
-  }
-
-  .destaques h2 {
-    font-size: 30px;
-  }
-
-  .destaques-lista {
-    grid-template-columns: repeat(2, 1fr);
-  }
   }
 }

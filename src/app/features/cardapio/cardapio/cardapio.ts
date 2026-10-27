@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 // Importa o cliente HTTP usado para chamar a API interna do projeto.
 import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
@@ -65,18 +75,29 @@ interface RespostaComidasApi {
 @Component({
   selector: 'app-cardapio',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NgOptimizedImage, Rodape, Menu],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    NgOptimizedImage,
+    Rodape,
+    Menu,
+  ],
   templateUrl: './cardapio.html',
   styleUrls: ['./cardapio.css'],
   host: {
     '(window:scroll)': 'carregarMaisItens()',
   },
 })
-export class CardapioComponent implements OnInit {
+export class CardapioComponent implements OnInit, OnDestroy {
   constructor(
     private carrinhoService: CarrinhoService,
     private http: HttpClient,
-  ) {}
+    private zone: NgZone,
+    @Inject(PLATFORM_ID) platformId: object,
+  ) {
+    this.ehBrowser = isPlatformBrowser(platformId);
+  }
 
   termoBusca: string = '';
   categoriaSelecionada: string = 'Todos';
@@ -295,6 +316,17 @@ export class CardapioComponent implements OnInit {
     this.carregarComidas();
     // Solicita as bebidas quando o componente e inicializado.
     this.carregarBebidas();
+
+    // Rolagem automática do carrossel (desligada para quem pediu menos animação).
+    if (this.ehBrowser) {
+      this.autoplayAtivo = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.retomarAuto();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.pausarAuto();
+    this.observer?.disconnect();
   }
 
   carregarComidas(): void {
@@ -421,8 +453,10 @@ export class CardapioComponent implements OnInit {
 
 
   // =====================================================
-  // DESTAQUES ("Os favoritos do momento")
+  // DESTAQUES ("Nossos Favoritos" - carrossel)
   // nome do produto -> selo ('' = sem selo)
+  // Para destacar um produto, acrescente o nome EXATO dele aqui.
+  // O carrossel só rola quando há mais destaques que cards na tela.
   // =====================================================
 
   readonly destaqueSelos: Record<string, string> = {
@@ -430,11 +464,160 @@ export class CardapioComponent implements OnInit {
     'Brownie': 'Mais pedido',
     'Croissants Doce': 'Novidade',
     'Latte': '',
+    'Torta Cookie': '',
+    'Pão de queijo': '',
+    'Donuts Americanos': '',
   };
 
+  // Guarda o resultado para não montar a lista de novo a cada verificação da tela.
+  private destaquesCache: Produto[] = [];
+  private destaquesOrigem: Produto[][] = [];
+
   get destaques(): Produto[] {
-    const todos = [...this.comidasSalgadas, ...this.sobremesas, ...this.bebidas];
-    return todos.filter((p) => this.destaqueSelos[p.nome] !== undefined);
+    const origem = [this.comidasSalgadas, this.sobremesas, this.bebidas];
+    if (origem.some((lista, i) => lista !== this.destaquesOrigem[i])) {
+      this.destaquesOrigem = origem;
+      const todos = [...this.comidasSalgadas, ...this.sobremesas, ...this.bebidas];
+      this.destaquesCache = todos.filter((p) => this.destaqueSelos[p.nome] !== undefined);
+    }
+    return this.destaquesCache;
+  }
+
+  // =====================================================
+  // CARROSSEL "NOSSOS FAVORITOS"
+  // =====================================================
+
+  // Tempo entre uma troca e outra da rolagem automática.
+  private readonly intervaloMs = 5000;
+
+  indice = 0;
+  porTela = 4;
+  arrastando = false;
+  deslocamento = 0;
+
+  private autoplayAtivo = true;
+  private timer?: ReturnType<typeof setInterval>;
+  private observer?: ResizeObserver;
+  private viewportEl?: HTMLElement;
+  private readonly ehBrowser: boolean;
+
+  // O carrossel só aparece no HTML quando há destaques, por isso o ViewChild é um setter.
+  @ViewChild('viewport') set viewportRef(ref: ElementRef<HTMLElement> | undefined) {
+    this.observer?.disconnect();
+    this.viewportEl = ref?.nativeElement;
+
+    if (this.viewportEl && this.ehBrowser) {
+      this.observer = new ResizeObserver(() => this.zone.run(() => this.ajustar()));
+      this.observer.observe(this.viewportEl);
+    }
+  }
+
+  // 4 cards (telas grandes), 3, 2 (tablet) e 1 (celular).
+  private ajustar(): void {
+    const largura = this.viewportEl?.clientWidth ?? 0;
+    if (!largura) return;
+    this.porTela = largura >= 1100 ? 4 : largura >= 860 ? 3 : largura >= 560 ? 2 : 1;
+  }
+
+  get maxIndice(): number {
+    return Math.max(0, this.destaques.length - this.porTela);
+  }
+
+  // Posição já corrigida caso a lista mude (ex.: API carregou depois).
+  get posicao(): number {
+    return Math.min(this.indice, this.maxIndice);
+  }
+
+  get temNavegacao(): boolean {
+    return this.maxIndice > 0;
+  }
+
+  get pontos(): number[] {
+    return Array.from({ length: this.maxIndice + 1 }, (_, i) => i);
+  }
+
+  get transformacao(): string {
+    return `translateX(calc(${-this.posicao} * (100% + var(--gap)) / ${this.porTela} + ${this.deslocamento}px))`;
+  }
+
+  // Cards fora da tela não recebem foco do teclado.
+  foraDaTela(i: number): boolean {
+    return i < this.posicao || i >= this.posicao + this.porTela;
+  }
+
+  trackByNome(_: number, item: Produto): string {
+    return item.nome;
+  }
+
+  proximo(): void {
+    this.indice = this.posicao >= this.maxIndice ? 0 : this.posicao + 1;
+  }
+
+  anterior(): void {
+    this.indice = this.posicao <= 0 ? this.maxIndice : this.posicao - 1;
+  }
+
+  // Ações do usuário: navegam e encerram a rolagem automática.
+  clicarProximo(): void {
+    this.parar();
+    this.proximo();
+  }
+
+  clicarAnterior(): void {
+    this.parar();
+    this.anterior();
+  }
+
+  clicarPonto(i: number): void {
+    this.parar();
+    this.indice = i;
+  }
+
+  retomarAuto(): void {
+    this.pausarAuto();
+    if (this.ehBrowser && this.autoplayAtivo) {
+      this.timer = setInterval(() => this.proximo(), this.intervaloMs);
+    }
+  }
+
+  pausarAuto(): void {
+    clearInterval(this.timer);
+  }
+
+  private parar(): void {
+    this.autoplayAtivo = false;
+    this.pausarAuto();
+  }
+
+  // Arrastar / deslizar (mouse e toque).
+  iniciarArrasto(e: PointerEvent): void {
+    if (!this.ehBrowser || (e.target as HTMLElement).closest('button')) return;
+
+    this.parar();
+    const inicioX = e.clientX;
+    this.deslocamento = 0;
+
+    const mover = (ev: PointerEvent) => {
+      this.deslocamento = ev.clientX - inicioX;
+      if (Math.abs(this.deslocamento) > 6) this.arrastando = true;
+    };
+
+    const soltar = () => {
+      window.removeEventListener('pointermove', mover);
+      window.removeEventListener('pointerup', soltar);
+      window.removeEventListener('pointercancel', soltar);
+
+      const d = this.deslocamento;
+      this.arrastando = false;
+      this.deslocamento = 0;
+
+      if (d < -50) this.proximo();
+      else if (d > 50) this.anterior();
+    };
+
+    window.addEventListener('pointermove', mover);
+    window.addEventListener('pointerup', soltar);
+    window.addEventListener('pointercancel', soltar);
   }
 
 
@@ -508,5 +691,4 @@ export class CardapioComponent implements OnInit {
       .getProdutos()
       .reduce((total, produto) => total + produto.quantidade, 0);
   }
-}
-
+};
