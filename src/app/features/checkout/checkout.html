@@ -1,22 +1,27 @@
-<a routerLink="/carrinho" class="voltar-menu"> ← </a>
+
+<!-- BOTÃO VOLTAR -->
+<a routerLink="/carrinho" class="voltar-menu">←</a>
 
 <div class="checkout-container">
+
+  <!-- CABEÇALHO -->
   <header class="checkout-header">
     <span>AROMA CAFÉ</span>
-
     <h1>Finalizar pedido</h1>
-
     <p>Preencha seus dados para finalizar sua compra.</p>
   </header>
 
+  <!-- FORMULÁRIO DO CHECKOUT -->
   <main class="checkout-conteudo" *ngIf="!pedidoFinalizado">
+
+    <!-- DADOS DA ENTREGA -->
     <section class="dados-entrega">
       <h2>Dados para entrega</h2>
 
-      <label for="nome"> Nome completo </label>
-
+      <label for="nome">Nome completo</label>
       <input
         id="nome"
+        name="nome"
         type="text"
         [(ngModel)]="nome"
         placeholder="Digite seu nome"
@@ -24,140 +29,323 @@
         required
       />
 
-      <label for="telefone"> Telefone </label>
+      <label for="telefone">Telefone / Celular</label>
+      <input
+        id="telefone"
+        name="telefone"
+        type="tel"
+        [(ngModel)]="telefone"
+        placeholder="(00) 00000-0000"
+        (ngModelChange)="mensagemErro = ''"
+        required
+      />
 
-      <input id="telefone" type="tel" [(ngModel)]="telefone" placeholder="Digite seu telefone" />
+      <label for="cep">CEP</label>
+      <input
+        id="cep"
+        name="cep"
+        type="text"
+        [(ngModel)]="cep"
+        placeholder="Digite seu CEP"
+        maxlength="9"
+        (blur)="buscarCep()"
+      />
 
-      <label for="endereco"> Endereço </label>
-
+      <label for="endereco">Endereço</label>
       <input
         id="endereco"
+        name="endereco"
         type="text"
         [(ngModel)]="endereco"
         placeholder="Rua ou Avenida"
         required
       />
 
-      <label for="numero"> Número </label>
+      <label for="numero">Número</label>
+      <input
+        id="numero"
+        name="numero"
+        type="text"
+        [(ngModel)]="numero"
+        placeholder="Número da residência"
+        required
+      />
 
-      <input id="numero" type="text" [(ngModel)]="numero" placeholder="Número" required />
-
-      <label for="bairro"> Bairro </label>
-
+      <label for="bairro">Bairro</label>
       <input
         id="bairro"
+        name="bairro"
         type="text"
         [(ngModel)]="bairro"
         placeholder="Digite seu bairro"
         required
       />
 
-      <label for="complemento"> Complemento </label>
-
+      <label for="complemento">Complemento (opcional)</label>
       <input
         id="complemento"
+        name="complemento"
         type="text"
         [(ngModel)]="complemento"
-        placeholder="Apartamento, casa, bloco... (opcional)"
+        placeholder="Apartamento, casa, bloco..."
       />
     </section>
 
+    <!-- FORMA DE PAGAMENTO -->
     <section class="pagamento">
       <h2>Forma de pagamento</h2>
 
       <label>
-        <input type="radio" name="pagamento" value="Cartão" [(ngModel)]="formaPagamento" />
-
+        <input
+          type="radio"
+          name="pagamento"
+          value="Cartão"
+          [(ngModel)]="formaPagamento"
+        />
         Cartão
       </label>
 
-      <label>
-        <input type="radio" name="pagamento" value="Pix" [(ngModel)]="formaPagamento" />
+      <!-- TIPO DO CARTÃO -->
+      <div
+        class="opcoes-cartao"
+        *ngIf="formaPagamento === 'Cartão'"
+      >
+        <p>Escolha o tipo do cartão:</p>
 
+        <label>
+          <input
+            type="radio"
+            name="tipoCartao"
+            value="Crédito"
+            [(ngModel)]="tipoCartao"
+          />
+          Crédito
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="tipoCartao"
+            value="Débito"
+            [(ngModel)]="tipoCartao"
+          />
+          Débito
+        </label>
+      </div>
+
+      <!-- PIX -->
+      <label>
+        <input
+          type="radio"
+          name="pagamento"
+          value="Pix"
+          [(ngModel)]="formaPagamento"
+        />
         Pix
       </label>
 
-      <label>
-        <input type="radio" name="pagamento" value="Dinheiro" [(ngModel)]="formaPagamento" />
+      <div
+        class="dados-pix"
+        *ngIf="formaPagamento === 'Pix'"
+      >
+        <p>Utilize a chave PIX para realizar o pagamento:</p>
+        <strong>aromacafe@gmail.com</strong>
+      </div>
 
+      <!-- DINHEIRO -->
+      <label>
+        <input
+          type="radio"
+          name="pagamento"
+          value="Dinheiro"
+          [(ngModel)]="formaPagamento"
+        />
         Dinheiro
       </label>
+
+      <div
+        class="opcoes-dinheiro"
+        *ngIf="formaPagamento === 'Dinheiro'"
+      >
+        <p>Precisa de troco?</p>
+
+        <label>
+          <input
+            type="radio"
+            name="precisaTroco"
+            [value]="true"
+            [(ngModel)]="precisaTroco"
+          />
+          Sim
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="precisaTroco"
+            [value]="false"
+            [(ngModel)]="precisaTroco"
+          />
+          Não
+        </label>
+
+        <div *ngIf="precisaTroco === true">
+          <label for="valorTroco">Troco para quanto?</label>
+          <input
+            id="valorTroco"
+            name="valorTroco"
+            type="number"
+            [(ngModel)]="valorTroco"
+            placeholder="Ex: 50"
+            min="0"
+            step="0.01"
+          />
+        </div>
+      </div>
     </section>
 
+    <!-- RESUMO DO PEDIDO -->
     <section class="resumo-pedido">
       <h2>Resumo do pedido</h2>
 
-      <div class="produto-resumo" *ngFor="let produto of produtos">
+      <div
+        class="produto-resumo"
+        *ngFor="let produto of produtos"
+      >
         <div>
-          <strong>
-            {{ produto.nome }}
-          </strong>
-
+          <strong>{{ produto.nome }}</strong>
           <p>Quantidade: {{ produto.quantidade }}</p>
         </div>
 
         <span>
-          R$
-          {{ (produto.preco * produto.quantidade).toFixed(2) }}
+          R$ {{ (produto.preco * produto.quantidade).toFixed(2) }}
         </span>
       </div>
 
       <hr />
 
       <div class="linha-resumo">
-        <span> Subtotal </span>
-
-        <span> R$ {{ subtotal.toFixed(2) }} </span>
+        <span>Subtotal</span>
+        <span>R$ {{ subtotal.toFixed(2) }}</span>
       </div>
 
-      <div class="linha-resumo desconto" *ngIf="desconto > 0">
-        <span> Desconto </span>
-
-        <span> - R$ {{ desconto.toFixed(2) }} </span>
+      <div
+        class="linha-resumo desconto"
+        *ngIf="desconto > 0"
+      >
+        <span>Desconto</span>
+        <span>- R$ {{ desconto.toFixed(2) }}</span>
       </div>
 
       <div class="linha-total">
-        <strong> Total </strong>
-
-        <strong> R$ {{ total.toFixed(2) }} </strong>
+        <strong>Total</strong>
+        <strong>R$ {{ total.toFixed(2) }}</strong>
       </div>
     </section>
 
-    <button type="button" class="finalizar" (click)="finalizarPedido()">Finalizar pedido</button>
+    <!-- MENSAGEM DE ERRO -->
+    <div
+      *ngIf="mensagemErro"
+      class="mensagem-erro"
+      role="alert"
+      aria-live="polite"
+    >
+      <span aria-hidden="true">⚠</span>
+      <span>{{ mensagemErro }}</span>
+    </div>
+
+    <!-- BOTÃO FINALIZAR -->
+    <button
+      type="button"
+      class="finalizar"
+      (click)="finalizarPedido()"
+    >
+      Finalizar pedido
+    </button>
+
   </main>
 
-  <section class="pedido-confirmado" *ngIf="pedidoFinalizado">
-    <h2>Pedido realizado com sucesso! 🎉</h2>
+  <!-- CONFIRMAÇÃO DO PEDIDO -->
+  <section
+    class="pedido-confirmado"
+    *ngIf="pedidoFinalizado"
+  >
+    <div class="sucesso-icone" aria-hidden="true">✓</div>
 
-    <p>Obrigado pela sua compra, {{ nome }}!</p>
+    <h2>Pedido confirmado!</h2>
+
+    <p>
+      Obrigado pela sua compra, {{ nome }}!
+    </p>
 
     <p>Seu número de pedido é:</p>
-
     <h1>#{{ numeroPedido }}</h1>
 
-    <p>
-      Forma de pagamento:
-      <strong>{{ formaPagamento }}</strong>
+    <div class="confirmacao-detalhes">
+
+      <p>
+        Forma de pagamento:
+        <strong>
+          {{ formaPagamento }}
+          <span *ngIf="formaPagamento === 'Cartão'">
+            - {{ tipoCartao }}
+          </span>
+        </strong>
+      </p>
+
+      <p *ngIf="formaPagamento === 'Pix'">
+        Chave PIX:
+        <strong>aromacafe@gmail.com</strong>
+      </p>
+
+      <p
+        *ngIf="
+          formaPagamento === 'Dinheiro' &&
+          precisaTroco === true
+        "
+      >
+        Troco para:
+        <strong>R$ {{ valorTroco.toFixed(2) }}</strong>
+      </p>
+
+      <p
+        *ngIf="
+          formaPagamento === 'Dinheiro' &&
+          precisaTroco === false
+        "
+      >
+        <strong>Não precisa de troco.</strong>
+      </p>
+
+      <p>
+        Total do pedido:
+        <strong>R$ {{ totalPedido.toFixed(2) }}</strong>
+      </p>
+
+      <p *ngIf="descontoPedido > 0">
+        Desconto:
+        <strong>- R$ {{ descontoPedido.toFixed(2) }}</strong>
+      </p>
+
+      <p>
+        Entrega em:
+        <strong>{{ endereco }}, {{ numero }} - {{ bairro }}</strong>
+      </p>
+
+      <p *ngIf="complemento">
+        Complemento:
+        <strong>{{ complemento }}</strong>
+      </p>
+
+    </div>
+
+    <p class="mensagem-agradecimento">
+      Agradecemos por escolher a AROMA CAFÉ!
     </p>
 
-    <p>
-      Total do pedido:
-      <strong> R$ {{ totalPedido.toFixed(2) }} </strong>
-    </p>
-
-    <p *ngIf="descontoPedido > 0">
-      Desconto:
-      <strong> - R$ {{ descontoPedido.toFixed(2) }} </strong>
-    </p>
-
-    <p>
-      Entrega em:
-      <strong> {{ endereco }}, {{ numero }} - {{ bairro }} </strong>
-    </p>
-
-    <p *ngIf="complemento">
-      Complemento:
-      <strong>{{ complemento }}</strong>
-    </p>
+    <a routerLink="/cardapio" class="voltar-cardapio">
+      Voltar ao cardápio
+    </a>
   </section>
+
 </div>
