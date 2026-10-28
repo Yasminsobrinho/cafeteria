@@ -68,46 +68,102 @@
   </div>
 
   <!-- =====================================================
-       DESTAQUES
+       DESTAQUES (CARROSSEL "NOSSOS FAVORITOS")
        ===================================================== -->
 
   <section
-    class="destaques"
+    class="dc"
     *ngIf="categoriaSelecionada === 'Todos' && !termoBusca && destaques.length > 0"
-    aria-labelledby="titulo-destaques"
-  >
-    <div class="destaques-texto">
-      <span class="destaques-eyebrow">DESTAQUES DA CASA</span>
-      <h2 id="titulo-destaques">Os <em>favoritos</em> do momento</h2>
-      <p>Experimente o que todos estão amando por aqui.</p>
+    aria-roledescription="carrossel" aria-labelledby="titulo-favoritos">
+    <div class="dc-cabecalho">
+      <span class="dc-eyebrow">DESTAQUES DA CASA</span>
+      <h2 id="titulo-favoritos" class="dc-titulo">Nossos Favoritos</h2>
+      <p class="dc-subtitulo">Sabores especiais preparados para tornar seu dia melhor</p>
     </div>
 
-    <div class="destaques-lista">
-      <article class="dest-card" *ngFor="let item of destaques">
-        <div class="dest-img">
-          <img [ngSrc]="item.imagem" [alt]="item.nome" fill />
-          <span class="dest-selo" *ngIf="destaqueSelos[item.nome]">
-            {{ destaqueSelos[item.nome] }}
-          </span>
-        </div>
+    <div class="dc-palco">
+      <button
+        *ngIf="temNavegacao"
+        type="button"
+        class="dc-seta dc-anterior"
+        aria-label="Produtos anteriores"
+        (click)="clicarAnterior()"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
 
-        <div class="dest-corpo">
-          <h3>{{ item.nome }}</h3>
-          <p>{{ item.descricao }}</p>
+      <div
+        #viewport
+        class="dc-viewport"
+        tabindex="0"
+        aria-label="Lista de produtos em destaque. Use as setas do teclado para navegar."
+        [class.dc-arrastando]="arrastando"
+        (pointerdown)="iniciarArrasto($event)"
+        (dragstart)="$event.preventDefault()"
+        (keydown.arrowright)="clicarProximo(); $event.preventDefault()"
+        (keydown.arrowleft)="clicarAnterior(); $event.preventDefault()"
+        (mouseenter)="pausarAuto()"
+        (mouseleave)="retomarAuto()"
+        (focusin)="pausarAuto()"
+      >
+        <div
+          class="dc-trilho"
+          [class.dc-sem-transicao]="arrastando"
+          [style.--pv]="porTela"
+          [style.transform]="transformacao"
+        >
+          <article
+            class="dc-card"
+            *ngFor="let item of destaques; let i = index; trackBy: trackByNome"
+            aria-roledescription="item"
+            [attr.aria-label]="i + 1 + ' de ' + destaques.length"
+            [attr.inert]="foraDaTela(i) ? '' : null"
+          >
+            <div class="dc-img">
+              <img [ngSrc]="item.imagem" [alt]="item.nome" fill sizes="(max-width: 650px) 90vw, 320px" />
+              <span class="dc-selo" *ngIf="destaqueSelos[item.nome]">{{ destaqueSelos[item.nome] }}</span>
+            </div>
 
-          <div class="dest-rodape">
-            <strong>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</strong>
-            <button
-              type="button"
-              class="dest-add"
-              [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
-              (click)="adicionarAoCarrinho(item)"
-            >
-              +
-            </button>
-          </div>
+            <div class="dc-corpo">
+              <h3 class="dc-nome">{{ item.nome }}</h3>
+              <p class="dc-descricao">{{ item.descricao }}</p>
+
+              <div class="dc-rodape">
+                <strong>R$ {{ item.preco.toFixed(2).replace('.', ',') }}</strong>
+                <button
+                  type="button"
+                  class="dc-btn"
+                  [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+                  (click)="adicionarAoCarrinho(item)"
+                >
+                  Adicionar
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
+
+      <button
+        *ngIf="temNavegacao"
+        type="button"
+        class="dc-seta dc-proxima"
+        aria-label="Próximos produtos"
+        (click)="clicarProximo()"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+
+    <div class="dc-pontos" *ngIf="temNavegacao" role="group" aria-label="Posição no carrossel">
+      <button
+        *ngFor="let p of pontos"
+        type="button"
+        class="dc-ponto"
+        [attr.aria-current]="p === posicao ? 'true' : null"
+        [attr.aria-label]="'Ir para a posição ' + (p + 1)"
+        (click)="clicarPonto(p)"
+      ></button>
     </div>
   </section>
 
@@ -309,4 +365,4 @@
 
 </div>
 
-<app-rodape></app-rodape>
+<app-rodape></app-rodape>;
