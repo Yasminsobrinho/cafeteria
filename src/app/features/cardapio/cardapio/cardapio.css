@@ -484,6 +484,7 @@ body {
   background-color: transparent;
   color: #463725;
 
+
   font-family: 'Jost', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -502,7 +503,7 @@ body {
 
 .btn-adicionar:hover,
 .btn-adicionar:focus-visible {
-  background-color: #c9a06a;
+  background-color: #f9e6cc;
   color: #140c09;
   outline: none;
 }

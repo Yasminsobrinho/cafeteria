@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 import { Rodape } from '../../home/home/pginicial/rodape/rodape';
 import { Menu } from '../../home/home/pginicial/menu/menu';
-
+import { ToastService } from '../../../core/services/toast.service';
 interface Produto {
   nome: string;
   descricao: string;
@@ -74,9 +74,10 @@ interface RespostaComidasApi {
 })
 export class CardapioComponent implements OnInit {
   constructor(
-    private carrinhoService: CarrinhoService,
-    private http: HttpClient,
-  ) {}
+  private carrinhoService: CarrinhoService,
+  private http: HttpClient,
+  private toast: ToastService,
+) {}
 
   termoBusca: string = '';
   categoriaSelecionada: string = 'Todos';
@@ -493,11 +494,11 @@ export class CardapioComponent implements OnInit {
   // CARRINHO
   // =====================================================
 
-  adicionarAoCarrinho(produto: Produto): void {
-    this.carrinhoService.adicionarProduto(produto);
+ adicionarAoCarrinho(produto: Produto): void {
+  this.carrinhoService.adicionarProduto(produto);
 
-    alert(`${produto.nome} foi adicionado ao carrinho!`);
-  }
+  this.toast.mostrar(produto.nome, 'foi adicionado ao carrinho.');
+}
 
   // =====================================================
   // QUANTIDADE DO CARRINHO
