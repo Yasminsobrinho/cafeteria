@@ -37,10 +37,8 @@
         >
         <a href="#sobre" (click)="fecharMenu()">Sobre</a>
         <a routerLink="/cardapio" routerLinkActive="ativo" (click)="fecharMenu()">Cardápio</a>
-
-        <!-- só na gaveta do celular/tablet -->
-        <a routerLink="/login" class="so-mobile" (click)="fecharMenu()">Login</a>
-        <a routerLink="/carrinho" class="so-mobile" (click)="fecharMenu()">
+        <a routerLink="/login" (click)="fecharMenu()">Login</a>
+        <a routerLink="/carrinho" (click)="fecharMenu()">
           Carrinho
           @if (quantidadeCarrinho > 0) {
             <span class="contador-mobile">{{ quantidadeCarrinho }}</span>
@@ -70,7 +68,12 @@
         </svg>
       </a>
 
-      <a routerLink="/login" class="icone so-desktop" aria-label="Login" (click)="fecharMenu()">
+      <a
+        routerLink="/login"
+        class="icone so-desktop"
+        aria-label="Abrir página de login"
+        (click)="fecharMenu()"
+      >
         <svg
           viewBox="0 0 24 24"
           fill="none"

@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500&display=swap');
+
 html,
 body {
 	min-height: 100%;
@@ -7,6 +8,18 @@ body {
 
 body {
 	background-color: #140b06;
+	font-family: 'Jost', sans-serif;
+	color: #f3e9db;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Cormorant Garamond', serif;
+	font-weight: 500;
 }
 
 app-home .home-main {

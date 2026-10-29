@@ -29,13 +29,14 @@
         required
       />
 
-      <label for="telefone">Telefone / Celular</label>
+      <label for="telefone">Telefone</label>
       <input
         id="telefone"
         name="telefone"
         type="tel"
         [(ngModel)]="telefone"
         placeholder="(00) 00000-0000"
+        aria-label="Telefone"
         (ngModelChange)="mensagemErro = ''"
         required
       />
@@ -296,7 +297,7 @@
   >
     <div class="sucesso-icone" aria-hidden="true">✓</div>
 
-    <h2>Pedido confirmado!</h2>
+    <h2>Pedido realizado com sucesso! 🎉</h2>
 
     <p>
       Obrigado pela sua compra, {{ nome }}!
