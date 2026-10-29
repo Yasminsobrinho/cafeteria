@@ -52,7 +52,7 @@ export class Home {
     },
   ];
 
-  // Mesmos nomes de imagem que já existem na pasta /public
+  // Produtos que existem no cardápio (mesmos nomes, preços e imagens)
   destaques: Destaque[] = [
     {
       nome: 'Bolo de Cenoura',
@@ -62,25 +62,25 @@ export class Home {
       imagem: 'bolodecenora.jpg',
     },
     {
-      nome: 'Croissant Doce',
+      nome: 'Croissants Doce',
       descricao: 'Creme de natas e morangos frescos.',
       preco: 18,
       precoAntigo: '',
       imagem: 'croacandoce.jpg',
     },
     {
-      nome: 'Cold Brew',
-      descricao: 'Gelado, encorpado e refrescante.',
-      preco: 9,
+      nome: 'Brownie',
+      descricao: 'Cremoso por dentro, com casquinha craquelada.',
+      preco: 7,
       precoAntigo: '',
-      imagem: 'coldbrew.jpg',
+      imagem: 'brownie.jpg',
     },
     {
-      nome: 'Latte de Baunilha',
-      descricao: 'Café suave com leite vaporizado.',
-      preco: 4,
-      precoAntigo: '',
-      imagem: 'lattedebaunilha.jpg',
+      nome: 'Torta de Morango',
+      descricao: 'Massa amanteigada e morangos frescos.',
+      preco: 35,
+      precoAntigo: '40.00',
+      imagem: 'tortademorango.jpg',
     },
   ];
 

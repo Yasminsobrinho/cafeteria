@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
 import { Rodape } from '../../home/home/pginicial/rodape/rodape';
 import { Menu } from '../../home/home/pginicial/menu/menu';
+// Tradução das bebidas que vêm da API (inglês -> português).
+import { BebidaApi, traduzirNome, traduzirDescricao } from '../../../core/utils/traducao-bebidas';
 
 interface Produto {
   nome: string;
@@ -15,22 +17,6 @@ interface Produto {
   preco: number;
   precoAntigo: string;
   imagem: string;
-}
-
-// Representa uma bebida devolvida pelo endpoint /api/drinks.
-interface BebidaApi {
-  // Identificador da bebida.
-  id: number | string;
-  // Nome exibido no cardapio.
-  name: string;
-  // Tipo da bebida, como quente ou gelada.
-  type: string;
-  // Preco recebido da API.
-  price: number;
-  // Descricao opcional da bebida.
-  description?: string;
-  // Imagem opcional da bebida.
-  image?: string;
 }
 
 // Representa o envelope de resposta usado pela API de bebidas.
@@ -284,6 +270,10 @@ export class CardapioComponent implements OnInit {
   // Guarda a rota interna usada para buscar bebidas.
   private readonly apiUrl = '/api/drinks';
 
+  // Nomes (em minusculas) de bebidas da API que nao devem aparecer no cardapio.
+  // Para esconder outra bebida, basta incluir o nome aqui. Ex.: ['brprobe', 'outra']
+  private readonly bebidasOcultas: string[] = ['brprobe'];
+
   // =====================================================
   // INICIALIZAÇÃO
   // =====================================================
@@ -332,7 +322,14 @@ export class CardapioComponent implements OnInit {
     this.http.get<RespostaApi | BebidaApi[]>(this.apiUrl).subscribe({
       next: (resposta) => {
         // Aceita tanto uma lista direta quanto a resposta com campo data.
-        const bebidasApi = Array.isArray(resposta) ? resposta : resposta.data;
+        const bebidasRecebidas = Array.isArray(resposta) ? resposta : resposta.data;
+
+        // Remove itens de teste que vem da API (ex.: BRPROBE).
+        const bebidasApi = Array.isArray(bebidasRecebidas)
+          ? bebidasRecebidas.filter(
+              (b) => !this.bebidasOcultas.includes(String(b.name).trim().toLowerCase()),
+            )
+          : bebidasRecebidas;
 
         // Usa bebidas locais se a resposta estiver vazia ou invalida.
         if (!Array.isArray(bebidasApi) || bebidasApi.length === 0) {
@@ -344,17 +341,14 @@ export class CardapioComponent implements OnInit {
           return;
         }
 
-        // Converte cada registro da API para o modelo visual do cardapio.
+        // Converte cada registro da API para o modelo visual do cardapio,
+        // traduzindo nome e descricao para portugues.
         this.bebidas = bebidasApi.map((bebida) => ({
-          // Copia o nome recebido da API.
-          nome: bebida.name,
+          // Nome traduzido para portugues.
+          nome: traduzirNome(bebida.name),
 
-          // Usa a descricao da API ou uma descricao conforme o tipo.
-          descricao:
-            bebida.description ||
-            (bebida.type === 'hot'
-              ? 'Bebida quente preparada especialmente para você.'
-              : 'Bebida gelada, refrescante e preparada especialmente para você.'),
+          // Descricao em portugues (a da API vem em ingles e e ignorada).
+          descricao: traduzirDescricao(bebida.name, bebida.type),
 
           // Garante que o preco seja tratado como numero.
           preco: Number(bebida.price),
@@ -363,6 +357,7 @@ export class CardapioComponent implements OnInit {
           precoAntigo: '',
 
           // Usa a imagem da API ou uma imagem local alternativa.
+          // Importante: usa o nome ORIGINAL (em ingles) para achar a imagem.
           imagem: bebida.image || this.obterImagemBebida(bebida.name),
         }));
 
@@ -462,7 +457,8 @@ export class CardapioComponent implements OnInit {
       return;
     }
 
-    const pertoDoFim = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 500;
+    const pertoDoFim =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 500;
     if (pertoDoFim) {
       this.quantidadeItensVisiveis += this.itensPorLote;
     }
@@ -488,4 +484,3 @@ export class CardapioComponent implements OnInit {
       .reduce((total, produto) => total + produto.quantidade, 0);
   }
 }
-
