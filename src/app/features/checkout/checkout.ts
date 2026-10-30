@@ -1,12 +1,15 @@
 
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
 import {
   CarrinhoService,
   ProdutoCarrinho
 } from '../carrinho/carrinho/carrinho.service';
+
 import { CepService } from '../../core/services/cep.service';
 
 @Component({
@@ -14,10 +17,9 @@ import { CepService } from '../../core/services/cep.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './checkout.html',
-  styleUrl: './checkout.css',
+  styleUrl: './checkout.css'
 })
 export class Checkout {
-
   constructor(
     private carrinhoService: CarrinhoService,
     private cepService: CepService
@@ -29,65 +31,82 @@ export class Checkout {
   }
 
   // Dados do cliente
-  cep: string = '';
-  nome: string = '';
-  telefone: string = '';
-  endereco: string = '';
-  numero: string = '';
-  bairro: string = '';
-  complemento: string = '';
+  cep = '';
+  nome = '';
+  email = '';
+  telefone = '';
+  endereco = '';
+  numero = '';
+  bairro = '';
+  complemento = '';
 
-  // Forma de pagamento
-  formaPagamento: string = '';
-  tipoCartao: string = '';
+  // Pagamento
+  formaPagamento = '';
+  tipoCartao = '';
 
   // Troco
   precisaTroco: boolean | null = null;
-  valorTroco: number = 0;
+  valorTroco = 0;
 
-  // Mensagem de erro exibida na página
-  mensagemErro: string = '';
+  // Mensagem de erro
+  mensagemErro = '';
 
-  // Desconto
+  // Desconto do carrinho
   get desconto(): number {
     return this.carrinhoService.getDesconto();
   }
 
-  // Subtotal
+  // Subtotal dos produtos
   get subtotal(): number {
     return this.produtos.reduce(
-      (total, produto) =>
-        total + produto.preco * produto.quantidade,
+      (soma, produto) =>
+        soma + produto.preco * produto.quantidade,
       0
     );
   }
 
-  // Total da compra
+  // Total com desconto
   get total(): number {
-    return this.subtotal - this.desconto;
+    return Math.max(0, this.subtotal - this.desconto);
   }
 
-  // Controle da confirmação
-  pedidoFinalizado: boolean = false;
-  numeroPedido: number = 0;
-  totalPedido: number = 0;
-  descontoPedido: number = 0;
+  // Confirmação do pedido
+  pedidoFinalizado = false;
+  numeroPedido = 0;
+  totalPedido = 0;
+  descontoPedido = 0;
 
   // Busca o endereço pelo CEP
   buscarCep(): void {
-    this.cepService.buscarCep(this.cep).subscribe({
+    const cepLimpo = this.cep.replace(/\D/g, '');
+
+    // Não consulta um CEP vazio
+    if (!cepLimpo) {
+      return;
+    }
+
+    if (cepLimpo.length !== 8) {
+      this.mensagemErro = 'Digite um CEP válido com 8 números.';
+      return;
+    }
+
+    this.mensagemErro = '';
+
+    this.cepService.buscarCep(cepLimpo).subscribe({
       next: (dados) => {
         if (dados.erro) {
-          this.mensagemErro = 'CEP não encontrado. Confira o número digitado.';
+          this.mensagemErro =
+            'CEP não encontrado. Confira o número digitado.';
           return;
         }
 
-        this.endereco = dados.logradouro;
-        this.bairro = dados.bairro;
+        this.endereco = dados.logradouro || '';
+        this.bairro = dados.bairro || '';
         this.mensagemErro = '';
       },
       error: () => {
-        this.mensagemErro = 'Não foi possível consultar o CEP. Tente novamente.';
+        this.mensagemErro =
+          'Não foi possível consultar o CEP. Tente novamente.';
       }
     });
   }
@@ -102,54 +121,69 @@ export class Checkout {
       return;
     }
 
-    // Valida o nome
+    // Valida nome
     if (this.nome.trim().length < 3) {
-      this.mensagemErro = 'Digite seu nome completo ou um nome válido.';
+      this.mensagemErro = 'Digite um nome válido.';
       return;
     }
 
-    // Valida o telefone
+    // Valida e-mail
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      this.email.trim()
+    );
+
+    if (!emailValido) {
+      this.mensagemErro = 'Informe um e-mail válido.';
+      return;
+    }
+
+    // Valida telefone
     const telefoneLimpo = this.telefone.replace(/\D/g, '');
 
-    if (telefoneLimpo.length < 10 || telefoneLimpo.length > 11) {
-      this.mensagemErro = 'Informe um número de celular válido com DDD.';
+    if (
+      telefoneLimpo.length < 10 ||
+      telefoneLimpo.length > 11
+    ) {
+      this.mensagemErro =
+        'Informe um telefone válido com DDD.';
       return;
     }
 
-    // Valida o endereço
+    // Valida endereço
     if (this.endereco.trim().length < 3) {
       this.mensagemErro = 'Digite um endereço válido.';
       return;
     }
 
-    // Valida o número da residência
-    if (this.numero.trim() === '') {
+    // Valida número
+    if (!this.numero.trim()) {
       this.mensagemErro = 'Digite o número do endereço.';
       return;
     }
 
-    // Valida o bairro
+    // Valida bairro
     if (this.bairro.trim().length < 3) {
       this.mensagemErro = 'Digite um bairro válido.';
       return;
     }
 
-    // Valida a forma de pagamento
-    if (this.formaPagamento === '') {
+    // Valida forma de pagamento
+    if (!this.formaPagamento) {
       this.mensagemErro = 'Escolha uma forma de pagamento.';
       return;
     }
 
-    // Valida o tipo do cartão
+    // Valida crédito ou débito
     if (
       this.formaPagamento === 'Cartão' &&
-      this.tipoCartao === ''
+      !this.tipoCartao
     ) {
-      this.mensagemErro = 'Escolha crédito ou débito.';
+      this.mensagemErro =
+        'Escolha crédito ou débito para o pagamento com cartão.';
       return;
     }
 
-    // Valida a necessidade de troco
+    // Valida a opção de troco
     if (
       this.formaPagamento === 'Dinheiro' &&
       this.precisaTroco === null
@@ -161,26 +195,30 @@ export class Checkout {
     // Valida o valor do troco
     if (
       this.formaPagamento === 'Dinheiro' &&
-      this.precisaTroco === true &&
-      this.valorTroco <= this.total
+      this.precisaTroco === true
     ) {
-      this.mensagemErro =
-        'O valor informado para o troco deve ser maior que o total do pedido.';
-      return;
+      if (
+        !Number.isFinite(this.valorTroco) ||
+        this.valorTroco <= this.total
+      ) {
+        this.mensagemErro =
+          'O valor para o troco deve ser maior que o total do pedido.';
+        return;
+      }
     }
 
     // Guarda os valores antes de limpar o carrinho
     this.totalPedido = this.total;
     this.descontoPedido = this.desconto;
 
-    // Gera o número do pedido
+    // Gera um número demonstrativo para o pedido
     this.numeroPedido =
       Math.floor(Math.random() * 90000) + 10000;
 
     // Exibe a confirmação
     this.pedidoFinalizado = true;
 
-    // Limpa o carrinho
+    // Limpa o carrinho após confirmar
     this.carrinhoService.limparCarrinho();
   }
 }
