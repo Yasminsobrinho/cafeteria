@@ -1,628 +1,338 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+:host {
+  --bg: #130c0b;
+  --bg-card: #1c1311;
+  --dourado: #c49a63;
+  --dourado-escuro: #a97c45;
+  --creme: #e9e0cf;
+  --creme-card: #f1eadc;
+  --marrom: #3b2415;
+  --texto-claro: #f3ece0;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Jost', system-ui, sans-serif;
+
+  display: block;
+  background: var(--bg);
+  color: var(--texto-claro);
+  font-family: var(--sans);
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #eeddc3;
-  color: #3b2418;
-}
-
-/* =========================================================
-   CARDÁPIO
-   ========================================================= */
+* { box-sizing: border-box; }
 
 .cardapio {
-  width: min(100%, 1450px);
-  margin: 60px auto;
-  padding: 0 25px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
 }
 
-.cardapio h2 {
-  font-size: 22px;
-  margin-bottom: 35px;
-  color: #3b2418;
+/* ---------- TOPO ---------- */
+.hero {
+  text-align: center;
+  padding: 80px 0 48px;
 }
 
-/* GRID DOS PRODUTOS */
-
-.produtos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: 14px;
-}
-
-/* =========================================================
-   CARD DO PRODUTO
-   ========================================================= */
-
-.produto {
-  position: relative;
-
-  background: #ffffff;
-  border-radius: 14px;
-  min-height: 180px;
-  padding: 18px;
-
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-
-  box-shadow: 0 2px 8px rgba(59, 36, 24, 0.08);
-
-  transition: 0.2s;
-}
-
-.produto:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(59, 36, 24, 0.12);
-}
-
-/* =========================================================
-   TEXTO
-   ========================================================= */
-
-.produto-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.produto h3 {
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--dourado);
   font-size: 18px;
-  margin-bottom: 12px;
-  color: #3b2418;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
-.produto p {
+.hero h1 {
+  margin: 0 0 56px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(38px, 5vw, 54px);
+  color: #fff;
+}
+
+.busca {
+  max-width: 300px;
+  margin: 0 auto 32px;
+}
+
+.busca input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
+  color: var(--texto-claro);
+  font: 400 15px var(--sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.busca input::placeholder { color: rgba(243, 236, 224, 0.55); }
+.busca input:focus { border-color: var(--dourado); }
+
+.abas {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.abas button {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 6px 2px;
+  color: rgba(243, 236, 224, 0.7);
+  font: 400 13px var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.abas button:hover { color: #fff; }
+.abas button.ativa {
+  color: var(--dourado);
+  border-bottom-color: var(--dourado);
+}
+
+/* ---------- FAVORITOS ---------- */
+.favoritos {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  margin: 0 -20px 72px;
+  padding: 22px;
+  background: var(--creme);
+  border-radius: 28px;
+  color: var(--marrom);
+}
+
+.favoritos__intro { padding: 4px 4px 0; }
+
+.favoritos__eyebrow {
+  margin: 0 0 14px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6b5a47;
+}
+
+.favoritos h2 {
+  margin: 0 0 14px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+  color: #1d1410;
+}
+.favoritos h2 em { font-style: italic; }
+
+.favoritos__texto {
+  margin: 0;
   font-size: 15px;
   line-height: 1.5;
-  color: #806b5d;
+  color: #6b6a4d;
+}
 
+.favoritos__lista {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.fav-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--creme-card);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.fav-card__foto {
+  position: relative;
+  aspect-ratio: 1 / 1.05;
+}
+.fav-card__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.selo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--dourado);
+  color: var(--marrom);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fav-card__corpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px 10px 12px;
+}
+
+.fav-card h3 {
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 20px;
+  color: #2a1b12;
+}
+
+.nota { font-size: 15px; color: #2a1b12; margin-bottom: 6px; }
+
+.desc {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #7a6a58;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
-  margin-bottom: 12px;
 }
 
-/* =========================================================
-   PREÇO
-   ========================================================= */
-
-.preco {
-  font-size: 15px;
-  color: #8b5e3c;
+.fav-card__rodape {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.promocao {
-  color: #4f7a45;
-  font-weight: bold;
+.preco { font-size: 16px; font-weight: 600; color: #3b2415; }
+
+.btn-mais {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--dourado);
+  color: var(--marrom);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+}
+.btn-mais:hover { background: var(--dourado-escuro); transform: scale(1.1); }
+
+/* ---------- SEÇÕES ---------- */
+.secao { margin-bottom: 64px; }
+
+.secao__titulo {
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 32px;
+  color: #fff;
 }
 
-.preco-antigo {
-  color: #aaa;
-  text-decoration: line-through;
-  margin-left: 5px;
+.grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-/* =========================================================
-   IMAGEM
-   ========================================================= */
+/* ---------- CARD DOURADO ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 14px 12px;
+  background: var(--dourado);
+  border-radius: 16px;
+  color: var(--marrom);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
 
-.produto img {
-  width: 116px;
-  height: 116px;
+.card__topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
 
+.card__texto { flex: 1; min-width: 0; }
+
+.card__categoria {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.1;
+  color: #1d1410;
+}
+
+.card__nota { display: block; margin-bottom: 4px; font-size: 14px; color: #f3e6cf; }
+
+.card__desc {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #5a3d22;
+}
+
+.card__precos { display: flex; align-items: baseline; gap: 8px; }
+.card__precos strong { font-size: 17px; font-weight: 600; color: #2a1b12; }
+.card__precos s { font-size: 14px; color: rgba(59, 36, 21, 0.55); }
+
+.card__foto {
+  flex: none;
+  width: 84px;
+  height: 84px;
   object-fit: cover;
-
-  border-radius: 12px;
-
-  flex-shrink: 0;
+  border-radius: 10px;
 }
 
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 1000px) {
-  .produtos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* =========================================================
-   CELULAR
-   ========================================================= */
-
-@media (max-width: 650px) {
-  .menu-container {
-    padding: 14px 10px 80px;
-  }
-
-  .header-titulo h1 {
-    font-size: 26px;
-  }
-
-  .categorias-botoes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-
-  .categorias-botoes button {
-    min-height: 42px;
-    padding: 8px 10px;
-  }
-
-  .cardapio {
-    padding: 0 15px;
-    margin-top: 30px;
-  }
-
-  .cardapio h2 {
-    font-size: 18px;
-  }
-
-  .produtos {
-    grid-template-columns: 1fr;
-  }
-
-  .produto {
-    min-height: 160px;
-    padding: 14px;
-    flex-wrap: wrap;
-  }
-
-  .produto img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .produto .btn-adicionar {
-    width: 100%;
-    order: 3;
-  }
-
-  .btn-voltar {
-    font-size: 14px;
-  }
-}
-
-/* =========================================================
-   FUNDO PRINCIPAL DO CARDÁPIO
-   ========================================================= */
-
-.menu-container {
-  background-color: #eeddc3;
-  color: #3b2418;
-  padding: 20px;
-  padding-top: clamp(72px, 8vw, 110px);
-  font-family: sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.btn-voltar {
+.btn-add {
+  align-self: flex-end;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid #5a3d28;
-  border-radius: 8px;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--marrom);
+  background: transparent;
+  color: var(--marrom);
+  font: 500 13px var(--sans);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
+.btn-add:hover { background: var(--marrom); color: var(--creme); }
 
-.btn-voltar:hover,
-.btn-voltar:focus-visible {
-  background-color: #e6b940;
-  color: #1a0f08;
-}
-
-/* =========================================================
-   CABEÇALHO
-   ========================================================= */
-
-.header-titulo {
+.vazio {
   text-align: center;
-  margin-bottom: 25px;
+  color: rgba(243, 236, 224, 0.6);
+  padding: 40px 0;
 }
 
-.header-titulo span {
-  font-size: 12px;
-  color: #8b5e3c;
-  letter-spacing: 2px;
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 1000px) {
+  .grade { grid-template-columns: repeat(2, 1fr); }
+  .favoritos { grid-template-columns: 1fr; margin: 0 0 56px; }
+  .favoritos__lista { grid-template-columns: repeat(2, 1fr); }
 }
 
-.header-titulo h1 {
-  font-size: 32px;
-  color: #3b2418;
-  margin-top: 5px;
-}
-
-/* =========================================================
-   BUSCA
-   ========================================================= */
-
-.busca-secao {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.input-busca {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px 16px;
-
-  background-color: #ffffff;
-  border: 1px solid #d8c5b5;
-  border-radius: 8px;
-
-  color: #3b2418;
-  font-size: 16px;
-}
-
-.input-busca::placeholder {
-  color: #806b5d;
-}
-
-.input-busca:focus {
-  outline: none;
-  border-color: #8b5e3c;
-}
-
-/* =========================================================
-   CATEGORIAS
-   ========================================================= */
-
-.categorias-botoes {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 35px;
-}
-
-.categorias-botoes button {
-  background-color: transparent;
-  border: 1px solid #8b5e3c;
-  color: #8b5e3c;
-
-  padding: 8px 20px;
-
-  border-radius: 20px;
-
-  cursor: pointer;
-
-  font-size: 14px;
-
-  transition: all 0.2s ease;
-}
-
-.categorias-botoes button:hover {
-  background-color: #f6efe6;
-}
-
-.categorias-botoes button.ativo {
-  background-color: #8b5e3c;
-  border-color: #8b5e3c;
-  color: #ffffff;
-  font-weight: bold;
-}
-
-/* =========================================================
-   TAG DA CATEGORIA
-   ========================================================= */
-
-.categoria-tag {
-  font-size: 10px;
-  color: #8b5e3c;
-  letter-spacing: 1px;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.btn-adicionar {
-  align-self: flex-end;
-  flex-shrink: 0;
-  padding: 10px 12px;
-  border: 0;
-  border-radius: 8px;
-  background-color: #e6b940;
-  color: #1a0f08;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.btn-adicionar:hover,
-.btn-adicionar:focus-visible {
-  background-color: #f4cf63;
-}
-
-/* ANIMAÇÃO DO CARDÁPIO */
-
-.menu-container {
-  animation: descerCardapio 0.3s ease-out;
-}
-
-@keyframes descerCardapio {
-  from {
-    transform: translateY(-40px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.produto {
-  animation: entradaProduto 0.5s ease-out backwards;
-}
-
-@keyframes entradaProduto {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* =========================================================
-   DELAY EM CASCATA
-   ========================================================= */
-
-.produto:nth-child(1) {
-  animation-delay: 0.05s;
-}
-
-.produto:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.produto:nth-child(3) {
-  animation-delay: 0.15s;
-}
-
-.produto:nth-child(4) {
-  animation-delay: 0.2s;
-}
-
-.produto:nth-child(5) {
-  animation-delay: 0.25s;
-}
-
-.produto:nth-child(6) {
-  animation-delay: 0.3s;
-}
-
-.produto:nth-child(7) {
-  animation-delay: 0.35s;
-}
-
-.produto:nth-child(8) {
-  animation-delay: 0.4s;
-}
-
-.produto:nth-child(9) {
-  animation-delay: 0.45s;
-}
-
-/* =========================================================
-   CARRINHO FIXO
-   ========================================================= */
-
-.carrinho-flutuante {
-  position: fixed;
-
-  right: 25px;
-  bottom: 25px;
-
-  width: 60px;
-  height: 60px;
-
-  background-color: #8b5e3c;
-
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-decoration: none;
-
-  box-shadow: 0 4px 12px rgba(59, 36, 24, 0.25);
-
-  z-index: 1000;
-
-  transition: 0.2s ease;
-}
-
-.carrinho-flutuante:hover {
-  transform: scale(1.05);
-}
-
-/* IMAGEM DO CARRINHO */
-
-.carrinho-flutuante img {
-  width: 32px;
-  height: 32px;
-
-  object-fit: contain;
-}
-
-/* =========================================================
-   CONTADOR DO CARRINHO
-   ========================================================= */
-
-.contador-carrinho {
-  position: absolute;
-
-  top: -5px;
-  right: -5px;
-
-  min-width: 22px;
-  height: 22px;
-
-  padding: 0 5px;
-
-  background-color: #b33a3a;
-
-  color: #fff;
-
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 12px;
-  font-weight: bold;
-}
-
-/* =========================================================
-   BOTÃO ADICIONAR AO CARRINHO
-   ========================================================= */
-
-.btn-adicionar {
-  position: absolute;
-
-  right: 25px;
-  bottom: 5px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 38px;
-  padding: 0 16px;
-
-  border: 1px solid #8b5e3c;
-  border-radius: 20px;
-
-  background-color: #ffffff;
-  color: #8b5e3c;
-
-  font-size: 13px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  box-shadow: 0 2px 6px rgba(59, 36, 24, 0.12);
-
-  opacity: 1;
-  visibility: visible;
-
-  transition: all 0.2s ease;
-}
-
-.btn-adicionar::before {
-  content: "+";
-  font-size: 20px;
-  font-weight: normal;
-  margin-right: 6px;
-}
-
-.btn-adicionar:hover {
-  background-color: #8b5e3c;
-  color: #ffffff;
-
-  transform: scale(1.03);
-
-  box-shadow: 0 4px 10px rgba(59, 36, 24, 0.18);
-}
-
-.btn-adicionar:active {
-  transform: scale(0.97);
-}
-
-/* =========================================================
-   CELULAR - CARRINHO E BOTÃO
-   ========================================================= */
-
-@media (max-width: 650px) {
-  .carrinho-flutuante {
-    right: 18px;
-    bottom: 18px;
-
-    width: 55px;
-    height: 55px;
-  }
-
-  .carrinho-flutuante img {
-    width: 29px;
-    height: 29px;
-  }
-
-  .btn-adicionar {
-    right: 18px;
-    bottom: 18px;
-
-    height: 36px;
-    padding: 0 13px;
-
-    font-size: 12px;
-  }
-}
-
-/* ========================================
-   BOTÃO VOLTAR
-======================================== */
-
-.btn-voltar {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    margin: 25px 0 10px 5%;
-
-    padding: 10px 18px;
-
-    color: #401d09;
-    background-color: transparent;
-
-    border: 1px solid rgba(64, 29, 9, 0.25);
-    border-radius: 25px;
-
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.05rem;
-
-    text-decoration: none;
-
-    transition:
-        background-color 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.seta-voltar {
-    font-size: 1.4rem;
-    line-height: 1;
-
-    transition: transform 0.25s ease;
-}
-
-.btn-voltar:hover {
-    color: #ffffff;
-    background-color: #8b4a2f;
-
-    transform: translateX(-3px);
-
-    box-shadow: 0 4px 12px rgba(64, 29, 9, 0.18);
-}
-
-.btn-voltar:hover .seta-voltar {
-    transform: translateX(-3px);
+@media (max-width: 640px) {
+  .hero { padding: 56px 0 32px; }
+  .grade { grid-template-columns: 1fr; }
+  .abas { gap: 18px; }
 }

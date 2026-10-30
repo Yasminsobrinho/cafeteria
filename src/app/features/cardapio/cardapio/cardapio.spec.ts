@@ -89,7 +89,7 @@ describe('Cardapio', () => {
   // =========================================================
 
   it('deve transformar bebidas da API em itens com imagens coerentes', () => {
-    expect(component.bebidas).toEqual([
+    expect(component.Bebidas).toEqual([
       expect.objectContaining({
         nome: 'Espresso',
         imagem: 'cafepreto.jpg',
@@ -126,17 +126,17 @@ describe('Cardapio', () => {
   // =========================================================
 
   it('deve exibir bebidas de reserva quando a API falhar', () => {
-    component.carregarBebidas();
+    component.mostrarBebidas;
 
     const request = httpTesting.expectOne('/api/drinks');
 
     request.error(new ProgressEvent('network error'));
 
-    expect(component.bebidas.length).toBeGreaterThan(0);
+    expect(component.Bebidas.length).toBeGreaterThan(0);
 
-    expect(component.bebidas[0].nome).toBe('Espresso');
+    expect(component.Bebidas[0].nome).toBe('Espresso');
 
-    expect(component.erroBebidas).toBe(false);
+    expect(component.Bebidas).toBe(false);
   });
 
   // =========================================================
