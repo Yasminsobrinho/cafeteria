@@ -1,12 +1,38 @@
+
 <section id="playlist">
   <div class="playlist-texto">
     <p class="rotulo">Para acompanhar o café</p>
-    <h2>Aroma playlist</h2>
-    <p>As músicas que tocam por aqui, para você curtir onde estiver.</p>
+
+    <h2>Aroma <em>playlist</em></h2>
+
+    <span class="divisor" aria-hidden="true"></span>
+
+    <p class="descricao">
+      As músicas que tocam por aqui, para você curtir onde estiver.
+      Aperte o play e deixe o ambiente do Aroma Café te acompanhar.
+    </p>
+
+    <div class="equalizador" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <a
+      class="btn-spotify"
+      href="https://open.spotify.com/playlist/2Vgco3yf7eHNFmNcijvDCo"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Abrir no Spotify
+    </a>
   </div>
 
   <div id="spotify">
-    <iframe
+    <div class="moldura">
+     <iframe
       title="Playlist do Aroma Café no Spotify"
       data-testid="embed-iframe"
       src="https://open.spotify.com/embed/playlist/2Vgco3yf7eHNFmNcijvDCo?utm_source=generator&si=f974ba8f15d34848"
@@ -18,5 +44,6 @@
       loading="lazy"
     >
     </iframe>
+    </div>
   </div>
 </section>
