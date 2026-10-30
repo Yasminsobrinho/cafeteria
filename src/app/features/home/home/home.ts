@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
@@ -6,6 +7,7 @@ import { Local } from './pginicial/local/local';
 import { Playlist } from './pginicial/playlist/playlist';
 import { Rodape } from './pginicial/rodape/rodape';
 import { Menu } from './pginicial/menu/menu';
+import { Avaliacoes } from './pginicial/avaliacoes/avaliacoes';
 
 interface Destaque {
   nome: string;
@@ -18,7 +20,15 @@ interface Destaque {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, Menu, Sobre, Local, Playlist, Rodape],
+  imports: [
+    RouterLink,
+    Menu,
+    Sobre,
+    Local,
+    Playlist,
+    Rodape,
+    Avaliacoes
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -27,7 +37,6 @@ export class Home {
 
   constructor(private carrinhoService: CarrinhoService) {}
 
-  // "icone" = caminho (path) de um SVG 24x24
   diferenciais = [
     {
       titulo: 'Grãos selecionados',
@@ -52,7 +61,6 @@ export class Home {
     },
   ];
 
-  // Produtos que existem no cardápio (mesmos nomes, preços e imagens)
   destaques: Destaque[] = [
     {
       nome: 'Bolo de Cenoura',

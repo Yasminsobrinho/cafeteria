@@ -1,0 +1,85 @@
+<section class="avaliacoes-section">
+
+  <div class="avaliacoes-container">
+
+    <div class="avaliacoes-heading">
+      <span class="subtitulo">O QUE DIZEM SOBRE NÓS</span>
+      <h2>Experiências que aquecem o coração</h2>
+      <p>
+        Cada visita tem uma história. Veja algumas experiências
+        compartilhadas por quem conhece o Aroma Café.
+      </p>
+    </div>
+
+    <div class="avaliacoes-content">
+
+      <button
+        class="seta"
+        type="button"
+        aria-label="Avaliação anterior"
+        (click)="anterior()">
+        ❮
+      </button>
+
+      <article class="avaliacao-card">
+
+        <div class="aspas">“</div>
+
+        <div class="estrelas">
+          <span *ngFor="let estrela of [1, 2, 3, 4, 5]">
+            ★
+          </span>
+        </div>
+
+        <p class="avaliacao-texto">
+          {{ avaliacoes[indiceAtual].texto }}
+        </p>
+
+        <div class="cliente">
+
+          <img
+            class="cliente-foto"
+            [src]="avaliacoes[indiceAtual].foto"
+            [alt]="'Foto de ' + avaliacoes[indiceAtual].nome"
+          />
+
+          <div class="cliente-info">
+            <h3>{{ avaliacoes[indiceAtual].nome }}</h3>
+            <span>{{ avaliacoes[indiceAtual].data }}</span>
+          </div>
+
+        </div>
+
+      </article>
+
+      <button
+        class="seta"
+        type="button"
+        aria-label="Próxima avaliação"
+        (click)="proxima()">
+        ❯
+      </button>
+
+    </div>
+
+    <div class="indicadores">
+
+      <button
+        *ngFor="let avaliacao of avaliacoes; let i = index"
+        type="button"
+        class="indicador"
+        [class.ativo]="i === indiceAtual"
+        [attr.aria-label]="'Mostrar avaliação ' + (i + 1)"
+        (click)="selecionar(i)">
+      </button>
+
+    </div>
+
+    <div class="avaliacoes-final">
+      <span>☕</span>
+      <p>Será um prazer receber você no Aroma Café!</p>
+    </div>
+
+  </div>
+
+</section>
