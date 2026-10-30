@@ -23,7 +23,7 @@ interface Destaque {
   styleUrl: './home.css',
 })
 export class Home {
-  imgheader = 'header.jpeg';
+  imgheader = 'imgcentro.jpg';
 
   constructor(private carrinhoService: CarrinhoService) {}
 

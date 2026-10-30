@@ -9,5 +9,5 @@ import { RouterLink } from '@angular/router';
 })
 
 export class Sobre {
-  imgSobre: string = 'sobreFoto.jpeg';
+  imgSobre: string = 'sobreFoto.jpg';
 }
