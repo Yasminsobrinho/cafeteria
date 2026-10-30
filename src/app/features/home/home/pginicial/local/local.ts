@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './local.css',
 })
 export class Local {
-  local: string ='imglocal.jpeg';
+  local: string ='imglocal.jpg';
 }
