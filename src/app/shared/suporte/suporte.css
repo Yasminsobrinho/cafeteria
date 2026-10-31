@@ -29,7 +29,7 @@
   border: 1px solid rgba(255, 236, 205, 0.55);
   border-radius: 999px;
   background: linear-gradient(145deg, #e8c590, #c9a06a);
-  color: #2b190e;
+  color: #1c1916;
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 500;
@@ -77,35 +77,49 @@
 }
 
 /* =========================
-   PAINEL
+   PAINEL (grafite quente + dourado)
    ========================= */
 .painel {
-  width: 360px;
+  position: relative;
+  width: 380px;
   max-width: calc(100vw - 48px);
-  max-height: min(560px, calc(100svh - 140px));
+  height: min(600px, calc(100svh - 140px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #1a0f08;
+  background: linear-gradient(180deg, #1a1816 0%, #12100f 100%);
   color: #f3e9db;
-  border: 1px solid rgba(201, 160, 106, 0.35);
+  border: 1px solid rgba(201, 160, 106, 0.3);
   border-radius: 20px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
   transform-origin: bottom right;
   animation: abrir 0.3s ease;
 }
 
+/* linha fina terracota -> dourado no topo */
+.painel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 2px;
+  background: linear-gradient(90deg, #8b4a2f, #c9a06a 55%, #dcb783);
+}
+
 /* topo */
 .painel-topo {
+  flex-shrink: 0;
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 22px 22px 20px;
+  padding: 22px 22px 18px;
   background:
-    radial-gradient(circle at top right, rgba(201, 160, 106, 0.16), transparent 60%), #0e0704;
-  border-bottom: 1px solid rgba(201, 160, 106, 0.25);
+    radial-gradient(circle at top right, rgba(201, 160, 106, 0.16), transparent 60%), #0c0b0a;
+  border-bottom: 1px solid rgba(201, 160, 106, 0.22);
 }
 .marca {
   display: block;
@@ -118,17 +132,26 @@
 .painel-topo strong {
   display: block;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.75rem;
+  font-size: 1.7rem;
   font-weight: 500;
   line-height: 1.1;
   color: #f3e9db;
 }
-.horario {
-  display: block;
-  margin-top: 10px;
+.status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
   font-size: 0.78rem;
   font-weight: 300;
-  color: #a8957f;
+  color: #9a9187;
+}
+.status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8fcf8a;
+  box-shadow: 0 0 0 3px rgba(143, 207, 138, 0.18);
 }
 .fechar {
   flex-shrink: 0;
@@ -153,141 +176,234 @@
 .fechar:hover {
   background: #c9a06a;
   border-color: #c9a06a;
-  color: #1a0f08;
+  color: #1c1916;
 }
 
-/* perguntas */
-.painel-corpo {
+/* =========================
+   CONVERSA
+   ========================= */
+.conversa {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 18px 22px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
   scrollbar-width: thin;
   scrollbar-color: rgba(201, 160, 106, 0.4) transparent;
 }
-.titulo-faq {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #a8957f;
-}
-.titulo-faq::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(201, 160, 106, 0.25);
-}
 
-.faq {
-  border-bottom: 1px solid rgba(201, 160, 106, 0.14);
-}
-.faq:last-child {
-  border-bottom: 0;
-}
-.faq-pergunta {
+.linha {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  width: 100%;
-  padding: 15px 0;
-  border: 0;
-  background: transparent;
-  color: #e9dbc5;
-  font-family: inherit;
-  font-size: 0.93rem;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.faq-pergunta svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: #c9a06a;
-  transition: transform 0.25s ease;
-}
-.faq-pergunta:hover {
-  color: #dcb783;
-}
-.faq.aberta .faq-pergunta {
-  color: #dcb783;
-}
-.faq.aberta .faq-pergunta svg {
-  transform: rotate(180deg);
-}
-.faq-resposta {
-  margin: 0;
-  padding: 0 0 16px;
-  font-size: 0.87rem;
-  font-weight: 300;
-  line-height: 1.65;
-  color: #cdbba6;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   animation: aparecer 0.25s ease;
 }
+.linha.usuario {
+  align-items: flex-end;
+}
 
-/* rodapé com os canais */
-.painel-rodape {
-  padding: 16px 22px 22px;
-  background: #140b06;
-  border-top: 1px solid rgba(201, 160, 106, 0.22);
-}
-.painel-rodape p {
-  margin: 0 0 12px;
-  font-size: 0.8rem;
+.balao {
+  max-width: 88%;
+  padding: 12px 15px;
+  border: 1px solid rgba(233, 219, 197, 0.1);
+  border-radius: 16px 16px 16px 4px;
+  background: #272320;
+  color: #e9e4da;
+  font-size: 0.9rem;
   font-weight: 300;
-  color: #a8957f;
-  text-align: center;
+  line-height: 1.6;
 }
-.canais {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.balao p {
+  margin: 0;
+  white-space: pre-line;
 }
-.canal {
+.linha.usuario .balao {
+  border: 0;
+  border-radius: 16px 16px 4px 16px;
+  background: linear-gradient(145deg, #e8c590, #c9a06a);
+  color: #1c1916;
+  font-weight: 400;
+}
+
+.hora {
+  padding: 0 4px;
+  font-size: 0.68rem;
+  color: #6f675e;
+}
+
+/* botões dentro das respostas */
+.acoes {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.acao {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 46px;
-  border-radius: 999px;
-  font-size: 0.88rem;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-  transition:
-    background-color 0.25s,
-    color 0.25s,
-    border-color 0.25s;
-}
-.canal svg {
-  width: 18px;
-  height: 18px;
-}
-.canal-whats {
-  background: #c9a06a;
-  border: 1px solid #c9a06a;
-  color: #1a0f08;
-  font-weight: 500;
-}
-.canal-whats:hover {
-  background: #dcb783;
-  border-color: #dcb783;
-}
-.canal-email {
+  min-height: 36px;
+  padding: 0 16px;
   border: 1px solid rgba(201, 160, 106, 0.6);
+  border-radius: 999px;
+  background: transparent;
   color: #f3e9db;
+  font-family: inherit;
+  font-size: 0.82rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
-.canal-email:hover {
+.acao:hover {
+  background: #c9a06a;
+  color: #1c1916;
+}
+
+/* "digitando..." */
+.balao.digitando {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 15px 17px;
+}
+.balao.digitando span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c9a06a;
+  animation: pulo 1.1s ease-in-out infinite;
+}
+.balao.digitando span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.balao.digitando span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* =========================
+   SUGESTÕES
+   ========================= */
+.sugestoes {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 10px 20px 12px;
+  overflow-x: auto;
+  border-top: 1px solid rgba(233, 219, 197, 0.08);
+  scrollbar-width: none;
+}
+.sugestoes::-webkit-scrollbar {
+  display: none;
+}
+.chip {
+  flex-shrink: 0;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(201, 160, 106, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: #dcb783;
+  font-family: inherit;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.chip:hover:not(:disabled) {
   background: #c9a06a;
   border-color: #c9a06a;
-  color: #1a0f08;
+  color: #1c1916;
+}
+.chip:disabled,
+.enviar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   CAMPO DE TEXTO
+   ========================= */
+.envio {
+  flex-shrink: 0;
+  display: flex;
+  gap: 10px;
+  padding: 4px 20px 12px;
+}
+.envio input {
+  flex: 1;
+  min-width: 0;
+  height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(233, 219, 197, 0.18);
+  border-radius: 999px;
+  outline: none;
+  background: #0c0b0a;
+  color: #f3e9db;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+.envio input::placeholder {
+  color: #6f675e;
+}
+.envio input:focus {
+  border-color: #dcb783;
+}
+.enviar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e8c590, #c9a06a);
+  color: #1c1916;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.enviar svg {
+  width: 20px;
+  height: 20px;
+}
+.enviar:hover:not(:disabled) {
+  background: linear-gradient(145deg, #f2d6a8, #dcb783);
+}
+
+/* rodapé */
+.painel-rodape {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 20px 14px;
+  background: #0c0b0a;
+  border-top: 1px solid rgba(233, 219, 197, 0.08);
+  font-size: 0.76rem;
+  font-weight: 300;
+  color: #9a9187;
+}
+.painel-rodape a {
+  color: #dcb783;
+  text-decoration: none;
+}
+.painel-rodape a:hover {
+  text-decoration: underline;
 }
 
 button:focus-visible,
-a:focus-visible {
+a:focus-visible,
+input:focus-visible {
   outline: 2px solid #dcb783;
   outline-offset: 3px;
 }
@@ -308,11 +424,23 @@ a:focus-visible {
 @keyframes aparecer {
   from {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@keyframes pulo {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-5px);
+    opacity: 1;
   }
 }
 
@@ -327,18 +455,22 @@ a:focus-visible {
   .painel {
     width: calc(100vw - 28px);
     max-width: none;
+    height: min(600px, calc(100svh - 110px));
   }
   .painel-topo {
-    padding: 18px 18px 16px;
+    padding: 18px 18px 14px;
   }
   .painel-topo strong {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
   }
-  .painel-corpo {
-    padding: 14px 18px 6px;
+  .conversa {
+    padding: 14px 16px;
   }
-  .painel-rodape {
-    padding: 14px 18px 18px;
+  .sugestoes {
+    padding: 10px 16px 12px;
+  }
+  .envio {
+    padding: 4px 16px 12px;
   }
   /* no celular não existe "hover": o botão fica só com o ícone */
   .rotulo-botao {

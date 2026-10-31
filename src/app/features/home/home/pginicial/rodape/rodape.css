@@ -63,7 +63,19 @@ a:focus-visible {
 .equipe li {
   break-inside: avoid;
 }
-
+.equipe li {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+.equipe .funcao {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: rgba(201, 160, 106, 0.8);
+}
 .rodape-direitos {
   margin-top: 50px;
   padding-top: 22px;

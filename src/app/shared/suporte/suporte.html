@@ -1,11 +1,11 @@
 <div class="suporte">
   @if (aberto()) {
-    <section class="painel" role="dialog" aria-label="Suporte ao cliente">
+    <section class="painel" role="dialog" aria-label="Assistente virtual do Aroma Café">
       <header class="painel-topo">
         <div class="topo-texto">
           <span class="marca">Aroma Café</span>
-          <strong>Como podemos ajudar?</strong>
-          <span class="horario">Atendimento de seg a sáb, 11h às 18h</span>
+          <strong>Assistente virtual</strong>
+          <span class="status"><i aria-hidden="true"></i> Online agora</span>
         </div>
 
         <button type="button" class="fechar" (click)="fechar()" aria-label="Fechar suporte">
@@ -22,74 +22,87 @@
         </button>
       </header>
 
-      <div class="painel-corpo">
-        <p class="titulo-faq"><span>Perguntas frequentes</span></p>
+      <!-- CONVERSA -->
+      <div class="conversa" #lista role="log" aria-live="polite" aria-label="Conversa">
+        @for (m of mensagens(); track $index) {
+          <div class="linha" [class.usuario]="m.autor === 'usuario'">
+            <div class="balao">
+              <p>{{ m.texto }}</p>
 
-        @for (item of perguntas; track item.pergunta; let i = $index) {
-          <div class="faq" [class.aberta]="perguntaAberta() === i">
-            <button
-              type="button"
-              class="faq-pergunta"
-              [attr.aria-expanded]="perguntaAberta() === i"
-              (click)="alternarPergunta(i)"
-            >
-              <span>{{ item.pergunta }}</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </button>
+              @if (m.acoes) {
+                <div class="acoes">
+                  @for (a of m.acoes; track a.rotulo) {
+                    @if (a.url) {
+                      <a
+                        class="acao"
+                        [href]="a.url"
+                        [attr.target]="a.url.startsWith('http') ? '_blank' : null"
+                        rel="noopener"
+                        >{{ a.rotulo }}</a
+                      >
+                    } @else {
+                      <button type="button" class="acao" (click)="irPara(a)">
+                        {{ a.rotulo }}
+                      </button>
+                    }
+                  }
+                </div>
+              }
+            </div>
+            <span class="hora">{{ m.hora }}</span>
+          </div>
+        }
 
-            @if (perguntaAberta() === i) {
-              <p class="faq-resposta">{{ item.resposta }}</p>
-            }
+        @if (digitando()) {
+          <div class="linha">
+            <div class="balao digitando" aria-label="O assistente está digitando">
+              <span></span><span></span><span></span>
+            </div>
           </div>
         }
       </div>
 
-      <footer class="painel-rodape">
-        <p>Ainda precisa de ajuda? Fale com a gente:</p>
-        <div class="canais">
-          <a [href]="whatsapp" target="_blank" rel="noopener" class="canal canal-whats">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"
-              />
-            </svg>
-            WhatsApp
-          </a>
+      <!-- SUGESTÕES -->
+      <div class="sugestoes">
+        @for (s of sugestoes; track s) {
+          <button type="button" class="chip" (click)="enviar(s)" [disabled]="digitando()">
+            {{ s }}
+          </button>
+        }
+      </div>
 
-          <a [href]="email" class="canal canal-email">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M4 6h16v12H4V6Z" />
-              <path d="m4 7 8 6 8-6" />
-            </svg>
-            E-mail
-          </a>
-        </div>
+      <!-- CAMPO DE TEXTO -->
+      <form class="envio" (submit)="enviarFormulario($event)">
+        <input
+          type="text"
+          name="mensagem"
+          placeholder="Digite sua dúvida..."
+          autocomplete="off"
+          maxlength="200"
+          aria-label="Digite sua mensagem"
+          [value]="texto()"
+          (input)="texto.set($any($event.target).value)"
+        />
+        <button type="submit" class="enviar" aria-label="Enviar mensagem" [disabled]="digitando()">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </form>
+
+      <footer class="painel-rodape">
+        Prefere falar com uma pessoa?
+        <a [href]="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+        <span aria-hidden="true">·</span>
+        <a [href]="email">E-mail</a>
       </footer>
     </section>
   }
