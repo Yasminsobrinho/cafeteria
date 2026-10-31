@@ -650,17 +650,23 @@ export class CardapioComponent implements OnInit, OnDestroy {
     );
   }
 
-  get salgadosVisiveis(): Produto[] {
-    return this.salgadosFiltrados.slice(0, this.quantidadeItensVisiveis);
-  }
+  // Na aba "Todos" e sem busca, os destaques ficam só no carrossel.
+private semDestaques(lista: Produto[]): Produto[] {
+  const ocultar = this.categoriaSelecionada === 'Todos' && !this.termoBusca;
+  return ocultar ? lista.filter((p) => this.destaqueSelos[p.nome] === undefined) : lista;
+}
 
-  get sobremesasVisiveis(): Produto[] {
-    return this.sobremesasFiltradas.slice(0, this.quantidadeItensVisiveis);
-  }
+get salgadosVisiveis(): Produto[] {
+  return this.semDestaques(this.salgadosFiltrados).slice(0, this.quantidadeItensVisiveis);
+}
 
-  get bebidasVisiveis(): Produto[] {
-    return this.bebidasFiltradas.slice(0, this.quantidadeItensVisiveis);
-  }
+get sobremesasVisiveis(): Produto[] {
+  return this.semDestaques(this.sobremesasFiltradas).slice(0, this.quantidadeItensVisiveis);
+}
+
+get bebidasVisiveis(): Produto[] {
+  return this.semDestaques(this.bebidasFiltradas).slice(0, this.quantidadeItensVisiveis);
+}
 
   carregarMaisItens(): void {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
