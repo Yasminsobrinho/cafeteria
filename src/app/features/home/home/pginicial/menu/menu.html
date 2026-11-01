@@ -19,7 +19,7 @@
       routerLink="/home"
       class="logoLink"
       aria-label="Aroma Café - página inicial"
-      (click)="fecharMenu()"
+      (click)="irParaHome()"
     >
       <span class="logo-nome">Aroma <b>Café</b></span>
       <span class="logo-sub">Est. 2026</span>
@@ -32,10 +32,10 @@
           routerLink="/home"
           routerLinkActive="ativo"
           [routerLinkActiveOptions]="{ exact: true }"
-          (click)="fecharMenu()"
+          (click)="irParaHome()"
           >Home</a
         >
-        <a href="#sobre" (click)="fecharMenu()">Sobre</a>
+        <a routerLink="/home" fragment="sobre" (click)="fecharMenu()">Sobre</a>
         <a routerLink="/cardapio" routerLinkActive="ativo" (click)="fecharMenu()">Cardápio</a>
         <a routerLink="/login" (click)="fecharMenu()">Login</a>
         <a routerLink="/carrinho" (click)="fecharMenu()">
@@ -107,3 +107,4 @@
     </div>
   </nav>
 </header>
+
