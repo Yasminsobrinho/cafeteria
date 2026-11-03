@@ -35,15 +35,9 @@
           (click)="irParaHome()"
           >Home</a
         >
-        <a routerLink="/home" fragment="sobre" (click)="fecharMenu()">Sobre</a>
+        <a routerLink="/home" fragment="sobre" (click)="fecharMenu()">Sobre Nós</a>
         <a routerLink="/cardapio" routerLinkActive="ativo" (click)="fecharMenu()">Cardápio</a>
         <a routerLink="/login" (click)="fecharMenu()">Login</a>
-        <a routerLink="/carrinho" (click)="fecharMenu()">
-          Carrinho
-          @if (quantidadeCarrinho > 0) {
-            <span class="contador-mobile">{{ quantidadeCarrinho }}</span>
-          }
-        </a>
       </div>
     </div>
 
