@@ -29,6 +29,6 @@ h6 {
 
 app-home .home-main {
   width: 100%;
-  max-width: 1600px;
+  max-width: none;
   margin-inline: auto;
 }

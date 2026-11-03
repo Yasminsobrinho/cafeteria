@@ -51,7 +51,13 @@ export interface ItemCarrossel {
         [attr.inert]="escondido(i) ? '' : null"
       >
         <div class="foto">
-          <img [src]="pasta + item.imagem" [alt]="item.nome" draggable="false" loading="lazy" />
+          <img
+            [src]="pasta + item.imagem"
+            [alt]="item.nome"
+            draggable="false"
+            loading="lazy"
+            (error)="usarImagemReserva($event)"
+          />
           <span class="selo" *ngIf="selos[item.nome]">{{ selos[item.nome] }}</span>
         </div>
 
@@ -207,7 +213,8 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
     if (!this.ehBrowser) return;
     this.v = this.calcularVisiveis();
     // Quem pediu menos animação no aparelho não recebe a rolagem automática.
-    this.autoplayLigado = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.autoplayLigado =
+      typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.retomar();
   }
 
@@ -230,6 +237,14 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
 
   preco(valor: number): string {
     return 'R$ ' + valor.toFixed(2).replace('.', ',');
+  }
+
+  usarImagemReserva(event: Event): void {
+    const imagem = event.target;
+    if (!(imagem instanceof HTMLImageElement) || imagem.dataset['reservaAplicada']) return;
+
+    imagem.dataset['reservaAplicada'] = 'true';
+    imagem.src = '/cafepreto.jpg';
   }
 
   // ---------- posição de cada card ----------

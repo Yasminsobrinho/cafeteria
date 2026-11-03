@@ -6,19 +6,16 @@ import { Local } from './pginicial/local/local';
 import { Playlist } from './pginicial/playlist/playlist';
 import { Rodape } from './pginicial/rodape/rodape';
 import { Menu } from './pginicial/menu/menu';
-
-interface Destaque {
-  nome: string;
-  descricao: string;
-  preco: number;
-  precoAntigo: string;
-  imagem: string;
-}
+import {
+  CarrosselPeekComponent,
+  type ItemCarrossel,
+} from '../../cardapio/cardapio/carrosel-peek/carrosel-peek';
+import { DESTAQUE_SELOS, DESTAQUES_INICIAIS } from '../../cardapio/cardapio/favoritos-data';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, Menu, Sobre, Local, Playlist, Rodape],
+  imports: [RouterLink, Menu, Sobre, Local, Playlist, Rodape, CarrosselPeekComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -52,39 +49,10 @@ export class Home {
     },
   ];
 
-  // Produtos que existem no cardápio (mesmos nomes, preços e imagens)
-  destaques: Destaque[] = [
-    {
-      nome: 'Bolo de Cenoura',
-      descricao: 'Cobertura cremosa de brigadeiro belga.',
-      preco: 12,
-      precoAntigo: '',
-      imagem: 'bolodecenora.jpg',
-    },
-    {
-      nome: 'Croissants Doce',
-      descricao: 'Creme de natas e morangos frescos.',
-      preco: 18,
-      precoAntigo: '',
-      imagem: 'croacandoce.jpg',
-    },
-    {
-      nome: 'Brownie',
-      descricao: 'Cremoso por dentro, com casquinha craquelada.',
-      preco: 7,
-      precoAntigo: '',
-      imagem: 'brownie.jpg',
-    },
-    {
-      nome: 'Torta de Morango',
-      descricao: 'Massa amanteigada e morangos frescos.',
-      preco: 35,
-      precoAntigo: '40.00',
-      imagem: 'tortademorango.jpg',
-    },
-  ];
+  readonly destaques = DESTAQUES_INICIAIS;
+  readonly destaqueSelos = DESTAQUE_SELOS;
 
-  adicionar(produto: Destaque): void {
+  adicionarAoCarrinho(produto: ItemCarrossel): void {
     this.carrinhoService.adicionarProduto(produto);
     alert(`${produto.nome} foi adicionado ao carrinho!`);
   }

@@ -82,4 +82,18 @@ describe('Página inicial - Home', () => {
     expect(linkCardapio.getAttribute('href')).toContain('/cardapio');
     expect(linkLogin.getAttribute('href')).toContain('/login');
   });
+
+  it('deve exibir os favoritos do cardápio no carrossel da página inicial', async () => {
+    await render(Home, {
+      providers: [
+        {
+          provide: CarrinhoService,
+          useValue: { getProdutos: () => [] },
+        },
+      ],
+    });
+
+    expect(screen.getByRole('heading', { name: 'Os favoritos do momento' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Croissants Recheados' })).toBeTruthy();
+  });
 });
