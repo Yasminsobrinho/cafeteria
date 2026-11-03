@@ -629,7 +629,7 @@ body {
   margin: 0 auto 48px;
   padding: 26px;
   border-radius: 20px;
-  background: linear-gradient(0deg, #dccaa5 0%, #e8dcc6 50%, #f0e6d2 100%);
+  background: linear-gradient(0deg, #140c09 5%, #e8dcc6 50%, #f0e6d2 100%);
 }
 
 .dc-eyebrow { font-size: 15px; letter-spacing: 3px; color: #815830; }
