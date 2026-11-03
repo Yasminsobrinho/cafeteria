@@ -8,19 +8,19 @@
     </div>
 
     <div class="produto-info">
-  <span class="categoria-tag">{{ tag }}</span>
-  <h3>{{ item.nome }}</h3>
+      <span class="categoria-tag">{{ tag }}</span>
+      <h3>{{ item.nome }}</h3>
 
-  <div class="nota" *ngIf="notaDe(item.nome) as nota" [attr.aria-label]="'Nota ' + nota + ' de 5'">
-    <span class="nota-valor">{{ nota.toFixed(1) }}</span>
-    <span class="estrelas" aria-hidden="true">
-      <span class="estrelas-fundo">★★★★★</span>
-      <span class="estrelas-cheias" [style.width.%]="nota / 5 * 100">★★★★★</span>
-    </span>
-  </div>
+      <div class="nota" *ngIf="notaDe(item.nome) as nota" [attr.aria-label]="'Nota ' + nota + ' de 5'">
+        <span class="nota-valor">{{ nota.toFixed(1) }}</span>
+        <span class="estrelas" aria-hidden="true">
+          <span class="estrelas-fundo">★★★★★</span>
+          <span class="estrelas-cheias" [style.width.%]="nota / 5 * 100">★★★★★</span>
+        </span>
+      </div>
 
-  <p>{{ item.descricao }}</p>
-</div>
+      <p>{{ item.descricao }}</p>
+    </div>
 
     <div class="produto-rodape">
       <div class="precos">
@@ -77,19 +77,19 @@
     *ngIf="categoriaSelecionada === 'Todos' && !termoBusca && destaques.length > 0"
     aria-labelledby="titulo-favoritos"
   >
-   <div class="dc-cabecalho">
-  <span class="dc-eyebrow">DESTAQUES DA CASA</span>
-  <h2 id="titulo-favoritos" class="dc-titulo">Os <em>favoritos</em> do momento</h2>
-  <p class="dc-subtitulo">Experimente o que todos estão amando por aqui.</p>
-</div>
+    <div class="dc-cabecalho">
+      <span class="dc-eyebrow">DESTAQUES DA CASA</span>
+      <h2 id="titulo-favoritos" class="dc-titulo">Os <em>favoritos</em> do momento</h2>
+      <p class="dc-subtitulo">Experimente o que todos estão amando por aqui.</p>
+    </div>
 
-<app-carrossel-peek
-  [itens]="destaques"
-  [selos]="destaqueSelos"
-  [visiveis]="4"
-  pasta=""
-  (adicionar)="adicionarAoCarrinho($event)"
-></app-carrossel-peek>
+    <app-carrossel-peek
+      [itens]="destaques"
+      [selos]="destaqueSelos"
+      [visiveis]="4"
+      pasta=""
+      (adicionar)="adicionarAoCarrinho($event)"
+    ></app-carrossel-peek>
   </section>
 
 <!-- SALGADOS -->
@@ -133,3 +133,18 @@
 </div>
 
 <app-rodape></app-rodape>
+
+<!-- AVISO "ADICIONADO AO CARRINHO" -->
+<div class="toast-area" aria-live="polite">
+  <div class="toast" role="status" *ngFor="let t of toasts; trackBy: trackToast">
+    <span class="toast-icone" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+    </span>
+
+    <p class="toast-texto"><strong>{{ t.nome }}</strong> foi adicionado ao carrinho.</p>
+
+    <button type="button" class="toast-fechar" aria-label="Fechar aviso" (click)="fecharToast()">×</button>
+
+    <span class="toast-barra" [style.animationDuration.ms]="toastDuracaoMs"></span>
+  </div>
+</div>
