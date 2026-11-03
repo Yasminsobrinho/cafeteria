@@ -124,7 +124,7 @@ body {
    ========================================================= */
 
 .preco {
-  font-size: 17px;
+  font-size: 9px;
   color: #3a2417;
 }
 
@@ -621,49 +621,39 @@ body {
    ========================================================= */
 
 .dc {
-  display: block;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  width: min(calc(100% - 50px), 1400px);
   margin: 0 auto 48px;
-  padding: 40px 32px 24px;
-  background: linear-gradient(180deg, #140c09 10%, #84603a 50%, #140c09 100%);
+  padding: 26px;
   border-radius: 20px;
-  font-family: 'Jost', Arial, sans-serif;
+  background: linear-gradient(0deg, #dccaa5 0%, #e8dcc6 50%, #f0e6d2 100%);
+  /* seu background continua aqui */
 }
 
-.dc-eyebrow {
-  display: block;
-  font-size: 40px;
-  letter-spacing: 3px;
-  color: #c9a06a;
-}
+.dc-eyebrow { font-size: 15px; letter-spacing: 3px; color: #815830; }
 
 .dc-titulo {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
-  font-size: 35px;
+  font-size: 34px;
   line-height: 1.1;
-  color: #fdfdfd;
-  margin: 10px 0;
+  color: #2e261a;
+  margin: 12px 0;
 }
+.dc-titulo em { font-style: italic; }
 
-.dc-subtitulo {
-  margin: 0 0 12px;
-  max-width: 46ch;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.6;
-  color:  #c9a06a;
+.dc-subtitulo { margin: 0; font-size: 14px; font-weight: 300; line-height: 1.6; color: #815830; }
+
+@media (max-width: 900px) {
+  .dc { grid-template-columns: 1fr; gap: 16px; }
 }
 
 @media (max-width: 650px) {
-  .dc {
-    width: calc(100% - 20px);
-    padding: 28px 14px 16px;
-  }
-
-  .dc-titulo {
-    font-size: 30px;
-  }
+  .dc { width: calc(100% - 20px); padding: 22px 14px; }
+  .dc-titulo { font-size: 28px; }
 }
 
 /* =========================================================
@@ -788,9 +778,9 @@ body {
 }
 
 .produto {
-  --card-bg: #f2e9da;
+  --card-bg: #2e251e;
   --card-borda: #d4c8b8;
-  --card-titulo: #3a2417;
+  --card-titulo:#f0e8dc;
   --card-texto: #605040;
   --card-preco: #84603a;
 
@@ -857,7 +847,7 @@ body {
 
 .produto p {
   color: var(--card-texto);
-  font-size: 14px;
+  font-size: 15px;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   margin-bottom: 0;
@@ -914,4 +904,35 @@ body {
 .btn-adicionar:focus-visible {
   background: #84603a;
   color: #fff;
+}
+.nota {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.nota-valor {
+  font-size: 13px;
+  font-weight: 500;
+  color: #f0e8dc;
+}
+
+.estrelas {
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.estrelas-fundo { color: #5a4636; }
+
+.estrelas-cheias {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #c9a06a;
 }

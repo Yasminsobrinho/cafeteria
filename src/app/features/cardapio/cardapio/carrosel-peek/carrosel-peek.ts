@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -31,6 +32,7 @@ export interface ItemCarrossel {
       class="palco"
       tabindex="0"
       aria-label="Nossos favoritos. Arraste para o lado ou use as setas do teclado."
+      [style.--v]="v"
       [class.arrastando]="arrastando"
       (pointerdown)="iniciarArrasto($event)"
       (dragstart)="$event.preventDefault()"
@@ -45,7 +47,6 @@ export interface ItemCarrossel {
         class="card"
         *ngFor="let item of itens; let i = index"
         [ngStyle]="estilo(i)"
-        [class.central]="posicao(i) === 0"
         [attr.aria-hidden]="escondido(i) ? 'true' : null"
         [attr.inert]="escondido(i) ? '' : null"
       >
@@ -53,51 +54,59 @@ export interface ItemCarrossel {
           <img [src]="pasta + item.imagem" [alt]="item.nome" draggable="false" loading="lazy" />
           <span class="selo" *ngIf="selos[item.nome]">{{ selos[item.nome] }}</span>
         </div>
-        <div class="info">
+
+        <div class="corpo">
           <h3>{{ item.nome }}</h3>
-          <span class="preco">{{ item.preco | currency: 'BRL' }}</span>
+          <p>{{ item.descricao }}</p>
+
+          <div class="rodape">
+            <strong>{{ preco(item.preco) }}</strong>
+            <button
+              type="button"
+              [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
+              (click)="clicarAdicionar(item)"
+            >
+              +
+            </button>
+          </div>
         </div>
-        <button type="button" (click)="clicarAdicionar(item)">Adicionar</button>
       </article>
     </div>
   `,
   styles: [`
-    :host { display: block; }
+    :host { display: block; min-width: 0; --gap: 14px; }
 
     /* Todos os cards ficam na mesma célula e são deslocados com transform. */
     .palco {
       display: grid;
-      justify-items: center;
+      grid-template-columns: minmax(0, 1fr);
       overflow: hidden;
-      padding: 18px 0 26px;
+      padding: 4px 0 14px;
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
       -webkit-user-select: none;
     }
     .palco.arrastando { cursor: grabbing; }
-    .palco:focus-visible { outline: 2px solid #c9a24b; outline-offset: 4px; }
+    .palco:focus-visible { outline: 2px solid #3a2417; outline-offset: 4px; }
 
     .card {
       grid-area: 1 / 1;
-      width: min(260px, 56%);
-      background: #fbf7ee;
-      border: 1px solid #d4c8b8;
-      color: #2a1b14;
-      border-radius: 12px;
-      padding: 12px;
+      justify-self: start;
+      width: calc((100% - (var(--v) - 1) * var(--gap)) / var(--v));
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      overflow: hidden;
+      background: #f2e9da;
+      border-radius: 12px;
+      box-shadow: 0 8px 18px -12px rgba(43, 24, 17, 0.5);
       will-change: transform, opacity;
     }
-    .card.central { box-shadow: 0 18px 34px -16px rgba(43, 24, 17, 0.55); }
 
     .foto {
       position: relative;
-      aspect-ratio: 4 / 3;
-      border-radius: 8px;
-      background: #4a3228;
+      aspect-ratio: 1 / 0.9;
+      background: #3a2417;
       overflow: hidden;
     }
     .foto img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
@@ -105,31 +114,63 @@ export interface ItemCarrossel {
       position: absolute;
       top: 8px;
       left: 8px;
-      background: #c9a24b;
-      color: #2a1b14;
-      font-size: 0.75rem;
-      padding: 2px 10px;
-      border-radius: 99px;
+      padding: 3px 9px;
+      background: #c9a06a;
+      color: #2b1811;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
     }
 
-    .info { flex: 1; }
-    .info h3 { margin: 0 0 2px; font-size: 1rem; font-weight: 500; }
-    .preco { color: #8a6a1f; font-size: 0.875rem; }
+    .corpo { display: flex; flex-direction: column; flex: 1; padding: 12px; }
 
-    .card button {
-      border: 1px solid #2a1b14;
-      background: transparent;
-      color: #2a1b14;
-      border-radius: 99px;
-      padding: 6px 14px;
-      font: inherit;
-      font-size: 0.8125rem;
+    h3 {
+      margin: 0 0 6px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 1.15;
+      color: #3a2417;
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 1.45;
+      color: #605040;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .rodape {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    strong { font-size: 14px; color: #3a2417; }
+
+    button {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #c9a06a;
+      color: #2b1811;
+      font-size: 18px;
+      line-height: 1;
       cursor: pointer;
-      align-self: flex-start;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
     }
-    .card button:hover { background: #2a1b14; color: #fbf7ee; }
-    .card button:focus-visible { outline: 2px solid #c9a24b; outline-offset: 2px; }
+    button:hover { background: #3a2417; color: #f2e9da; }
+    button:active { transform: scale(0.94); }
+    button:focus-visible { outline: 2px solid #3a2417; outline-offset: 2px; }
   `],
 })
 export class CarrosselPeekComponent implements OnInit, OnDestroy {
@@ -138,15 +179,19 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
   @Input() selos: Record<string, string> = {};
   // Prefixo do caminho das imagens (use o mesmo que o cardapio.html usa hoje).
   @Input() pasta = '';
+  // Quantos cards aparecem de uma vez em telas grandes (3 ou 4).
+  @Input() visiveis = 3;
   // Tempo entre uma troca e outra, em milissegundos.
   @Input() intervaloMs = 3000;
   @Output() adicionar = new EventEmitter<ItemCarrossel>();
 
   @ViewChild('palco') palco?: ElementRef<HTMLElement>;
 
-  // Índice do produto que está no centro.
+  // Índice do produto que está na primeira posição (à esquerda).
   atual = 0;
   arrastando = false;
+  // Quantos cards cabem agora (muda conforme a largura da tela).
+  v = 3;
 
   private deslocamento = 0;
   private passo = 0;
@@ -155,10 +200,12 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
   private timer?: ReturnType<typeof setInterval>;
   private autoplayLigado = true;
   private readonly ehBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly gap = 16;
+  private readonly gap = 14;
 
   ngOnInit(): void {
+    this.v = this.visiveis;
     if (!this.ehBrowser) return;
+    this.v = this.calcularVisiveis();
     // Quem pediu menos animação no aparelho não recebe a rolagem automática.
     this.autoplayLigado = !matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.retomar();
@@ -168,37 +215,49 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
     this.pausar();
   }
 
+  @HostListener('window:resize')
+  aoRedimensionar(): void {
+    this.v = this.calcularVisiveis();
+    this.retomar();
+  }
+
+  private calcularVisiveis(): number {
+    const w = window.innerWidth;
+    if (w >= 1200) return this.visiveis;
+    if (w >= 650) return Math.min(this.visiveis, 3);
+    return 2;
+  }
+
+  preco(valor: number): string {
+    return 'R$ ' + valor.toFixed(2).replace('.', ',');
+  }
+
   // ---------- posição de cada card ----------
 
-  // Distância do card até o centro: 0 = centro, -1 = esquerda, 1 = direita.
-  // O carrossel é circular, então o último card fica ao lado do primeiro.
+  // 0 = primeiro card visível, 1 = segundo... -1 = acabou de sair pela esquerda.
+  // O carrossel é circular: depois do último volta o primeiro.
   private offset(i: number, atual = this.atual): number {
     const n = this.itens.length;
-    let o = (((i - atual) % n) + n) % n;
-    if (o > n / 2) o -= n;
-    return o;
+    if (n <= this.v) return i;
+    return ((((i - atual + 1) % n) + n) % n) - 1;
   }
 
-  posicao(i: number): number {
-    return this.offset(i);
-  }
-
-  // Só 3 cards aparecem; o resto fica invisível e fora do alcance do teclado.
+  // Cards fora da janela ficam invisíveis e fora do alcance do teclado.
   escondido(i: number): boolean {
-    return Math.abs(this.offset(i)) > 1;
+    const o = this.offset(i);
+    return o < 0 || o >= this.v;
   }
 
   estilo(i: number): Record<string, string | number> {
     const pos = this.offset(i) + (this.passo ? this.deslocamento / this.passo : 0);
-    const d = Math.abs(pos);
-    const escala = 1 - 0.14 * Math.min(d, 1);
-    const opacidade = d <= 1 ? 1 - 0.35 * d : Math.max(0, 0.65 - (d - 1) * 1.3);
+    let opacidade = 1;
+    if (pos < 0) opacidade = Math.max(0, 1 + pos);
+    else if (pos > this.v - 1) opacidade = Math.max(0, 1 - (pos - (this.v - 1)));
     const semTransicao = this.arrastando || this.saltou[i];
 
     return {
-      transform: `translateX(calc(${pos} * (100% + ${this.gap}px))) scale(${escala})`,
+      transform: `translateX(calc(${pos} * (100% + var(--gap))))`,
       opacity: opacidade,
-      zIndex: 10 - Math.round(d * 3),
       transition: semTransicao
         ? 'none'
         : 'transform 0.7s cubic-bezier(0.22, 0.7, 0.2, 1), opacity 0.7s ease',
@@ -207,11 +266,11 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
 
   definirAtual(novo: number): void {
     const n = this.itens.length;
-    if (!n) return;
+    if (n <= this.v) return;
 
     const antes = this.itens.map((_, i) => this.offset(i));
     this.atual = ((novo % n) + n) % n;
-    // Um card que dá a volta por trás (de um lado ao outro) pula sem animar.
+    // Um card que dá a volta (sai pela esquerda e volta pela direita) pula sem animar.
     this.saltou = this.itens.map((_, i) => Math.abs(this.offset(i) - antes[i]) > n / 2);
   }
 
@@ -219,7 +278,7 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
 
   retomar(): void {
     this.pausar();
-    if (this.ehBrowser && this.autoplayLigado && this.itens.length > 1) {
+    if (this.ehBrowser && this.autoplayLigado && this.itens.length > this.v) {
       this.timer = setInterval(() => this.definirAtual(this.atual + 1), this.intervaloMs);
     }
   }
@@ -235,7 +294,7 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
 
     const primeiro = this.palco?.nativeElement.querySelector('.card') as HTMLElement | null;
     this.passo = primeiro ? primeiro.offsetWidth + this.gap : 0;
-    if (!this.passo) return;
+    if (!this.passo || this.itens.length <= this.v) return;
 
     this.pausar();
     this.moveu = false;
@@ -275,7 +334,7 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
     window.addEventListener('pointercancel', soltar);
   }
 
-  // Arrastar não pode contar como clique no botão Adicionar.
+  // Arrastar não pode contar como clique no botão "+".
   clicarAdicionar(item: ItemCarrossel): void {
     if (this.moveu) return;
     this.adicionar.emit(item);

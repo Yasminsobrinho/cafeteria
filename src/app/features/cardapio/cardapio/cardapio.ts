@@ -17,6 +17,7 @@ interface Produto {
   preco: number;
   precoAntigo: string;
   imagem: string;
+  nota?: number; // o ? deixa opcional: produto sem nota não mostra estrelas
 }
 
 // Representa uma bebida devolvida pelo endpoint /api/drinks.
@@ -106,6 +107,7 @@ export class CardapioComponent implements OnInit {
       preco: 13.0,
       precoAntigo: '',
       imagem: 'croacan.jpg',
+      nota: 4.5,
     },
 
     {
@@ -115,6 +117,7 @@ export class CardapioComponent implements OnInit {
       preco: 22.0,
       precoAntigo: '',
       imagem: 'croacanrecheado.jpg',
+      nota: 4.0,
     },
 
     {
@@ -124,6 +127,7 @@ export class CardapioComponent implements OnInit {
       preco: 11.99,
       precoAntigo: '16,99',
       imagem: 'misto.jpeg',
+      nota: 4.2,
     },
 
     {
@@ -132,6 +136,7 @@ export class CardapioComponent implements OnInit {
       preco: 15.0,
       precoAntigo: '',
       imagem: 'pao com mortadela.jpeg',
+      nota: 4.0,
     },
 
     {
@@ -141,6 +146,7 @@ export class CardapioComponent implements OnInit {
       preco: 10.0,
       precoAntigo: '',
       imagem: 'empadas.jpeg',
+      nota: 4.0,
     },
 
     {
@@ -150,6 +156,7 @@ export class CardapioComponent implements OnInit {
       preco: 1.99,
       precoAntigo: '3.99',
       imagem: 'pao de queijo.jpeg',
+      nota: 4.5,
     },
 
     {
@@ -159,6 +166,7 @@ export class CardapioComponent implements OnInit {
       preco: 1.0,
       precoAntigo: '',
       imagem: 'pao.jpg',
+      nota: 4.0,
     },
 
     {
@@ -168,6 +176,7 @@ export class CardapioComponent implements OnInit {
       preco: 9.0,
       precoAntigo: '',
       imagem: 'joelho.jpg',
+      nota: 4.0,
     },
 
     {
@@ -177,6 +186,7 @@ export class CardapioComponent implements OnInit {
       preco: 7.0,
       precoAntigo: '',
       imagem: 'coxinha.jpg',
+      nota: 4.0,
     },
   ];
 
@@ -191,6 +201,7 @@ export class CardapioComponent implements OnInit {
       preco: 12.0,
       precoAntigo: '',
       imagem: 'bolodecenora.jpg',
+      nota: 4.5,
     },
 
     {
@@ -200,6 +211,7 @@ export class CardapioComponent implements OnInit {
       preco: 7.0,
       precoAntigo: '',
       imagem: 'brownie.jpg',
+      nota: 4.0,
     },
 
     {
@@ -209,6 +221,7 @@ export class CardapioComponent implements OnInit {
       preco: 22.0,
       precoAntigo: '',
       imagem: 'tortadecookie.jpg',
+      nota: 4.0,
     },
 
     {
@@ -218,6 +231,7 @@ export class CardapioComponent implements OnInit {
       preco: 35.0,
       precoAntigo: '40.00',
       imagem: 'tortademorango.jpg',
+      nota: 4.5,
     },
 
     {
@@ -227,6 +241,8 @@ export class CardapioComponent implements OnInit {
       preco: 18.0,
       precoAntigo: '',
       imagem: 'croacandoce.jpg',
+      nota: 4.0,
+
     },
 
     {
@@ -235,6 +251,7 @@ export class CardapioComponent implements OnInit {
       preco: 8.0,
       precoAntigo: '10.00',
       imagem: 'brigadeirocommorango.jpg',
+      nota: 4.0,
     },
 
     {
@@ -244,6 +261,7 @@ export class CardapioComponent implements OnInit {
       preco: 4.0,
       precoAntigo: '',
       imagem: 'churros.jpg',
+      nota: 3.9,
     },
 
     {
@@ -262,6 +280,7 @@ export class CardapioComponent implements OnInit {
       preco: 10.0,
       precoAntigo: '',
       imagem: 'dounalt.jpg',
+      nota: 4.0,
     },
   ];
 
@@ -441,11 +460,27 @@ export class CardapioComponent implements OnInit {
     'Torta Cookie': '',
     'Pão de queijo': '',
     'Donuts Americanos': '',
+    
   };
 
   // Guarda o resultado para não montar a lista de novo a cada verificação da tela.
   private destaquesCache: Produto[] = [];
   private destaquesOrigem: Produto[][] = [];
+
+
+  readonly notas: Record<string, number> = {
+  'Misto Quente': 4.4,
+  'Croissants Recheados': 4.8,
+  'Brownie': 4.8,
+  'Croissants Doce': 4.6,
+  'Latte': 4.7,
+};
+
+notaDe(nome: string): number | undefined {
+  return this.notas[nome];
+}
+  
+  
 
   get destaques(): Produto[] {
     const origem = [this.comidasSalgadas, this.sobremesas, this.bebidas];

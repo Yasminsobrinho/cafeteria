@@ -8,10 +8,19 @@
     </div>
 
     <div class="produto-info">
-      <span class="categoria-tag">{{ tag }}</span>
-      <h3>{{ item.nome }}</h3>
-      <p>{{ item.descricao }}</p>
-    </div>
+  <span class="categoria-tag">{{ tag }}</span>
+  <h3>{{ item.nome }}</h3>
+
+  <div class="nota" *ngIf="notaDe(item.nome) as nota" [attr.aria-label]="'Nota ' + nota + ' de 5'">
+    <span class="nota-valor">{{ nota.toFixed(1) }}</span>
+    <span class="estrelas" aria-hidden="true">
+      <span class="estrelas-fundo">★★★★★</span>
+      <span class="estrelas-cheias" [style.width.%]="nota / 5 * 100">★★★★★</span>
+    </span>
+  </div>
+
+  <p>{{ item.descricao }}</p>
+</div>
 
     <div class="produto-rodape">
       <div class="precos">
@@ -68,18 +77,19 @@
     *ngIf="categoriaSelecionada === 'Todos' && !termoBusca && destaques.length > 0"
     aria-labelledby="titulo-favoritos"
   >
-    <div class="dc-cabecalho">
-      <span class="dc-eyebrow">DESTAQUES DA CASA</span>
-      <h2 id="titulo-favoritos" class="dc-titulo">Nossos Favoritos</h2>
-      <p class="dc-subtitulo">Sabores especiais preparados para tornar seu dia melhor</p>
-    </div>
+   <div class="dc-cabecalho">
+  <span class="dc-eyebrow">DESTAQUES DA CASA</span>
+  <h2 id="titulo-favoritos" class="dc-titulo">Os <em>favoritos</em> do momento</h2>
+  <p class="dc-subtitulo">Experimente o que todos estão amando por aqui.</p>
+</div>
 
-    <app-carrossel-peek
-      [itens]="destaques"
-      [selos]="destaqueSelos"
-      pasta=""
-      (adicionar)="adicionarAoCarrinho($event)"
-    ></app-carrossel-peek>
+<app-carrossel-peek
+  [itens]="destaques"
+  [selos]="destaqueSelos"
+  [visiveis]="4"
+  pasta=""
+  (adicionar)="adicionarAoCarrinho($event)"
+></app-carrossel-peek>
   </section>
 
 <!-- SALGADOS -->
