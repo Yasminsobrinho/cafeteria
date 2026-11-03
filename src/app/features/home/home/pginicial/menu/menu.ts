@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { CarrinhoService } from '../../../../carrinho/carrinho/carrinho.service'
 
   standalone: true,
 
-   imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
 
   templateUrl: './menu.html',
 
@@ -32,7 +32,10 @@ export class Menu {
      CONSTRUTOR
   =============================== */
 
-  constructor(private carrinhoService: CarrinhoService) {}
+  constructor(
+    private carrinhoService: CarrinhoService,
+    private router: Router,
+  ) {}
 
   /* ==============================
      QUANTIDADE DO CARRINHO
@@ -58,5 +61,21 @@ export class Menu {
 
   fecharMenu(): void {
     this.menuAberto.set(false);
+  }
+
+  /* ==============================
+     IR PARA HOME (VOLTA AO TOPO)
+  =============================== */
+
+  irParaHome(): void {
+    this.fecharMenu();
+
+    // Se já está na home, o router não navega (mesma URL).
+    // Então rolamos manualmente de volta ao início da página.
+    const urlAtual = this.router.url.split('#')[0].split('?')[0];
+
+    if (urlAtual === '/home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }

@@ -1,0 +1,199 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.carrinho-vazio {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.vazio-desenho {
+  width: min(440px, 100%);
+  height: auto;
+}
+
+.vazio-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.vazio-texto h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 500;
+  color: #f3e9db;
+  margin: 0;
+}
+
+.vazio-texto p {
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #b8a58f;
+  margin: 0;
+}
+
+.vazio-botoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.btn-cardapio,
+.btn-home {
+  height: 54px;
+  border-radius: 999px;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.btn-cardapio {
+  padding: 0 34px;
+  border: 0;
+  background: #c9a06a;
+  color: #130c09;
+  font-weight: 500;
+}
+.btn-cardapio:hover { background: #d9b685; }
+
+.btn-home {
+  padding: 0 30px;
+  border: 1px solid #6b4a38;
+  background: transparent;
+  color: #f3e9db;
+}
+.btn-home:hover { border-color: #c9a06a; color: #c9a06a; }
+
+/**
+    favoritos
+ */
+
+ /* =========================
+   favoritos (grade de cards)
+   ========================= */
+
+.destaques-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   card do produto
+   ========================= */
+
+.card-produto {
+  display: flex;
+  flex-direction: column;
+  background: #1d130e;
+  border: 1px solid #33241b;
+  border-radius: 20px;
+  overflow: hidden;           /* a foto respeita o arredondado */
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.card-produto:hover {
+  transform: translateY(-4px);
+  border-color: #c9a06a;
+}
+
+.card-produto img {
+  width: 100%;
+  aspect-ratio: 4 / 3;        /* todas as fotos com a mesma proporção */
+  object-fit: cover;          /* corta sem distorcer */
+  display: block;
+}
+
+/* =========================
+   texto do card
+   ========================= */
+
+.card-corpo {
+  flex: 1;                    /* cards da mesma linha ficam com a mesma altura */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 20px;
+}
+
+/* nome */
+.card-corpo h3 {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #e9dbc5;
+}
+
+/* descrição (no máximo 2 linhas) */
+.card-corpo p {
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #b8a58f;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =========================
+   rodapé: preço e botão +
+   ========================= */
+
+.card-rodape {
+  margin-top: auto;           /* empurra o rodapé para o fim do card */
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-rodape strong {
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #c9a06a;
+}
+
+.card-rodape button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c9a06a;
+  border-radius: 50%;
+  background: transparent;
+  color: #c9a06a;
+  font-family: 'Jost', sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.card-rodape button:hover {
+  background: #c9a06a;
+  color: #130c09;
+}
+
+.card-rodape button:focus-visible {
+  outline: 2px solid #e9dbc5;
+  outline-offset: 3px;
+}

@@ -1,6 +1,6 @@
 // Importa o Component do Angular.
 // Ele permite transformar essa classe em um componente do Angular.
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 // Importa recursos básicos do Angular.
 // Aqui ele é usado para coisas como *ngIf e *ngFor no HTML.
@@ -11,15 +11,15 @@ import { CommonModule } from '@angular/common';
 // como o campo onde o cliente digita o cupom.
 import { FormsModule } from '@angular/forms';
 
-// Importa o RouterLink.
-// Ele permite usar routerLink no HTML para navegar
-// entre as páginas do site sem recarregar a página.
 import { RouterLink } from '@angular/router';
 
 // Importa o CarrinhoService e a interface ProdutoCarrinho.
 // CarrinhoService é responsável por controlar os produtos do carrinho.
 // ProdutoCarrinho define o formato das informações de um produto.
 import { CarrinhoService, ProdutoCarrinho } from './carrinho.service';
+
+import { Menu } from '../../home/home/pginicial/menu/menu';
+import { CarrinhoVazio } from '../carrinho-vazio/carrinho-vazio';
 
 // O @Component informa ao Angular que a classe abaixo
 // será um componente.
@@ -37,6 +37,8 @@ import { CarrinhoService, ProdutoCarrinho } from './carrinho.service';
     CommonModule, // Permite usar *ngIf, *ngFor etc.
     FormsModule, // Permite usar [(ngModel)].
     RouterLink, // Permite usar routerLink.
+    Menu,
+    CarrinhoVazio, // Permite usar <app-carrinho-vazio> no HTML.
   ],
 
   // Indica qual arquivo HTML será usado como tela
@@ -307,5 +309,37 @@ export class Carrinho {
     // saber qual desconto foi aplicado.
 
     this.carrinhoService.definirDesconto(this.desconto);
+  }
+
+  // Guarda o nome do produto que está com a confirmação aberta.
+  // null = nenhuma confirmação aberta.
+  produtoParaRemover: string | null = null;
+
+  // Clique na lixeira: abre (ou fecha, se já estava aberta) o balão desse produto.
+  pedirConfirmacao(produto: ProdutoCarrinho): void {
+    this.produtoParaRemover = this.produtoParaRemover === produto.nome ? null : produto.nome;
+  }
+
+  // Clique em "Cancelar".
+  cancelarRemocao(): void {
+    this.produtoParaRemover = null;
+  }
+
+  // Clique em "Remover": usa o método que você já tem e fecha o balão.
+  confirmarRemocao(produto: ProdutoCarrinho): void {
+    this.removerProduto(produto);
+    this.produtoParaRemover = null;
+  }
+
+  // Clicar em qualquer lugar fora do balão fecha ele.
+  @HostListener('document:click')
+  fecharAoClicarFora(): void {
+    this.produtoParaRemover = null;
+  }
+
+  // Apertar Esc também fecha.
+  @HostListener('document:keydown.escape')
+  fecharComEsc(): void {
+    this.produtoParaRemover = null;
   }
 }
