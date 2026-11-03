@@ -1,5 +1,5 @@
 /* ========================================
-   AVALIAÇÕES - AROMA CAFÉ (variação 2 + fonte da variação 3)
+   AVALIAÇÕES - AROMA CAFÉ (Faixa fixa no topo + Borda lateral no Hover)
 ======================================== */
 
 .avaliacoes-section {
@@ -64,7 +64,7 @@
   animation-play-state: paused;
 }
 
-/* CARTÃO - faixa dourada no topo, fundo marrom quente */
+/* CARTÃO */
 .avaliacao-card {
   display: flex;
   flex-direction: column;
@@ -72,19 +72,37 @@
   padding: 32px 28px 30px;
   box-sizing: border-box;
   text-align: center;
-  background: #24160f;
+  
+  /* Degradê forte no topo carregando para o preto absoluto */
+  background: linear-gradient(180deg, #2b1a11 0%, #170d08 30%, #0d0704 100%);
+  
+  /* 🌟 FAIXA FIXA NO TOPO: Ela fica visível o tempo todo */
   border-top: 3px solid #c9a06a;
-  border-radius: 4px 4px 14px 14px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* As outras bordas começam transparentes para não dar pulos no layout */
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  
+  /* Cantos levemente mais retos no topo por conta da faixa, e arredondados na base */
+  border-radius: 4px 4px 18px 18px;
+  
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  
+  /* Transição suave para o contorno acender devagar */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
+/* 🌟 EFEITO AO PASSAR O MOUSE: O restante da borda acende em dourado fina */
 .avaliacao-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  border-right-color: #c9a06a;
+  border-bottom-color: #c9a06a;
+  border-left-color: #c9a06a;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
 }
 
-/* ESTRELAS (agora no topo) */
+/* ESTRELAS */
 .estrelas {
   display: flex;
   justify-content: center;
@@ -94,7 +112,7 @@
   font-size: 20px;
 }
 
-/* TEXTO - fonte da variação 3: Georgia itálico */
+/* TEXTO */
 .avaliacao-texto {
   color: #f3e9db;
   font-family: Georgia, serif;
@@ -138,25 +156,6 @@
 .cliente-info span {
   color: #a8957f;
   font-size: 12px;
-}
-
-/* INDICADORES */
-.indicadores {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 40px;
-}
-
-.indicador {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.indicador.ativo {
-  background: #c9a06a;
 }
 
 /* FRASE FINAL */
