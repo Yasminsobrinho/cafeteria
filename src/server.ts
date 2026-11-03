@@ -450,7 +450,7 @@ const normalizarBebidas = (
           (type === 'hot'
             ? 'Bebida quente preparada especialmente para você.'
             : 'Bebida gelada, preparada para refrescar.'),
-        image: obterImagemLocalBebida(bebida.title, type),
+        image: bebida.image || obterImagemLocalBebida(bebida.title, type),
       };
     });
 
