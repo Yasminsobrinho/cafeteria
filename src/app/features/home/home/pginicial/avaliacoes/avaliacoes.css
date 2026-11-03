@@ -1,123 +1,120 @@
+/* ========================================
+   AVALIAÇÕES - AROMA CAFÉ (variação 2 + fonte da variação 3)
+======================================== */
+
 .avaliacoes-section {
   width: 100%;
   padding: 85px 20px;
-  background: #140b06;
+  background: #0d0704;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .avaliacoes-container {
-  max-width: 1100px;
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
 }
 
 /* CABEÇALHO */
-
 .avaliacoes-heading {
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto 50px;
+  max-width: 1000px;
+  margin: 0 auto 55px;
 }
 
 .subtitulo {
   color: #c9a06a;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 3px;
 }
 
 .avaliacoes-heading h2 {
   color: #f3e9db;
-  font-size: clamp(27px, 4vw, 39px);
+  font-size: clamp(32px, 4vw, 46px);
   line-height: 1.2;
-  margin: 18px 0;
+  margin: 20px 0;
   font-family: Georgia, serif;
 }
 
 .avaliacoes-heading p {
   color: #cdbba6;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.8;
 }
 
-/* CARROSSEL */
-
-.avaliacoes-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
+/* JANELA DO CARROSSEL */
+.avaliacoes-carousel-window {
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
 }
 
+/* ESTEIRA */
+.avaliacoes-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  width: max-content;
+  animation: rolar 35s linear infinite;
+}
+
+.avaliacoes-grid:hover {
+  animation-play-state: paused;
+}
+
+/* CARTÃO - faixa dourada no topo, fundo marrom quente */
 .avaliacao-card {
-  position: relative;
-  width: 100%;
-  max-width: 650px;
-  min-height: 310px;
-  padding: 45px 40px;
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  padding: 32px 28px 30px;
   box-sizing: border-box;
   text-align: center;
-  background: #1f120b;
-  border: 1px solid rgba(201, 160, 106, 0.3);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-  animation: aparecer 0.35s ease;
+  background: #24160f;
+  border-top: 3px solid #c9a06a;
+  border-radius: 4px 4px 14px 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.avaliacao-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
 }
 
-/* ASPAS */
-
-.aspas {
-  position: absolute;
-  top: 10px;
-  left: 25px;
-  color: #c9a06a;
-  font-family: Georgia, serif;
-  font-size: 65px;
-  line-height: 1;
-  opacity: 0.6;
-}
-
-/* ESTRELAS */
-
+/* ESTRELAS (agora no topo) */
 .estrelas {
   display: flex;
   justify-content: center;
-  gap: 5px;
-  margin-bottom: 23px;
-  color: #dcb783;
-  font-size: 23px;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: #c9a06a;
+  font-size: 20px;
 }
 
-/* TEXTO */
-
+/* TEXTO - fonte da variação 3: Georgia itálico */
 .avaliacao-texto {
-  max-width: 510px;
-  margin: 0 auto 30px;
-  color: #e9dbc5;
+  color: #f3e9db;
   font-family: Georgia, serif;
-  font-size: 18px;
-  line-height: 1.8;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* CLIENTE E FOTO */
-
+/* CLIENTE */
 .cliente {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 13px;
-  text-align: left;
+  gap: 10px;
+  margin-top: auto;
 }
 
 .cliente-foto {
@@ -128,13 +125,14 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #c9a06a;
-  background: #d7c3a3;
 }
 
 .cliente-info h3 {
-  margin: 0 0 5px;
-  color: #f3e9db;
+  margin: 0 0 4px;
+  color: #c9a06a;
+  font-family: Georgia, serif;
   font-size: 15px;
+  font-weight: 600;
 }
 
 .cliente-info span {
@@ -142,121 +140,58 @@
   font-size: 12px;
 }
 
-/* SETAS */
-
-.seta {
-  width: 43px;
-  height: 43px;
-  flex-shrink: 0;
-  border: 1px solid #c9a06a;
-  border-radius: 50%;
-  background: transparent;
-  color: #dcb783;
-  font-size: 17px;
-  cursor: pointer;
-  outline: none;
-  transition: 0.3s ease;
-}
-
-.seta:hover {
-  background: #c9a06a;
-  color: #140b06;
-  transform: scale(1.08);
-}
-
 /* INDICADORES */
-
 .indicadores {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 28px;
+  gap: 8px;
+  margin-top: 40px;
 }
 
 .indicador {
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: none;
-  border-radius: 20px;
-  background: #6b4a36;
-  cursor: pointer;
-  outline: none;
-  transition: 0.3s ease;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .indicador.ativo {
-  width: 25px;
-  background: #dcb783;
+  background: #c9a06a;
 }
 
-/* FINAL */
-
+/* FRASE FINAL */
 .avaliacoes-final {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-top: 45px;
+  gap: 12px;
+  margin-top: 50px;
   text-align: center;
 }
 
 .avaliacoes-final span {
-  font-size: 22px;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .avaliacoes-final p {
-  color: #cdbba6;
+  color: #d8c4ab;
   font-family: Georgia, serif;
-  font-size: 15px;
+  font-size: 16px;
+  margin: 0;
 }
 
-/* CELULAR */
+/* ANIMAÇÃO */
+@keyframes rolar {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 10px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avaliacoes-grid { animation: none; }
+}
 
 @media (max-width: 600px) {
-  .avaliacoes-section {
-    padding: 60px 14px;
-  }
-
-  .avaliacoes-heading {
-    margin-bottom: 35px;
-  }
-
-  .avaliacoes-heading p {
-    font-size: 13px;
-  }
-
-  .avaliacoes-content {
-    gap: 8px;
-  }
-
-  .avaliacao-card {
-    min-height: 330px;
-    padding: 45px 18px 25px;
-  }
-
-  .avaliacao-texto {
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .cliente-foto {
-    width: 46px;
-    height: 46px;
-  }
-
-  .seta {
-    width: 31px;
-    height: 31px;
-    font-size: 12px;
-  }
-
-  .aspas {
-    left: 12px;
-    font-size: 50px;
-  }
-
-  .avaliacoes-final p {
-    font-size: 13px;
-  }
+  .avaliacao-card { width: 300px; padding: 28px 22px; }
+  .avaliacao-texto { font-size: 15px; }
 }
