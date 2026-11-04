@@ -1,0 +1,74 @@
+HTML
+
+<section class="avaliacoes-section">
+
+  <div class="avaliacoes-container">
+
+    <div class="avaliacoes-heading">
+      <span class="subtitulo">O QUE DIZEM SOBRE NÓS</span>
+      <h2>Experiências que aquecem o coração</h2>
+      <p>
+        Cada visita tem uma história. Veja algumas experiências
+        compartilhadas por quem conhece o Aroma Café.
+      </p>
+    </div>
+
+    <!-- Janela visível do carrossel -->
+    <div class="avaliacoes-carousel-window">
+      
+      <!-- Linha que se move de forma contínua -->
+      <div class="avaliacoes-grid">
+
+        <!-- Primeira cópia dos cards -->
+        <article class="avaliacao-card" *ngFor="let avaliacao of avaliacoes">
+          <p class="avaliacao-texto">
+            {{ avaliacao.texto }}
+          </p>
+          <div class="estrelas">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <div class="cliente">
+            <img class="cliente-foto" [src]="avaliacao.foto" [alt]="'Foto de ' + avaliacao.nome" />
+            <div class="cliente-info">
+              <h3>{{ avaliacao.nome }}</h3>
+              <span>{{ avaliacao.data }}</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Segunda cópia idêntica para criar o efeito infinito -->
+        <article class="avaliacao-card" *ngFor="let avaliacao of avaliacoes">
+          <p class="avaliacao-texto">
+            {{ avaliacao.texto }}
+          </p>
+          <div class="estrelas">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <div class="cliente">
+            <img class="cliente-foto" [src]="avaliacao.foto" [alt]="'Foto de ' + avaliacao.nome" />
+            <div class="cliente-info">
+              <h3>{{ avaliacao.nome }}</h3>
+              <span>{{ avaliacao.data }}</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="indicadores">
+      <span class="indicador"></span>
+      <span class="indicador"></span>
+      <span class="indicador ativo"></span>
+      <span class="indicador"></span>
+      <span class="indicador"></span>
+    </div>
+
+    <div class="avaliacoes-final">
+      <span>☕</span>
+      <p>Será um prazer receber você no Aroma Café!</p>
+    </div>
+
+  </div>
+
+</section>

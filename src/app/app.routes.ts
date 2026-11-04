@@ -52,6 +52,12 @@ export const routes: Routes = [
       import('./features/home/home/pginicial/playlist/playlist').then((m) => m.Playlist),
   },
 
+   {
+    path: 'avaliacoes',
+    loadComponent: () =>
+      import('./features/home/home/pginicial/avaliacoes/avaliacoes').then((m) => m.Avaliacoes),
+  },
+
   {
     path: '',
     redirectTo: 'home',

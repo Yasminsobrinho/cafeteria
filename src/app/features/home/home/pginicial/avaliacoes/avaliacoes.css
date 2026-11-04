@@ -1,0 +1,198 @@
+CSS 
+
+/* ========================================
+   AVALIAÇÕES - AROMA CAFÉ (Faixa fixa no topo + Borda lateral no Hover)
+======================================== */
+
+.avaliacoes-section {
+  width: 100%;
+  padding: 85px 20px;
+  background: #0d0704;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.avaliacoes-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* CABEÇALHO */
+.avaliacoes-heading {
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto 55px;
+}
+
+.subtitulo {
+  color: #c9a06a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.avaliacoes-heading h2 {
+  color: #f3e9db;
+  font-size: clamp(32px, 4vw, 46px);
+  line-height: 1.2;
+  margin: 20px 0;
+  font-family: Georgia, serif;
+}
+
+.avaliacoes-heading p {
+  color: #cdbba6;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* JANELA DO CARROSSEL */
+.avaliacoes-carousel-window {
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+/* ESTEIRA */
+.avaliacoes-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  width: max-content;
+  animation: rolar 35s linear infinite;
+}
+
+.avaliacoes-grid:hover {
+  animation-play-state: paused;
+}
+
+/* CARTÃO */
+.avaliacao-card {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  padding: 32px 28px 30px;
+  box-sizing: border-box;
+  text-align: center;
+  
+  /* Degradê forte no topo carregando para o preto absoluto */
+  background: linear-gradient(180deg, #2b1a11 0%, #170d08 30%, #0d0704 100%);
+  
+  /* 🌟 FAIXA FIXA NO TOPO: Ela fica visível o tempo todo */
+  border-top: 3px solid #c9a06a;
+  
+  /* As outras bordas começam transparentes para não dar pulos no layout */
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  
+  /* Cantos levemente mais retos no topo por conta da faixa, e arredondados na base */
+  border-radius: 4px 4px 18px 18px;
+  
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  
+  /* Transição suave para o contorno acender devagar */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* 🌟 EFEITO AO PASSAR O MOUSE: O restante da borda acende em dourado fina */
+.avaliacao-card:hover {
+  transform: translateY(-6px);
+  border-right-color: #c9a06a;
+  border-bottom-color: #c9a06a;
+  border-left-color: #c9a06a;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+}
+
+/* ESTRELAS */
+.estrelas {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: #c9a06a;
+  font-size: 20px;
+}
+
+/* TEXTO */
+.avaliacao-texto {
+  color: #f3e9db;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* CLIENTE */
+.cliente {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.cliente-foto {
+  width: 52px;
+  height: 52px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #c9a06a;
+}
+
+.cliente-info h3 {
+  margin: 0 0 4px;
+  color: #c9a06a;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cliente-info span {
+  color: #a8957f;
+  font-size: 12px;
+}
+
+/* FRASE FINAL */
+.avaliacoes-final {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.avaliacoes-final span {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.avaliacoes-final p {
+  color: #d8c4ab;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* ANIMAÇÃO */
+@keyframes rolar {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 10px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avaliacoes-grid { animation: none; }
+}
+
+@media (max-width: 600px) {
+  .avaliacao-card { width: 300px; padding: 28px 22px; }
+  .avaliacao-texto { font-size: 15px; }
+}
