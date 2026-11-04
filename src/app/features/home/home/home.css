@@ -204,6 +204,7 @@ button:focus-visible {
   padding: 26px;
   border-radius: 20px;
   border: 1px solid rgba(201, 160, 106, 0.28);
+  border-bottom: 0;
   background: linear-gradient(0deg, #140c09 5%, #e8dcc6 50%, #f0e6d2 100%);
   box-shadow: 0 34px 60px -36px rgba(0, 0, 0, 0.85);
   scroll-margin-top: 100px;

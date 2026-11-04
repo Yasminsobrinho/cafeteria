@@ -7,7 +7,7 @@ import { Stat, StatsBandComponent } from '../perfil-usuario/stats-band.component
   selector: 'app-user-profile',
   standalone: true,
   imports: [ProfileHeroComponent, StatsBandComponent, AvatarPickerComponent],
-  host: { class: 'view' },
+  host: { class: 'profile-page view' },
   template: `
     <app-profile-hero perfil="usuario" nome="Marina Alves" handle="&#64;marina.alves"
       bio="Cliente desde março de 2024. Café coado, croissant quentinho e bolo de cenoura aos sábados." />

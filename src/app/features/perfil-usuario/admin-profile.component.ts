@@ -8,7 +8,7 @@ import { Stat, StatsBandComponent } from './stats-band.component';
   selector: 'app-admin-profile',
   standalone: true,
   imports: [ProfileHeroComponent, StatsBandComponent, AvatarPickerComponent],
-  host: { class: 'view' },
+  host: { class: 'profile-page view' },
   template: `
     <app-profile-hero perfil="admin" nome="admin" handle="&#64;.admin" [admin]="true"
       bio="Responsável pela loja, pelo cardápio e pela equipe. Último acesso hoje às 08:12." />
