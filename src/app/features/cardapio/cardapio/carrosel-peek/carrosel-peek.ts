@@ -4,6 +4,8 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  NgZone,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -22,6 +24,13 @@ export interface ItemCarrossel {
   imagem: string;
 }
 
+// Cada card da esteira. "clone" = cópia usada só para fechar o loop sem emenda.
+interface CardEsteira {
+  id: string;
+  item: ItemCarrossel;
+  clone: boolean;
+}
+
 @Component({
   selector: 'app-carrossel-peek',
   standalone: true,
@@ -36,77 +45,87 @@ export interface ItemCarrossel {
       [class.arrastando]="arrastando"
       (pointerdown)="iniciarArrasto($event)"
       (dragstart)="$event.preventDefault()"
-      (mouseenter)="pausar()"
-      (mouseleave)="retomar()"
-      (focusin)="pausar()"
-      (focusout)="retomar()"
-      (keydown.arrowright)="definirAtual(atual + 1); $event.preventDefault()"
-      (keydown.arrowleft)="definirAtual(atual - 1); $event.preventDefault()"
+      (mouseenter)="pausarMouse(true)"
+      (mouseleave)="pausarMouse(false)"
+      (focusin)="pausarFoco(true)"
+      (focusout)="pausarFoco(false)"
+      (scroll)="zerarScroll()"
+      (keydown.arrowright)="deslizar(1); $event.preventDefault()"
+      (keydown.arrowleft)="deslizar(-1); $event.preventDefault()"
     >
-      <article
-        class="card"
-        *ngFor="let item of itens; let i = index"
-        [ngStyle]="estilo(i)"
-        [attr.aria-hidden]="escondido(i) ? 'true' : null"
-        [attr.inert]="escondido(i) ? '' : null"
-      >
-        <div class="foto">
-          <img
-            [src]="pasta + item.imagem"
-            [alt]="item.nome"
-            draggable="false"
-            loading="lazy"
-            (error)="usarImagemReserva($event)"
-          />
-          <span class="selo" *ngIf="selos[item.nome]">{{ selos[item.nome] }}</span>
-        </div>
-
-        <div class="corpo">
-          <h3>{{ item.nome }}</h3>
-          <p>{{ item.descricao }}</p>
-
-          <div class="rodape">
-            <strong>{{ preco(item.preco) }}</strong>
-            <button
-              type="button"
-              [attr.aria-label]="'Adicionar ' + item.nome + ' ao carrinho'"
-              (click)="clicarAdicionar(item)"
-            >
-              +
-            </button>
+      <div #trilha class="trilha">
+        <article
+          class="card"
+          *ngFor="let c of cards; trackBy: porId"
+          [attr.aria-hidden]="c.clone ? 'true' : null"
+          [attr.inert]="c.clone ? '' : null"
+        >
+          <div class="foto">
+            <img
+              [src]="pasta + c.item.imagem"
+              [alt]="c.item.nome"
+              draggable="false"
+              loading="lazy"
+              (error)="usarImagemReserva($event)"
+            />
+            <span class="selo" *ngIf="selos[c.item.nome]">{{ selos[c.item.nome] }}</span>
           </div>
-        </div>
-      </article>
+
+          <div class="corpo">
+            <h3>{{ c.item.nome }}</h3>
+            <p>{{ c.item.descricao }}</p>
+
+            <div class="rodape">
+              <strong>{{ preco(c.item.preco) }}</strong>
+              <button
+                type="button"
+                [attr.aria-label]="'Adicionar ' + c.item.nome + ' ao carrinho'"
+                (click)="clicarAdicionar(c.item)"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   `,
   styles: [`
     :host { display: block; min-width: 0; --gap: 14px; }
 
-    /* Todos os cards ficam na mesma célula e são deslocados com transform. */
+    /* A janela corta o que passa das bordas; a trilha anda por dentro dela. */
     .palco {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
       overflow: hidden;
+      container-type: inline-size;
       padding: 4px 0 14px;
       cursor: grab;
       touch-action: pan-y;
       user-select: none;
       -webkit-user-select: none;
+      /* Opcional: esmaece os cards nas bordas, como era antes.
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent); */
     }
     .palco.arrastando { cursor: grabbing; }
     .palco:focus-visible { outline: 2px solid #3a2417; outline-offset: 4px; }
 
+    .trilha {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+
+    /* Mesma largura de antes: a janela dividida entre os cards visíveis. */
     .card {
-      grid-area: 1 / 1;
-      justify-self: start;
-      width: calc((100% - (var(--v) - 1) * var(--gap)) / var(--v));
+      flex: 0 0 auto;
+      width: calc((100cqw - (var(--v) - 1) * var(--gap)) / var(--v));
+      margin-right: var(--gap);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       background: #f2e9da;
       border-radius: 12px;
       box-shadow: 0 8px 18px -12px rgba(43, 24, 17, 0.5);
-      will-change: transform, opacity;
     }
 
     .foto {
@@ -179,7 +198,7 @@ export interface ItemCarrossel {
     button:focus-visible { outline: 2px solid #3a2417; outline-offset: 2px; }
   `],
 })
-export class CarrosselPeekComponent implements OnInit, OnDestroy {
+export class CarrosselPeekComponent implements OnInit, OnChanges, OnDestroy {
   @Input() itens: ItemCarrossel[] = [];
   // Mapa nome -> selo (ex.: o destaqueSelos do cardapio.ts).
   @Input() selos: Record<string, string> = {};
@@ -187,45 +206,65 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
   @Input() pasta = '';
   // Quantos cards aparecem de uma vez em telas grandes (3 ou 4).
   @Input() visiveis = 3;
-  // Tempo entre uma troca e outra, em milissegundos.
-  @Input() intervaloMs = 3000;
+  // Agora define a velocidade da esteira: tempo (ms) para andar a largura de 1 card.
+  // Menor = mais rápido. Mantive o nome para não quebrar quem já usa [intervaloMs].
+  @Input() intervaloMs = 4000;
   @Output() adicionar = new EventEmitter<ItemCarrossel>();
 
   @ViewChild('palco') palco?: ElementRef<HTMLElement>;
+  @ViewChild('trilha') trilha?: ElementRef<HTMLElement>;
 
-  // Índice do produto que está na primeira posição (à esquerda).
-  atual = 0;
+  cards: CardEsteira[] = [];
   arrastando = false;
   // Quantos cards cabem agora (muda conforme a largura da tela).
   v = 3;
 
-  private deslocamento = 0;
-  private passo = 0;
+  private x = 0; // posição da esteira em px (sempre entre 0 e larguraConjunto)
+  private passo = 0; // largura de um card + gap
+  private larguraConjunto = 0; // largura de uma "metade" da trilha (o ponto de loop)
+  private velocidade = 0; // px por ms
+  private repeticoes = 1;
+  private precisaMedir = true;
   private moveu = false;
-  private saltou: boolean[] = [];
-  private timer?: ReturnType<typeof setInterval>;
-  private autoplayLigado = true;
+  private pausaMouse = false;
+  private pausaFoco = false;
+  private automatico = true;
+  private anim?: { de: number; para: number; inicio: number };
+  private raf = 0;
+  private ultimo = 0;
   private readonly ehBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly zone = inject(NgZone);
   private readonly gap = 14;
 
   ngOnInit(): void {
     this.v = this.visiveis;
+    if (this.ehBrowser) this.v = this.calcularVisiveis();
+    this.montar();
     if (!this.ehBrowser) return;
-    this.v = this.calcularVisiveis();
+
     // Quem pediu menos animação no aparelho não recebe a rolagem automática.
-    this.autoplayLigado =
+    this.automatico =
       typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.retomar();
+
+    // O loop roda fora do Angular para não disparar detecção de mudanças a cada frame.
+    this.zone.runOutsideAngular(() => {
+      this.raf = requestAnimationFrame(this.tick);
+    });
+  }
+
+  ngOnChanges(): void {
+    if (this.ehBrowser) this.v = this.calcularVisiveis();
+    this.montar();
   }
 
   ngOnDestroy(): void {
-    this.pausar();
+    if (this.ehBrowser) cancelAnimationFrame(this.raf);
   }
 
   @HostListener('window:resize')
   aoRedimensionar(): void {
     this.v = this.calcularVisiveis();
-    this.retomar();
+    this.montar();
   }
 
   private calcularVisiveis(): number {
@@ -233,6 +272,91 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
     if (w >= 1200) return this.visiveis;
     if (w >= 650) return Math.min(this.visiveis, 3);
     return 2;
+  }
+
+  // Monta a lista: um conjunto grande o bastante para encher a janela, repetido duas vezes.
+  // Quando a trilha anda exatamente uma "metade", a segunda metade está idêntica à primeira
+  // e o salto de volta ao início é invisível.
+  private montar(): void {
+    const n = this.itens.length;
+    if (!n) {
+      this.cards = [];
+      this.repeticoes = 1;
+      return;
+    }
+
+    this.repeticoes = Math.max(1, Math.ceil((this.v + 1) / n));
+    const metade: CardEsteira[] = [];
+    for (let r = 0; r < this.repeticoes; r++) {
+      for (let i = 0; i < n; i++) {
+        metade.push({ id: `a${r}-${i}`, item: this.itens[i], clone: r > 0 });
+      }
+    }
+    const copia = metade.map((c) => ({ id: 'b' + c.id, item: c.item, clone: true }));
+
+    this.cards = [...metade, ...copia];
+    this.precisaMedir = true;
+  }
+
+  private medir(): void {
+    const card = this.trilha?.nativeElement.querySelector('.card') as HTMLElement | null;
+    if (!card || !this.itens.length) return;
+
+    this.passo = card.offsetWidth + this.gap;
+    this.larguraConjunto = this.passo * this.itens.length * this.repeticoes;
+    this.velocidade = this.passo / Math.max(this.intervaloMs, 1);
+    this.precisaMedir = false;
+  }
+
+  porId(_: number, c: CardEsteira): string {
+    return c.id;
+  }
+
+  // ---------- esteira ----------
+
+  private tick = (agora: number): void => {
+    // Limita o delta: ao voltar de outra aba, a esteira não dá um salto enorme.
+    const dt = this.ultimo ? Math.min(agora - this.ultimo, 64) : 0;
+    this.ultimo = agora;
+
+    if (this.precisaMedir) this.medir();
+
+    if (this.larguraConjunto && this.trilha) {
+      if (this.anim) {
+        const p = Math.min(1, (agora - this.anim.inicio) / 450);
+        const suave = 1 - Math.pow(1 - p, 3);
+        this.x = this.anim.de + (this.anim.para - this.anim.de) * suave;
+        if (p >= 1) this.anim = undefined;
+      } else if (this.automatico && !this.arrastando && !this.pausaMouse && !this.pausaFoco) {
+        this.x += this.velocidade * dt;
+      }
+
+      const w = this.larguraConjunto;
+      this.x = ((this.x % w) + w) % w;
+      this.trilha.nativeElement.style.transform = `translate3d(${-this.x}px, 0, 0)`;
+    }
+
+    this.raf = requestAnimationFrame(this.tick);
+  };
+
+  pausarMouse(valor: boolean): void {
+    this.pausaMouse = valor;
+  }
+
+  pausarFoco(valor: boolean): void {
+    this.pausaFoco = valor;
+  }
+
+  // Setas do teclado: desliza um card para a direita (1) ou para a esquerda (-1).
+  deslizar(direcao: number): void {
+    if (!this.passo) return;
+    this.anim = { de: this.x, para: this.x + direcao * this.passo, inicio: performance.now() };
+  }
+
+  // Foco em um botão fora da janela faria o navegador rolar o palco; desfaz isso.
+  zerarScroll(): void {
+    const el = this.palco?.nativeElement;
+    if (el && el.scrollLeft) el.scrollLeft = 0;
   }
 
   preco(valor: number): string {
@@ -247,83 +371,26 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
     imagem.src = '/cafepreto.jpg';
   }
 
-  // ---------- posição de cada card ----------
-
-  // 0 = primeiro card visível, 1 = segundo... -1 = acabou de sair pela esquerda.
-  // O carrossel é circular: depois do último volta o primeiro.
-  private offset(i: number, atual = this.atual): number {
-    const n = this.itens.length;
-    if (n <= this.v) return i;
-    return ((((i - atual + 1) % n) + n) % n) - 1;
-  }
-
-  // Cards fora da janela ficam invisíveis e fora do alcance do teclado.
-  escondido(i: number): boolean {
-    const o = this.offset(i);
-    return o < 0 || o >= this.v;
-  }
-
-  estilo(i: number): Record<string, string | number> {
-    const pos = this.offset(i) + (this.passo ? this.deslocamento / this.passo : 0);
-    let opacidade = 1;
-    if (pos < 0) opacidade = Math.max(0, 1 + pos);
-    else if (pos > this.v - 1) opacidade = Math.max(0, 1 - (pos - (this.v - 1)));
-    const semTransicao = this.arrastando || this.saltou[i];
-
-    return {
-      transform: `translateX(calc(${pos} * (100% + var(--gap))))`,
-      opacity: opacidade,
-      transition: semTransicao
-        ? 'none'
-        : 'transform 0.7s cubic-bezier(0.22, 0.7, 0.2, 1), opacity 0.7s ease',
-    };
-  }
-
-  definirAtual(novo: number): void {
-    const n = this.itens.length;
-    if (n <= this.v) return;
-
-    const antes = this.itens.map((_, i) => this.offset(i));
-    this.atual = ((novo % n) + n) % n;
-    // Um card que dá a volta (sai pela esquerda e volta pela direita) pula sem animar.
-    this.saltou = this.itens.map((_, i) => Math.abs(this.offset(i) - antes[i]) > n / 2);
-  }
-
-  // ---------- rolagem automática ----------
-
-  retomar(): void {
-    this.pausar();
-    if (this.ehBrowser && this.autoplayLigado && this.itens.length > this.v) {
-      this.timer = setInterval(() => this.definirAtual(this.atual + 1), this.intervaloMs);
-    }
-  }
-
-  pausar(): void {
-    clearInterval(this.timer);
-  }
-
   // ---------- arrastar (mouse e toque) ----------
 
   iniciarArrasto(e: PointerEvent): void {
     if (!this.ehBrowser || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (!this.larguraConjunto) return;
 
-    const primeiro = this.palco?.nativeElement.querySelector('.card') as HTMLElement | null;
-    this.passo = primeiro ? primeiro.offsetWidth + this.gap : 0;
-    if (!this.passo || this.itens.length <= this.v) return;
-
-    this.pausar();
+    this.anim = undefined;
     this.moveu = false;
-    this.deslocamento = 0;
-    this.saltou = [];
 
     const inicioX = e.clientX;
+    const x0 = this.x;
 
     const mover = (ev: PointerEvent) => {
-      this.deslocamento = ev.clientX - inicioX;
-      if (Math.abs(this.deslocamento) > 6) {
+      const delta = ev.clientX - inicioX;
+      if (Math.abs(delta) > 6) {
         this.moveu = true;
         this.arrastando = true;
       }
+      // Arrastar para a esquerda (delta negativo) avança a esteira.
+      if (this.arrastando) this.x = x0 - delta;
     };
 
     const soltar = () => {
@@ -331,15 +398,7 @@ export class CarrosselPeekComponent implements OnInit, OnDestroy {
       window.removeEventListener('pointerup', soltar);
       window.removeEventListener('pointercancel', soltar);
 
-      // Arrastou para a esquerda (negativo) = avança; encaixa no card mais próximo.
-      const passos = Math.round(-this.deslocamento / this.passo);
-
       this.arrastando = false;
-      this.deslocamento = 0;
-      this.saltou = [];
-      if (this.moveu && passos !== 0) this.definirAtual(this.atual + passos);
-
-      this.retomar();
       // Deixa o clique "fantasma" do fim do arrasto passar antes de liberar os botões.
       setTimeout(() => (this.moveu = false));
     };
