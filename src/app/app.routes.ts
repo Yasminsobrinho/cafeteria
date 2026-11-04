@@ -15,7 +15,6 @@ export const routes: Routes = [
   {
     path: 'carrinho',
     loadComponent: () => import('./features/carrinho/carrinho/carrinho').then((m) => m.Carrinho),
-    canActivate: [authGuard], // bloqueia acesso sem login
   },
 
   {
