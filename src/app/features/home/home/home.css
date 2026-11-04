@@ -128,8 +128,12 @@ button:focus-visible {
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   padding: 40px 8%;
-  background: #e9dbc5;
+  background: linear-gradient(180deg, #ecdfca 0%, #e9dbc5 100%);
   color: #401d09;
+  /* fio dourado na base: marca onde a faixa termina */
+  box-shadow:
+    inset 0 -1px 0 rgba(201, 160, 106, 0.55),
+    0 18px 40px -22px rgba(0, 0, 0, 0.7);
 }
 .faixa-item {
   display: flex;
@@ -158,6 +162,122 @@ button:focus-visible {
   font-size: 0.85rem;
   line-height: 1.4;
   color: #6b4a36;
+}
+
+/* ---------- divisor: linhas que nascem do centro + grão de café ---------- */
+.divisor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: min(calc(100% - 50px), 1400px);
+  margin: clamp(36px, 4.5vw, 60px) auto 0;
+  color: #c9a06a;
+}
+.divisor-linha {
+  flex: 1;
+  height: 1px;
+  max-width: 360px;
+}
+.divisor-esq {
+  background: linear-gradient(90deg, transparent, rgba(201, 160, 106, 0.7));
+  transform-origin: right center;
+}
+.divisor-dir {
+  background: linear-gradient(270deg, transparent, rgba(201, 160, 106, 0.7));
+  transform-origin: left center;
+}
+.divisor-grao {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+}
+
+/* carrossel de favoritos */
+.dc {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  width: min(calc(100% - 50px), 1400px);
+  margin: 26px auto 48px;
+  padding: 26px;
+  border-radius: 20px;
+  border: 1px solid rgba(201, 160, 106, 0.28);
+  background: linear-gradient(0deg, #140c09 5%, #e8dcc6 50%, #f0e6d2 100%);
+  box-shadow: 0 34px 60px -36px rgba(0, 0, 0, 0.85);
+  scroll-margin-top: 100px;
+}
+.dc-eyebrow {
+  color: #815830;
+  font-size: 15px;
+  letter-spacing: 3px;
+}
+.dc-titulo {
+  margin: 12px 0;
+  color: #2e261a;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+.dc-titulo em {
+  font-style: italic;
+}
+.dc-subtitulo {
+  margin: 0;
+  color: #815830;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ---------- entrada suave ao rolar (uma só: o carrossel surge e o divisor se abre) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .dc {
+      animation: dc-entrada linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+    .divisor-linha,
+    .divisor-grao {
+      animation: divisor-abrir linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    .divisor-grao {
+      animation-name: grao-surgir;
+    }
+  }
+}
+@keyframes dc-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(44px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes divisor-abrir {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes grao-surgir {
+  from {
+    opacity: 0;
+    transform: rotate(-60deg) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* destaques */
@@ -249,6 +369,13 @@ button:focus-visible {
 }
 
 /* ===== RESPONSIVO ===== */
+/* separadores finos entre os diferenciais (só quando cabem 4 colunas) */
+@media (min-width: 901px) {
+  .faixa-item + .faixa-item {
+    padding-left: 24px;
+    border-left: 1px solid rgba(64, 29, 9, 0.16);
+  }
+}
 @media (max-width: 1100px) {
   .hero,
   .faixa,
@@ -264,8 +391,13 @@ button:focus-visible {
   .faixa {
     grid-template-columns: repeat(2, 1fr);
   }
+  .dc {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    scroll-margin-top: 80px;
+  }
   .hero {
-    min-height: 82svh;
+    min-height: calc(100svh - 68px);
     align-items: flex-end;
     padding-top: 60px;
     padding-bottom: 70px;
@@ -292,7 +424,24 @@ button:focus-visible {
     margin-bottom: 32px;
   }
 }
+@media (min-width: 600px) and (max-width: 900px) {
+  .hero {
+    min-height: calc(100svh - 80px);
+  }
+}
 @media (max-width: 600px) {
+  .divisor {
+    width: calc(100% - 20px);
+    gap: 12px;
+  }
+  .dc {
+    width: calc(100% - 20px);
+    padding: 22px 14px;
+    scroll-margin-top: 72px;
+  }
+  .dc-titulo {
+    font-size: 28px;
+  }
   .faixa {
     grid-template-columns: 1fr;
     padding-top: 30px;
@@ -325,6 +474,11 @@ button:focus-visible {
     width: 44px;
     height: 44px;
   } /* área de toque confortável */
+}
+@media (max-width: 360px) {
+  .hero {
+    min-height: calc(100svh - 62px);
+  }
 }
 @media (max-width: 380px) {
   .destaques-grid {

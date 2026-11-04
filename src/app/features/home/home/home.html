@@ -49,6 +49,7 @@
     }
   </section>
 
+<<<<<<< HEAD
   <!-- DESTAQUES -->
   <section class="destaques">
     <header class="destaques-topo">
@@ -86,8 +87,36 @@
           </div>
         </article>
       }
+=======
+  <!-- DIVISOR: liga a faixa de diferenciais ao carrossel -->
+  @if (destaques.length > 0) {
+    <div class="divisor" aria-hidden="true">
+      <span class="divisor-linha divisor-esq"></span>
+      <svg class="divisor-grao" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <ellipse cx="12" cy="12" rx="5.5" ry="8.5" transform="rotate(35 12 12)" />
+        <path d="M8.2 6.6c3.6 1.6 3.4 4.6 1.6 6.4s-1.4 3.4 2.4 4.8" />
+      </svg>
+      <span class="divisor-linha divisor-dir"></span>
+>>>>>>> 80c62fb3c527df81267548d9304db102273e1d6c
     </div>
-  </section>
+
+    <!-- DESTAQUES (CARROSSEL "NOSSOS FAVORITOS" - PEEK) -->
+    <section id="destaques" class="dc" aria-labelledby="titulo-favoritos">
+      <div class="dc-cabecalho">
+        <span class="dc-eyebrow">DESTAQUES DA CASA</span>
+        <h2 id="titulo-favoritos" class="dc-titulo">Os <em>favoritos</em> do momento</h2>
+        <p class="dc-subtitulo">Experimente o que todos estão amando por aqui.</p>
+      </div>
+
+      <app-carrossel-peek
+        [itens]="destaques"
+        [selos]="destaqueSelos"
+        [visiveis]="4"
+        pasta=""
+        (adicionar)="adicionarAoCarrinho($event)"
+      ></app-carrossel-peek>
+    </section>
+  }
 
   <!-- OUTRAS SEÇÕES -->
   <app-sobre></app-sobre>

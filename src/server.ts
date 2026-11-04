@@ -212,7 +212,7 @@ const bebidasFallback = [
   },
   {
     id: 6,
-    name: 'Iced Matcha Latte',
+    name: 'Latte gelado de matcha',
     type: 'cold',
     price: 4.8,
     description: 'Matcha gelado com leite e sabor refrescante.',
@@ -228,7 +228,7 @@ const bebidasFallback = [
   },
   {
     id: 8,
-    name: 'Turkish Coffee',
+    name: 'Café turco',
     type: 'hot',
     price: 3,
     description: 'Café forte preparado ao estilo turco.',
@@ -236,15 +236,159 @@ const bebidasFallback = [
   },
 ];
 
-// Lista de imagens usadas quando a API externa nao fornece uma imagem valida.
-const imagensBebidasFallback = [
-  'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=85&w=800',
-  'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=85&w=800',
-  'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=85&w=800',
-  'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=85&w=800',
-  'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=85&w=800',
-  'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=85&w=800',
-];
+const bebidasTraduzidas: Record<string, { nome: string; descricao: string }> = {
+  'black coffee': {
+    nome: 'Café preto',
+    descricao: 'Café coado puro, preparado com grãos selecionados.',
+  },
+  'cafe au lait': {
+    nome: 'Café com leite',
+    descricao: 'Café equilibrado com leite cremoso.',
+  },
+  latte: {
+    nome: 'Latte',
+    descricao: 'Espresso suave com leite vaporizado e espuma cremosa.',
+  },
+  'caramel latte': {
+    nome: 'Latte de caramelo',
+    descricao: 'Espresso com leite vaporizado e um toque de caramelo.',
+  },
+  cappuccino: {
+    nome: 'Cappuccino',
+    descricao: 'Espresso com leite vaporizado e uma camada cremosa de espuma.',
+  },
+  americano: {
+    nome: 'Café americano',
+    descricao: 'Espresso diluído em água quente, de sabor leve e marcante.',
+  },
+  espresso: {
+    nome: 'Espresso',
+    descricao: 'Café espresso intenso, extraído na hora.',
+  },
+  macchiato: {
+    nome: 'Macchiato',
+    descricao: 'Espresso intenso suavizado com um toque de leite.',
+  },
+  mocha: {
+    nome: 'Mocha',
+    descricao: 'Espresso com chocolate e leite cremoso.',
+  },
+  'hot chocolate': {
+    nome: 'Chocolate quente',
+    descricao: 'Chocolate quente cremoso, perfeito para qualquer momento.',
+  },
+  'chai latte': {
+    nome: 'Latte de chai',
+    descricao: 'Chá chai aromático combinado com leite vaporizado.',
+  },
+  'matcha latte': {
+    nome: 'Latte de matcha',
+    descricao: 'Matcha com leite cremoso e sabor delicado.',
+  },
+  'iced matcha latte': {
+    nome: 'Latte gelado de matcha',
+    descricao: 'Matcha gelado com leite cremoso e sabor delicado.',
+  },
+  'seasonal brew': {
+    nome: 'Café da estação',
+    descricao: 'Uma seleção especial de café preparada para a estação.',
+  },
+  'black tea': {
+    nome: 'Chá preto',
+    descricao: 'Chá preto aromático, servido quentinho.',
+  },
+  'iced latte': {
+    nome: 'Latte gelado',
+    descricao: 'Espresso com leite e gelo, refrescante e cremoso.',
+  },
+  'iced mocha latte': {
+    nome: 'Latte gelado de mocha',
+    descricao: 'Espresso, chocolate, leite e gelo em uma combinação refrescante.',
+  },
+  'blended caramel coffee': {
+    nome: 'Café gelado batido com caramelo',
+    descricao: 'Café batido com gelo, leite e calda de caramelo.',
+  },
+  'blended mocha coffee': {
+    nome: 'Café gelado batido com mocha',
+    descricao: 'Café batido com gelo, leite e chocolate.',
+  },
+  'orange juice': {
+    nome: 'Suco de laranja',
+    descricao: 'Suco de laranja refrescante.',
+  },
+  'frozen lemonade': {
+    nome: 'Limonada gelada',
+    descricao: 'Limonada batida com gelo, leve e refrescante.',
+  },
+  lemonade: {
+    nome: 'Limonada',
+    descricao: 'Limonada fresca, preparada na hora.',
+  },
+  'flat white': {
+    nome: 'Flat white',
+    descricao: 'Espresso encorpado com leite vaporizado e textura aveludada.',
+  },
+  'kopi susu gula aren mahasiswa': {
+    nome: 'Café gelado com açúcar de palma',
+    descricao: 'Café com leite e açúcar de palma, inspirado em uma receita indonésia.',
+  },
+  'iced coffee': {
+    nome: 'Café gelado',
+    descricao: 'Café servido com gelo, refrescante e equilibrado.',
+  },
+  frappuccino: {
+    nome: 'Frappuccino',
+    descricao: 'Café batido com gelo e finalizado com cobertura cremosa.',
+  },
+  mazagran: {
+    nome: 'Mazagran',
+    descricao: 'Café gelado com limão, uma combinação cítrica e refrescante.',
+  },
+  'turkish coffee': {
+    nome: 'Café turco',
+    descricao: 'Café forte e aromático, preparado ao estilo turco.',
+  },
+};
+
+const normalizarNomeBebida = (nome: string): string =>
+  nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+
+const obterImagemLocalBebida = (nome: string, type: 'hot' | 'cold'): string => {
+  const nomeNormalizado = normalizarNomeBebida(nome);
+
+  if (nomeNormalizado.includes('orange') || nomeNormalizado.includes('lemon')) {
+    return 'limonada.jpg';
+  }
+  if (nomeNormalizado.includes('caramel')) {
+    return 'classiccaramel.jpg';
+  }
+  if (nomeNormalizado.includes('matcha')) {
+    return 'brownsugarbubbletea.jpg';
+  }
+  if (nomeNormalizado.includes('chocolate') || nomeNormalizado.includes('mocha')) {
+    return nomeNormalizado.includes('mocha') ? 'mocha.jpg' : 'chocolatequente.jpg';
+  }
+  if (nomeNormalizado.includes('flat white')) {
+    return 'whitemocha.jpg';
+  }
+  if (nomeNormalizado.includes('blended') || nomeNormalizado.includes('frappuccino')) {
+    return 'vitamina.jpg';
+  }
+  if (nomeNormalizado.includes('tea') || nomeNormalizado.includes('chai')) {
+    return 'cafe.jpg';
+  }
+  if (
+    nomeNormalizado.includes('latte') ||
+    nomeNormalizado.includes('macchiato') ||
+    nomeNormalizado.includes('cappuccino') ||
+    nomeNormalizado.includes('milk')
+  ) {
+    return 'lattedebaunilha.jpg';
+  }
+
+  return type === 'cold' ? 'cafe.jpg' : 'cafepreto.jpg';
+};
 
 // Armazena as bebidas ja processadas para evitar novas chamadas externas.
 let bebidasCache: unknown[] | null = null;
@@ -269,52 +413,45 @@ const normalizarBebidas = (
   bebidas: BebidaSampleApi[],
   // Identifica se as bebidas sao quentes ou geladas.
   type: 'hot' | 'cold',
-  // Controla imagens ja utilizadas para evitar repeticoes.
-  imagensUsadas: Set<string>,
 ) =>
   // Remove itens indesejados antes de transformar os dados.
   bebidas
     .filter((bebida) => {
       // Converte o titulo para minusculas para facilitar a filtragem.
-      const titulo = bebida.title.toLocaleLowerCase();
+      const titulo = normalizarNomeBebida(bebida.title);
       // Define termos que indicam registros de teste ou duplicados.
-      const itensRemovidos = ['string', 'robert', 'cold brew', 'nitro', 'iced espresso', 'test'];
+      const itensRemovidos = [
+        'string',
+        'robert',
+        'brprobe',
+        'cold brew',
+        'nitro',
+        'iced espresso',
+        'test',
+      ];
 
       // Mantem somente bebidas que nao possuem os termos bloqueados.
       return !itensRemovidos.some((item) => titulo.includes(item));
     })
     .map((bebida, indice) => {
-    // Tenta usar a imagem enviada pela API.
-    const imagemApi = bebida.image?.trim();
-    // Seleciona uma imagem reserva ainda nao utilizada.
-    const imagemFallback = imagensBebidasFallback.find((imagem) => !imagensUsadas.has(imagem));
-    // Prioriza a imagem da API e usa a reserva quando necessario.
-    const imagem = imagemApi && !imagensUsadas.has(imagemApi) ? imagemApi : imagemFallback;
+      const traducao = bebidasTraduzidas[normalizarNomeBebida(bebida.title)];
 
-    // Registra a imagem escolhida para nao repeti-la.
-    if (imagem) {
-      imagensUsadas.add(imagem);
-    }
-
-    // Retorna a bebida no formato padronizado da aplicacao.
-    return {
-      // Combina o tipo com o ID externo para criar um identificador unico.
-      id: `${type}-${bebida.id}`,
-      // Copia o nome retornado pela API.
-      name: bebida.title,
-      // Mantem a classificacao quente ou gelada.
-      type,
-      // Usa o preco numerico ou converte o texto para numero.
-      price:
-        typeof bebida.price === 'number'
-          ? bebida.price
-          : Number.parseFloat(bebida.price?.replace(/[^\d.,]/g, '').replace(',', '.') || '') ||
-            4 + (indice % 5) * 0.5,
-      // Usa a descricao externa ou uma descricao padrao.
-      description: bebida.description || 'Bebida preparada especialmente para voce.',
-      // Usa a imagem escolhida ou uma string vazia.
-      image: imagem || '',
-    };
+      return {
+        id: `${type}-${bebida.id}`,
+        name: traducao?.nome || bebida.title,
+        type,
+        price:
+          typeof bebida.price === 'number'
+            ? bebida.price
+            : Number.parseFloat(bebida.price?.replace(/[^\d.,]/g, '').replace(',', '.') || '') ||
+              4 + (indice % 5) * 0.5,
+        description:
+          traducao?.descricao ||
+          (type === 'hot'
+            ? 'Bebida quente preparada especialmente para você.'
+            : 'Bebida gelada, preparada para refrescar.'),
+        image: bebida.image || obterImagemLocalBebida(bebida.title, type),
+      };
     });
 
 // Cria o endpoint interno que retorna todas as comidas cadastradas localmente.
@@ -389,20 +526,10 @@ app.get('/api/drinks', async (_req, res) => {
       return;
     }
 
-    // Cria o controle compartilhado de imagens utilizadas.
-    const imagensUsadas = new Set<string>();
     // Normaliza as bebidas quentes para o formato interno.
-    const quentes = normalizarBebidas(
-      quentesDados as BebidaSampleApi[],
-      'hot',
-      imagensUsadas,
-    );
+    const quentes = normalizarBebidas(quentesDados as BebidaSampleApi[], 'hot');
     // Normaliza as bebidas geladas para o formato interno.
-    const geladas = normalizarBebidas(
-      geladasDados as BebidaSampleApi[],
-      'cold',
-      imagensUsadas,
-    );
+    const geladas = normalizarBebidas(geladasDados as BebidaSampleApi[], 'cold');
     // Junta as duas listas em uma unica lista de bebidas.
     const bebidas = [...quentes, ...geladas];
 

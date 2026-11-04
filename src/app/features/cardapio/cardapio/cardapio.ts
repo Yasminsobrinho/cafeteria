@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 // Importa o cliente HTTP usado para chamar a API interna do projeto.
 import { HttpClient } from '@angular/common/http';
 import { CarrinhoService } from '../../carrinho/carrinho/carrinho.service';
@@ -9,6 +8,7 @@ import { Rodape } from '../../home/home/pginicial/rodape/rodape';
 import { Menu } from '../../home/home/pginicial/menu/menu';
 // Carrossel "Nossos Favoritos" (estilo peek: o próximo card aparece cortado).
 import { CarrosselPeekComponent } from './carrosel-peek/carrosel-peek';
+import { DESTAQUE_SELOS } from './favoritos-data';
 
 interface Produto {
   nome: string;
@@ -67,7 +67,6 @@ interface RespostaComidasApi {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
     NgOptimizedImage,
     Rodape,
     Menu,
@@ -403,12 +402,24 @@ export class CardapioComponent implements OnInit, OnDestroy {
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase();
 
+    if (nomeNormalizado.includes('laranja') || nomeNormalizado.includes('limonada')) {
+      return 'limonada.jpg';
+    }
+
+    if (nomeNormalizado.includes('caramelo')) {
+      return 'classiccaramel.jpg';
+    }
+
     if (nomeNormalizado.includes('cold brew')) {
-      return 'coldbrew.jpg';
+      return 'cafe.jpg';
     }
 
     if (nomeNormalizado.includes('matcha')) {
       return 'brownsugarbubbletea.jpg';
+    }
+
+    if (nomeNormalizado.includes('chocolate')) {
+      return 'chocolatequente.jpg';
     }
 
     if (nomeNormalizado.includes('mocha')) {
@@ -419,11 +430,24 @@ export class CardapioComponent implements OnInit, OnDestroy {
       return 'whitemocha.jpg';
     }
 
-    if (nomeNormalizado.includes('latte')) {
+    if (
+      nomeNormalizado.includes('latte') ||
+      nomeNormalizado.includes('cappuccino') ||
+      nomeNormalizado.includes('macchiato') ||
+      nomeNormalizado.includes('leite')
+    ) {
       return 'lattedebaunilha.jpg';
     }
 
     return 'cafepreto.jpg';
+  }
+
+  usarImagemReserva(event: Event): void {
+    const imagem = event.target;
+    if (!(imagem instanceof HTMLImageElement) || imagem.dataset['reservaAplicada']) return;
+
+    imagem.dataset['reservaAplicada'] = 'true';
+    imagem.src = '/cafepreto.jpg';
   }
 
   // =====================================================
@@ -434,16 +458,7 @@ export class CardapioComponent implements OnInit, OnDestroy {
   // esses produtos aparecem com as duas grafias.
   // =====================================================
 
-  readonly destaqueSelos: Record<string, string> = {
-    'Croissants Recheados': 'Mais pedido',
-    'Brownie': 'Mais pedido',
-    'Croissants Doce': 'Novidade',
-    'Latte': '',
-    'Torta Cookie': '',
-    'Pão de queijo': '',
-    'Pao de queijo': '',
-    'Donuts Americanos': '',
-  };
+  readonly destaqueSelos = DESTAQUE_SELOS;
 
   // =====================================================
   // AVALIAÇÕES (estrelas nos cards)

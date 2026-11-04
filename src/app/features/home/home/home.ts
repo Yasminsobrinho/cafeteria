@@ -7,6 +7,7 @@ import { Local } from './pginicial/local/local';
 import { Playlist } from './pginicial/playlist/playlist';
 import { Rodape } from './pginicial/rodape/rodape';
 import { Menu } from './pginicial/menu/menu';
+<<<<<<< HEAD
 import { Avaliacoes } from './pginicial/avaliacoes/avaliacoes';
 
 interface Destaque {
@@ -16,10 +17,18 @@ interface Destaque {
   precoAntigo: string;
   imagem: string;
 }
+=======
+import {
+  CarrosselPeekComponent,
+  type ItemCarrossel,
+} from '../../cardapio/cardapio/carrosel-peek/carrosel-peek';
+import { DESTAQUE_SELOS, DESTAQUES_INICIAIS } from '../../cardapio/cardapio/favoritos-data';
+>>>>>>> 80c62fb3c527df81267548d9304db102273e1d6c
 
 @Component({
   selector: 'app-home',
   standalone: true,
+<<<<<<< HEAD
   imports: [
     RouterLink,
     Menu,
@@ -29,6 +38,9 @@ interface Destaque {
     Rodape,
     Avaliacoes
   ],
+=======
+  imports: [RouterLink, Menu, Sobre, Local, Playlist, Rodape, CarrosselPeekComponent],
+>>>>>>> 80c62fb3c527df81267548d9304db102273e1d6c
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -61,6 +73,7 @@ export class Home {
     },
   ];
 
+<<<<<<< HEAD
   destaques: Destaque[] = [
     {
       nome: 'Bolo de Cenoura',
@@ -91,8 +104,12 @@ export class Home {
       imagem: 'tortademorango.jpg',
     },
   ];
+=======
+  readonly destaques = DESTAQUES_INICIAIS;
+  readonly destaqueSelos = DESTAQUE_SELOS;
+>>>>>>> 80c62fb3c527df81267548d9304db102273e1d6c
 
-  adicionar(produto: Destaque): void {
+  adicionarAoCarrinho(produto: ItemCarrossel): void {
     this.carrinhoService.adicionarProduto(produto);
     alert(`${produto.nome} foi adicionado ao carrinho!`);
   }

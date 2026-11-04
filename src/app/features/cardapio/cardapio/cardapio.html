@@ -3,7 +3,13 @@
 <ng-template #cartao let-item let-tag="tag">
   <article class="produto">
     <div class="produto-foto">
-      <img [ngSrc]="item.imagem" [alt]="item.nome" fill sizes="(max-width: 650px) 100vw, 25vw" />
+      <img
+        [ngSrc]="item.imagem"
+        [alt]="item.nome"
+        fill
+        sizes="(max-width: 650px) 100vw, 25vw"
+        (error)="usarImagemReserva($event)"
+      />
       <span class="selo" *ngIf="destaqueSelos[item.nome] as selo">{{ selo }}</span>
     </div>
 
