@@ -28,7 +28,7 @@ export class Avaliacoes {
       data: 'Cliente satisfeita'
     },
     {
-      nome: 'Marlon Brendon',
+      nome: 'Cristiano Ronaldo',
       foto: '/cliente2.jpg',
       texto: 'Adorei a experiência! Os produtos são muito saborosos e tudo é preparado com muito capricho. Recomendo demais!',
       estrelas: 5,
