@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth.guard';
+import { UserProfileComponent } from '../app/features/perfil-usuario/user-profile.component';
+import { AdminProfileComponent } from '../app/features/perfil-usuario/admin-profile.component';
 
 export const routes: Routes = [
   {
@@ -67,4 +69,18 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'home',
   },
+  { path: '', pathMatch: 'full', redirectTo: 'usuario' },
+
+  { path: 'usuario', component: UserProfileComponent, title: 'Perfil do usuário' },
+
+  { path: 'admin', component: AdminProfileComponent, title: 'Perfil do administrador' },
+
+  { path: '**', redirectTo: 'usuario' },
+
+  {
+    path: 'usuario',
+    loadComponent: () => import('./features/perfil-usuario/user-profile.component').then((m) => m.UserProfileComponent),
+  },
+
+
 ];
